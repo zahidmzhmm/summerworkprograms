@@ -1,0 +1,499 @@
+body{
+	/*margin-top:0px;
+	margin-right:0px;
+	margin-bottom:0px;
+	margin-left:0px;
+	background-color:#ffffff;*/
+	margin-top:0px;
+	margin-right:0px;
+	margin-bottom:0px;
+	margin-left:0px;
+	background-repeat:repeat-x;
+	margin: 0 auto;
+	clear:both;
+	background-image: url(../images/bg22.jpg);
+	/*background-color:#508928;*/
+	
+	
+}
+
+table#area {
+	padding:0px 1px 23px 21px;
+	margin:0px auto;
+	width:980px;
+	background:#efeeed;
+
+	}
+
+
+#header{
+	width:980px;
+	height:120px;
+	/*background-color:#fffffd;*/
+	background-image:url(../images/logohom_03.jpg);
+	background-repeat:no-repeat;
+	/*margin-left:50px;*/
+	
+	
+}
+
+
+.phonetxt{
+	font-family:Verdana, Geneva, sans-serif;
+	font-weight:bold;
+	font-size:16px;
+	float:right;
+	padding-right:40px;
+	padding-top:70px;
+	color:#f31a23;
+}
+
+#banner{
+	width:980px;
+	height:299px;
+	/*background-image: url(../images/Page%201.jpg);*/
+	background-repeat:no-repeat;
+	
+	/*padding-right:10px;*/
+	padding:0px 20px 23px 0px;
+	/*border:1px solid #000;*/
+
+	
+	
+}
+
+
+	.more_txt{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	color:#ffffff;
+
+	display:block;
+	padding-left:22px;
+	text-decoration:none;
+	padding-top:5px;
+	
+	}
+	
+	
+	.more_txt:hover{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	color: #CCC;
+	padding-left:22px;
+	
+	display:block;
+	text-decoration:none;
+	}
+
+
+
+.menu_bg{
+	
+	width:1000px;
+	height:38px;
+	background-color:#fffffd;
+	}
+
+.menu_bg_content a{
+	background-image: url(../images/logo_13.jpg);
+	background-repeat:no-repeat;
+	width:115px;
+	height:38px;
+	padding-top:10px;
+	}
+	
+	
+	.menu_bg_content a:hover{
+	background-image:url(../images/logo111_14.jpg);
+	/*background-image: url(../images/logo111.jpg);*/
+	background-repeat:no-repeat;
+	width:115px;
+	height:38px;
+	padding-top:10px;
+	}
+	
+	.agree_dis a{
+	background-image: url(../images/morelogo_48.jpg);
+	background-repeat:no-repeat;
+	width:80px;
+	height:31px;
+	padding-top:10px;
+	}
+	
+	
+	.agree_dis a:hover{
+	background-image:url(../images/morelogo_48.jpg);
+	/*background-image: url(../images/logo111.jpg);*/
+	background-repeat:no-repeat;
+	width:80px;
+	height:31px;
+	padding-top:10px;
+	}
+	
+	
+	.menu_bg_search{
+	background-image: url(../images/search_15.jpg);
+	background-repeat: no-repeat;
+	width:241px;
+	height:38px;
+	padding-right:22px;
+	
+
+	}
+	
+	.menu_txt{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:normal;
+	color:#ffffff;
+	display:block;
+	padding-left:20px;
+	text-decoration:none;
+	
+	}
+	
+	
+	.menu_txt:hover{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:normal;
+	color:#ffffff;
+	padding-left:20px;
+	display:block;
+	text-decoration:none;
+	}
+	
+	#banner_welcome{
+	width:295px;
+	height:213px;
+	background-image:url(../images/banner.png);
+	background-repeat:no-repeat;
+}
+
+/*
+	.weltxt{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:normal;
+	color:#636060;
+	text-decoration:none;
+	text-align: justify;
+	
+	padding-right:25px;
+	}*/
+	
+	
+		.weltxt{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:normal;
+	color:#636060;
+	text-decoration:none;
+	text-align: justify;
+	/*!padding-right:0px;*/
+	
+	padding-right:25px;
+	padding-left:45px;
+	}
+	
+		.bodytxt{
+				background-image:url(../images/bannerbg_27.jpg);
+		width:500px;
+		height:292px;
+		background-repeat:no-repeat;
+		
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:normal;
+	color:#636060;
+	text-decoration:none;
+	text-align: justify;
+	margin-top:0px;
+	}
+	
+	.news_block_header{
+		background-image: url(../images/logo_14_28_30.jpg);
+		width:481px;
+		height:59px;
+		background-repeat:no-repeat;
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:18px;
+		font-weight: bold;
+		color:#FFF;
+		padding-left:55px;
+		padding-top:5px;
+		
+	}
+	.news_block{
+		background-image:url(../images/bannerbg_27.jpg);
+		width:500px;
+		height:292px;
+		background-repeat:no-repeat;
+		
+		
+	}
+	
+	.new_block_txt{
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:14px;
+		font-weight:normal;
+		color:#636060;
+		text-decoration:none;
+		text-align: justify;
+		margin-top:0px;
+		padding-left:10px;
+		padding-right:10px;
+		padding-top:0px;
+		height:220px;
+		overflow: hidden;
+	}
+	.new_block_txt1{
+		/*font-family:Arial, Helvetica, sans-serif;
+		font-size:14px;
+		font-weight:normal;
+		color:#636060;
+		text-decoration:none;
+		text-align: justify;*/
+		margin-top:0px;
+		padding-left:150px;
+		padding-right:10px;
+		padding-top:0px;
+		height:100px;
+		overflow: hidden;
+	}
+		.dob_block_txt{
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:18px;
+		font-weight:bold;
+		color:#508928;
+	/*	text-decoration:none;
+		text-align: justify;*/
+		margin-top:0px;
+		padding-left:80px;
+		padding-right:10px;
+		 
+		/*overflow: hidden;*/
+	}
+	.dob_block_txt_yrs{
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:18px;
+		font-weight:bold;
+		color:#636060;
+	/*	text-decoration:none;
+		text-align: justify;*/
+		margin-top:0px;
+		padding-left:130px;
+		padding-right:10px;
+		 
+		/*overflow: hidden;*/
+	}
+	.enter_txt{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	color:#ffffff;
+
+	display:block;
+	padding-left:22px;
+	text-decoration:none;
+	padding-top:5px;
+	
+	}
+	
+	
+	.enter_txt:hover{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	color: #CCC;
+	/*padding-left:22px;*/
+	
+	display:block;
+	text-decoration:none;
+	}
+
+	.more{
+		/*background-image:url(../../images/more_10.jpg);*/
+		background-image: url(../images/morelogo_48.jpg);
+		width:74px;
+		height:29px;
+		background-repeat:no-repeat;
+	/*	padding-left:40px;*/
+		float:right;
+		padding-right:20px;
+		}
+		.enter{
+			/*background-image:url(../../images/more_10.jpg);*/
+		background-image: url(../images/morelogo_48.jpg);
+		width:74px;
+		height:29px;
+		background-repeat:no-repeat;
+	/*	padding-left:40px;*/
+		float:right;
+		padding-right:210px;
+		}	
+		
+		.enter_txt1{
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:14px;
+		font-weight:bold;
+		color:#ffffff;
+	
+		display:block;
+		text-decoration:none;
+		padding-left:7px;
+		padding-top:1px;
+		
+		}
+	
+	
+		.enter_txt1:hover{
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:14px;
+		font-weight:bold;
+		color: #CCC;
+		padding-left:7px;
+		padding-top:1px;
+		display:block;
+		text-decoration:none;
+		}
+
+/*	
+	ul{
+		list-style-type: disc;
+		list-style-position:inside;
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:14px;
+		font-weight:normal;
+		color:#636060;
+		text-decoration:none;
+		text-align: justify;
+		margin-top:0px;
+	}
+	*/
+		.new_block_txt li{
+			background-repeat:no-repeat;
+			list-style-image:url(../images/arrow_38.jpg);
+			line-height:20px;
+			
+	}
+	
+/*	
+	
+/*	
+	#footer{
+		background-image:url(../images/footerbg_33.jpg);
+		width:1px;
+		height:84px;
+		background-repeat:repeat-x;
+		width:1000px;
+	}
+	*/
+	
+/*	#footer{
+		background-color:
+		width:1000px;height:84px;
+	background-repeat: repeat-x;
+	}*/
+	
+	.footer_txt{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:13px;
+	font-weight:normal;
+	color:#3c6022;
+	padding-right:5px;
+	text-align: center;		
+	text-decoration: none;
+	background-color:#efeeed;
+	width:1000px;
+	height:10px;
+	padding-top:10px;
+	}
+	
+	
+		.footer_txt a{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:13px;
+	font-weight:normal;
+	color:#3c6022;
+	padding-right:5px;
+	text-align: center;		
+	text-decoration: none;
+	background-color:#efeeed;
+	width:1000px;
+	height:10px;
+	padding-top:10px;
+	}
+	
+	.search_textbox{
+	width:40px;
+	float:inherit;
+	padding-bottom:8px;
+	
+	padding-left:10px;
+	}
+	.form_name{
+	clear:both;
+/*	height:20px;
+	margin-top:10px;*/
+}
+.text_n1{
+
+	font-family:Microsoft Sans Serif;
+	font-size: 12px;font-weight: bold;
+	color: #5B6163;
+	
+}
+.text_n_r{ 
+     font-family:Arial, Geneva, sans-serif;
+	 font-size: 12px;font-weight: normal;
+     color: #5B6163;
+	 
+	
+}
+.text_f, .text_s{
+	height:14px;
+	width:170px;
+	font-size: 10px;
+	font-weight: normal;
+	color: #000;
+	text-align: left;
+	font-family:Microsoft Sans Serif;
+	margin-left:10px;
+	}
+	.information{ 
+    font-family:Arial, Helvetica, sans-serif;
+	font-size:15px;
+	font-weight:bold; 
+	color: #5B6163;
+	border-bottom:solid 1px #5B6163; 
+	padding-top:10px;
+}
+.f_information{ 
+    font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:bold; 
+	color: #5B6163;
+	padding-top:10px;
+}
+.submitbutton{
+	background-image:url(../images/submit.jpg);
+	/*background-image: url(../images/logo111.jpg);*/
+	background-repeat:no-repeat;
+	width:83px;
+	height:33px;
+	padding-top:0px;
+	border:0px;
+	}
+.printbutton{
+	background-image:url(../images/print_pdf.jpg);
+	/*background-image: url(../images/logo111.jpg);*/
+	background-repeat:no-repeat;
+	width:83px;
+	height:33px;
+	padding-top:0px;
+	border:0px;
+	}	

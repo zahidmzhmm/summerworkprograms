@@ -1,0 +1,376 @@
+body{
+	margin-top:0px;
+	margin-right:0px;
+	margin-bottom:0px;
+	margin-left:0px;
+	background-repeat:repeat-x;
+	margin: 0 auto;
+	clear:both;
+	background-image: url(../images/bg.jpg);
+	/*background-color:#ffffff;*/
+	
+	
+}
+
+table#area {
+	padding:0px 1px 23px 21px;
+	margin:0px auto;
+	width:980px;
+	background:#efeeed;
+
+	}
+
+
+#header{
+	width:980px;
+	height:120px;
+	/*background-color:#fffffd;*/
+	background-image:url(../images/logo.gif);
+	background-repeat:no-repeat;
+	/*margin-left:50px;*/
+	
+	
+}
+
+
+.phonetxt{
+	font-family:Verdana, Geneva, sans-serif;
+	font-weight:bold;
+	font-size:16px;
+	float:right;
+	padding-right:40px;
+	padding-top:70px;
+	color:#f31a23;
+}
+
+#banner{
+	width:980px;
+	height:299px;
+	/*background-image: url(../images/Page%201.jpg);*/
+	background-repeat:no-repeat;
+	
+	/*padding-right:10px;*/
+	padding:0px 20px 23px 0px;
+	/*border:1px solid #000;*/
+
+	
+	
+}
+
+
+	.more_txt{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	color:#ffffff;
+
+	display:block;
+	padding-left:22px;
+	text-decoration:none;
+	padding-top:5px;
+	
+	}
+	
+	
+	.more_txt:hover{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	color: #CCC;
+	padding-left:22px;
+	
+	display:block;
+	text-decoration:none;
+	}
+
+
+
+.menu_bg{
+	
+	width:1000px;
+	height:38px;
+	background-color:#fffffd;
+	}
+
+.menu_bg_content a{
+	background-image: url(../images/logo111_14.jpg);
+	background-repeat:no-repeat;
+	width:115px;
+	height:38px;
+	
+	padding-top:10px;
+
+	
+
+	
+	}
+	
+	
+	.menu_bg_content a:hover{
+	background-image:url(../images/logo_13.jpg);
+	/*background-image: url(../images/logo111.jpg);*/
+	background-repeat:no-repeat;
+	width:115px;
+	height:38px;
+	
+	padding-top:10px;
+
+	
+	}
+	
+	
+	.menu_bg_search{
+	background-image: url(../images/search_15.jpg);
+	background-repeat: no-repeat;
+	width:241px;
+	height:38px;
+	padding-right:22px;
+	
+
+	}
+	
+	.menu_txt{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:normal;
+	color:#ffffff;
+
+	display:block;
+	padding-left:30px;
+	text-decoration:none;
+	
+	}
+	
+	
+	.menu_txt:hover{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:normal;
+	color:#ffffff;
+	padding-left:30px;
+	
+	display:block;
+	text-decoration:none;
+	}
+	
+	#banner_welcome{
+	width:295px;
+	height:213px;
+	background-image:url(../images/194.jpg);
+	background-repeat:no-repeat;
+}
+
+/*
+	.weltxt{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:normal;
+	color:#636060;
+	text-decoration:none;
+	text-align: justify;
+	
+	padding-right:25px;
+	}*/
+	
+	
+		.weltxt{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:normal;
+	color:#636060;
+	text-decoration:none;
+	text-align: justify;
+	/*!padding-right:0px;*/
+	
+	padding-right:25px;
+	padding-left:45px;
+	}
+	
+		.bodytxt{
+				background-image:url(../images/bannerbg_27.jpg);
+		width:500px;
+		height:292px;
+		background-repeat:no-repeat;
+		
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:normal;
+	color:#636060;
+	text-decoration:none;
+	text-align: justify;
+	margin-top:0px;
+	}
+	
+	.news_block_header{
+		background-image: url(../images/logo_14_28_30.jpg);
+		width:481px;
+		height:59px;
+		background-repeat:no-repeat;
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:18px;
+		font-weight: bold;
+		color:#FFF;
+		padding-left:55px;
+		padding-top:5px;
+		
+	}
+	.news_block{
+		background-image:url(../images/bannerbg_27.jpg);
+		width:500px;
+		height:292px;
+		background-repeat:no-repeat;
+		
+		
+	}
+	
+	.new_block_txt{
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:14px;
+		font-weight:normal;
+		color:#636060;
+		text-decoration:none;
+		text-align: justify;
+		margin-top:0px;
+		padding-left:180px;
+		padding-right:10px;
+		padding-top:20px;
+		height:100px;
+		float:left;
+		overflow: hidden;
+	}
+		.dob_block_txt{
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:18px;
+		font-weight:bold;
+		color:#636060;
+	/*	text-decoration:none;
+		text-align: justify;*/
+		margin-top:0px;
+		padding-left:80px;
+		padding-right:10px;
+		 
+		/*overflow: hidden;*/
+	}
+/*	.more{
+		background-image:url(../../images/more_10.jpg);
+		width:74px;
+		height:29px;
+		background-repeat:no-repeat;
+	
+		float:right;
+		padding-right:20px;
+		}
+*/
+
+
+	.more{
+		/*background-image:url(../../images/more_10.jpg);*/
+		background-image: url(../images/morelogo_48.jpg);
+		width:74px;
+		height:29px;
+		background-repeat:no-repeat;
+		padding-left:40px;
+		float:right;
+		padding-right:200px;
+		padding-top:5px;
+		}
+
+	.enter_txt{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	color:#ffffff;
+
+	display:block;
+	padding-left:22px;
+	text-decoration:none;
+	padding-top:5px;
+	
+	}
+	
+	
+	.enter_txt:hover{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	color: #CCC;
+	/*padding-left:22px;*/
+	
+	display:block;
+	text-decoration:none;
+	}
+
+/*	
+	ul{
+		list-style-type: disc;
+		list-style-position:inside;
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:14px;
+		font-weight:normal;
+		color:#636060;
+		text-decoration:none;
+		text-align: justify;
+		margin-top:0px;
+	}
+	*/
+		.new_block_txt li{
+			background-repeat:no-repeat;
+			list-style-image:url(../images/arrow_38.jpg);
+			line-height:20px;
+			
+	}
+	
+/*	
+	
+/*	
+	#footer{
+		background-image:url(../images/footerbg_33.jpg);
+		width:1px;
+		height:84px;
+		background-repeat:repeat-x;
+		width:1000px;
+	}
+	*/
+	
+/*	#footer{
+		background-color:
+		width:1000px;height:84px;
+	background-repeat: repeat-x;
+	}*/
+	
+	.footer_txt{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+	color:#f31a23;
+	padding-right:5px;
+	text-align: center;		
+	text-decoration: none;
+	background-color:#efeeed;
+	width:1000px;
+	height:10px;
+	padding-top:10px;
+	}
+	
+	
+		.footer_txt a{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+	color:#f31a23;
+	padding-right:5px;
+	text-align: center;		
+	text-decoration: none;
+	background-color:#efeeed;
+	width:1000px;
+	height:10px;
+	padding-top:10px;
+	}
+	
+	.search_textbox{
+	width:40px;
+	float:inherit;
+	padding-bottom:8px;
+	
+	padding-left:10px;
+	}
