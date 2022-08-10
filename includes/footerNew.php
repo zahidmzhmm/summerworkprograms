@@ -5,7 +5,7 @@
     <div class="footer-top">
         <div class="container">
             <div class="row">
-                <div class="col-sm-12 col-md-6 col-lg-3 footer__widget footer__widget-about">
+                <div class="col-sm-12 col-md-6 col-lg-5 footer__widget footer__widget-about">
                     <div class="footer__widget-content">
                         <img src="assets/images/logo/logo-light.png" alt="logo" class="footer__logo">
                         <p>The Summer Work Travel program provides foreign students with an opportunity to live and
@@ -17,7 +17,7 @@
                         </ul>
                     </div>
                 </div><!-- /.col-lg-3 -->
-                <div class="col-sm-12 col-md-6 col-lg-3 footer__widget footer__widget-newsletter">
+                <div class="col-sm-12 col-md-6 ml-auto col-lg-3 footer__widget footer__widget-newsletter">
                     <h6 class="footer__widget-title">Stay Connected</h6>
                     <div class="footer__widget-content">
                         <p>Don't miss our updates. You can subscribe to our new feeds or follow us!</p>
