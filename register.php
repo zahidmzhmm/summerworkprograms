@@ -5,14 +5,15 @@ include "config.php";
 include "third_party/mail/class.phpmailer.php";
 include "third_party/DataAccess.php";
 
-function createcountrycombo( $CSelectedValue, $CComboName, $JS, $cssClass = "" ) {
+function createcountrycombo($CSelectedValue, $CComboName, $JS, $cssClass = "")
+{
     $stCountry = "Afganistan:Albani:Algier:Andorra:Angola:Anguilla:Antigua:Antilles:Arabia:Argentina:Armenia:Aruba:Ascension:Australia:Austria:Bahrain:Bangladesh:Barbados:Belarus:Belgium:Belize:Benin:Bermuda:Bhutan:Bolivia:Botsuana:Brasil:Brunei:Bulgaria:Burkina Faso:Burundi:CANADA:Canal Islands:Caymay Islands:Chile:China:Columbia:Cook Islands:Costa Rica:Cote d lvoire:Cuba:Cyprus:Czech Republic:Denmark:Dominica:Dschibuti:Ecuador:Egypt:EL Salvador:Equadorguinea:Eritrea:Estland:Ethiopia:Falkland Islands:Fiji Islands:Finland:France:French Guayana:French Polynesia:Faroer:Gubun:Gambin:Georgien:Germany:Ghana:Gibraltar:Great Britain:Greece:Greenland:Grenanda:Guadeloupa:Guam:Guatemala:Guinea:Guinea-Bissau:Guyana:Haiti:Hondura:Hongkong:Hungary:Iceland:India:Indonesia:Irak:Iran:Ireland:Israel:Italy:Jamica:Japan:Jordan:Jugoslavia:Kambodscha:Kamerun:Kap Verda:Kasachstan:Katar:Kenia:Kirgisistan:Kiribati:Kongo:Korea:Kroatia:Kuwait:Laos:Latvia:Lebanon:Lesotho:Liechtenstein:Lethuania:Luxembourg:Lyberia:Lybia:Macau:Madagaskar:Malawi:Malaysia:Maldieves:Mali:Malta:Man Island:Mariana:Marshall Islands:Martinique:Mauretania:Mauritius:Mayotte:Maxedonia:Mexico:Mikronesia:Maldau Republic:Monaco:Mongolia:Montserral:Morocco:Mosambique:Myanmar:Namibia:Nauru:Nepal:Netherlands:New Zealand:Newkaledonia:Nicaragua:Niger:Nigeria:North Ireland:Norway:Oman:Palau:Panama:Papua:Paraguay:Peru:Peru:Poland:Portugal:Puerto Rico:Reunion:Ruanda:Rumania:Russia:Salomones:Sambia:Samoa:Samoa(US):San Marino:Sao Tome:Saudi Arabia:Senegal:Seychelles:Seychelles:Zimbabwe:Singapore:Slovakia:Slovenia:Somalia:South Africa:Spain:Sri Lanka:St.Helena:St.Kitts:St.Lucia:St.Pierre:St.Vincent:Sudan:Suriname:Swaziland:Sweden:Switzerland:Syria:Tazikistan:Taiwan:Tansania:Thailand:Togo:Tongo:Trinibad:Tschad:Tunesia:Turkey:Turkmenistan:Uganda:Ukraina:USA:Uruguay:Usbekistan:Vanuatu:Vatican City:Venezuela:Vietnam:Virgin Island(GB):Yemen:Zaire:Bahamas:Pakistan";
 
-    $stCountry = explode( ":", $stCountry );
+    $stCountry = explode(":", $stCountry);
     echo "<Select Name=$CComboName id=$CComboName class=\"$cssClass\">";
     echo "<option value=''>$JS Select</option>";
-    for ( $i = 0; $i < sizeof( $stCountry ); $i ++ ) {
-        if ( $CSelectedValue == $stCountry[ $i ] ) {
+    for ($i = 0; $i < sizeof($stCountry); $i++) {
+        if ($CSelectedValue == $stCountry[$i]) {
             echo "<option value=\"$stCountry[$i]\" Selected>$stCountry[$i]</option>";
         } else {
             echo "<option value=\"$stCountry[$i]\">$stCountry[$i]</option>";
@@ -22,30 +23,30 @@ function createcountrycombo( $CSelectedValue, $CComboName, $JS, $cssClass = "" )
 }
 
 $data = false;
-if ( $_POST ) {
+if ($_POST) {
 
     //$act_codehash = $_POST["act_code"];
-    $act_codehash = md5( $_POST["act_code"] );
+    $act_codehash = md5($_POST["act_code"]);
 
-    $password     = "";
-    $members      = Member::all( 'all', array(
+    $password = "";
+    $members = Member::all('all', array(
         'conditions' => array(
             'acstatus = ? and actcode = ?',
             'INACTIVE',
             $act_codehash
         )
-    ) );
+    ));
 
-    if ( sizeof( $members ) > 0 ) {
-        $member      = $members[0];
-        $password    = $member->referenceid;
-        $referenceid = strtoupper( substr( md5( uniqid( rand() ) ), 0, 8 ) );
-        $update_data = array( "acstatus" => 'ACTIVE', "actcode" => "", "referenceid" => $referenceid );
-        $success     = $member->update_attributes( $update_data );
-        if ( ! $success ) {
+    if (sizeof($members) > 0) {
+        $member = $members[0];
+        $password = $member->referenceid;
+        $referenceid = strtoupper(substr(md5(uniqid(rand())), 0, 8));
+        $update_data = array("acstatus" => 'ACTIVE', "actcode" => "", "referenceid" => $referenceid);
+        $success = $member->update_attributes($update_data);
+        if (!$success) {
             @$_SESSION["err_msg"] = "INVALID_CODE";
             session_destroy();
-            header( "location:activate.php" );
+            header("location:activate.php");
             exit;
         }
         @$_SESSION["user_id"] = @$member->users_id;
@@ -54,10 +55,10 @@ if ( $_POST ) {
         //send welcome email to users
         $mail1 = new PHPMailer();
         //$mail1->SMTPDebug  =1;
-        $mail1->IsHTML( true );
+        $mail1->IsHTML(true);
         $mail1->IsMail();
 
-        $mail1->SetFrom( NO_REPLY_EMAIL, "Summer Work Programs" );
+        $mail1->SetFrom(NO_REPLY_EMAIL, "Summer Work Programs");
         $mail1->Subject = "Welcome to Summer Work Programs";
 
         $msg = "<p>Dear  $data->fname  $data->lname,</p>
@@ -81,53 +82,58 @@ if ( $_POST ) {
 		 www.summerworkprograms.com.</p>";
 
         //$msg = preg_replace( "\\", '', $msg );
-        $mail1->MsgHTML( $msg );
+        $mail1->MsgHTML($msg);
 
         $address = $data->email;
-        $mail1->AddAddress( $address, $data->fname . " " . $data->lname );
+        $mail1->AddAddress($address, $data->fname . " " . $data->lname);
 
         @$mail1->Send();
     }
 
 }
 
-if ( ! @$_SESSION["user_id"] ) {
-    header( "location:index.php" );
+if (!@$_SESSION["user_id"]) {
+    header("location:index.php");
 }
 
 $user_id = $_SESSION["user_id"];
-$data    = Member::find( $user_id );
+$data = Member::find($user_id);
 
-if ( $data->have_valid_summer_holiday == 0 || $data->have_carry_over_classes == 1 ) {
+if ($data->have_valid_summer_holiday == 0 || $data->have_carry_over_classes == 1) {
     echo "<script>location.replace('message.php');</script>";
     exit;
 }
 
-if ( ! $data->current_step ) {
+if (!$data->current_step) {
     $data->current_step = 1;
 }
 $form_wizard = 1;
 ?>
-<?php $viewport=true; ?>
-<?php include( "includes/headerNew.php" ); ?>
+<?php $viewport = true; ?>
+<?php include("includes/header.php"); ?>
 
 <style type="text/css">
-    #previewBig2 img{
+    #previewBig2 img {
         max-height: 200px;
         min-height: 100px;
     }
-    .previewBig{
+
+    .previewBig {
         height: auto !important;
     }
-    .passport_photograph{
-        padding-top:20px;
+
+    .passport_photograph {
+        padding-top: 20px;
     }
+
     .header-transparent, .page-title {
         margin-top: -120px;
     }
-    .datepicker thead{
-        color:white;
+
+    .datepicker thead {
+        color: white;
     }
+
     .table thead tr th {
         background-color: #E0E0E0 !important;
     }
@@ -234,7 +240,7 @@ $form_wizard = 1;
 
                                 <?php
 
-                                $date_of_birth = strtotime( $data->dob->format( 'Y-m-d' ) );
+                                $date_of_birth = strtotime($data->dob->format('Y-m-d'));
 
                                 ?>
                                 <label for="dob_month" class="required control-label col-md-4 ">Date of Birth: </label>
@@ -243,51 +249,51 @@ $form_wizard = 1;
                                                                                       class="form-control">
                                         <option value="">Month</option>
                                         <option value="1"
-                                                <?php if ( date( "m", $date_of_birth ) == '1' ): ?>selected="selected"<?php endif; ?>>
+                                                <?php if (date("m", $date_of_birth) == '1'): ?>selected="selected"<?php endif; ?>>
                                             January
                                         </option>
                                         <option value="2"
-                                                <?php if ( date( "m", $date_of_birth ) == '2' ): ?>selected="selected"<?php endif; ?>>
+                                                <?php if (date("m", $date_of_birth) == '2'): ?>selected="selected"<?php endif; ?>>
                                             February
                                         </option>
                                         <option value="3"
-                                                <?php if ( date( "m", $date_of_birth ) == '3' ): ?>selected="selected"<?php endif; ?>>
+                                                <?php if (date("m", $date_of_birth) == '3'): ?>selected="selected"<?php endif; ?>>
                                             March
                                         </option>
                                         <option value="4"
-                                                <?php if ( date( "m", $date_of_birth ) == '4' ): ?>selected="selected"<?php endif; ?>>
+                                                <?php if (date("m", $date_of_birth) == '4'): ?>selected="selected"<?php endif; ?>>
                                             April
                                         </option>
                                         <option value="5"
-                                                <?php if ( date( "m", $date_of_birth ) == '5' ): ?>selected="selected"<?php endif; ?>>
+                                                <?php if (date("m", $date_of_birth) == '5'): ?>selected="selected"<?php endif; ?>>
                                             May
                                         </option>
                                         <option value="6"
-                                                <?php if ( date( "m", $date_of_birth ) == '6' ): ?>selected="selected"<?php endif; ?>>
+                                                <?php if (date("m", $date_of_birth) == '6'): ?>selected="selected"<?php endif; ?>>
                                             June
                                         </option>
                                         <option value="7"
-                                                <?php if ( date( "m", $date_of_birth ) == '7' ): ?>selected="selected"<?php endif; ?>>
+                                                <?php if (date("m", $date_of_birth) == '7'): ?>selected="selected"<?php endif; ?>>
                                             July
                                         </option>
                                         <option value="8"
-                                                <?php if ( date( "m", $date_of_birth ) == '8' ): ?>selected="selected"<?php endif; ?>>
+                                                <?php if (date("m", $date_of_birth) == '8'): ?>selected="selected"<?php endif; ?>>
                                             August
                                         </option>
                                         <option value="9"
-                                                <?php if ( date( "m", $date_of_birth ) == '9' ): ?>selected="selected"<?php endif; ?>>
+                                                <?php if (date("m", $date_of_birth) == '9'): ?>selected="selected"<?php endif; ?>>
                                             September
                                         </option>
                                         <option value="10"
-                                                <?php if ( date( "m", $date_of_birth ) == '10' ): ?>selected="selected"<?php endif; ?>>
+                                                <?php if (date("m", $date_of_birth) == '10'): ?>selected="selected"<?php endif; ?>>
                                             October
                                         </option>
                                         <option value="11"
-                                                <?php if ( date( "m", $date_of_birth ) == '11' ): ?>selected="selected"<?php endif; ?>>
+                                                <?php if (date("m", $date_of_birth) == '11'): ?>selected="selected"<?php endif; ?>>
                                             November
                                         </option>
                                         <option value="12"
-                                                <?php if ( date( "m", $date_of_birth ) == '12' ): ?>selected="selected"<?php endif; ?>>
+                                                <?php if (date("m", $date_of_birth) == '12'): ?>selected="selected"<?php endif; ?>>
                                             December
                                         </option>
                                     </select></div>
@@ -298,8 +304,8 @@ $form_wizard = 1;
                                         <?PHP
 
 
-                                        for ( $i = 1; $i <= 31; $i ++ ) {
-                                            $selected = ( $i == date( "d", $date_of_birth ) ) ? "selected=\"selected\"" : "";
+                                        for ($i = 1; $i <= 31; $i++) {
+                                            $selected = ($i == date("d", $date_of_birth)) ? "selected=\"selected\"" : "";
                                             echo '<option value="' . $i . '" ' . $selected . '>' . $i . '</option>';
                                         }
                                         ?>
@@ -308,8 +314,8 @@ $form_wizard = 1;
                                                                                       class="form-control">
                                         <option value=""> Year</option>
                                         <?PHP
-                                        for ( $year = date( 'Y' ) - 17; $year >= 1993; $year -- ) {
-                                            $selected = ( $year == date( "Y", $date_of_birth ) ) ? "selected=\"selected\"" : "";
+                                        for ($year = date('Y') - 17; $year >= 1993; $year--) {
+                                            $selected = ($year == date("Y", $date_of_birth)) ? "selected=\"selected\"" : "";
                                             echo '<option value="' . $year . '" ' . $selected . '>' . $year . '</option>';
                                         }
                                         ?>
@@ -333,12 +339,12 @@ $form_wizard = 1;
                                     <select name="gender" class="form-control input-small">
                                         <option value=""> Select Gender</option>
                                         <option value="male"
-                                                <?php if ( $data->gender == 'male' ): ?>selected="selected"<?php endif; ?>>
+                                                <?php if ($data->gender == 'male'): ?>selected="selected"<?php endif; ?>>
                                             Male
                                         </option>
                                         <option value="female"
-                                                <?php if ( $data->gender == 'female' ): ?>selected="selected"<?php endif; ?>
-                                            >Female
+                                                <?php if ($data->gender == 'female'): ?>selected="selected"<?php endif; ?>
+                                        >Female
                                         </option>
                                     </select>
 
@@ -348,7 +354,7 @@ $form_wizard = 1;
                                 <label for="birth_country" class="required control-label col-md-4">Place of
                                     Birth:</label>
                                 <div class="col-md-8">
-                                    <?php createcountrycombo( $data->birth_country, "birth_country", "", "form-control input-small" ) ?>
+                                    <?php createcountrycombo($data->birth_country, "birth_country", "", "form-control input-small") ?>
                                 </div>
                             </div>
                             <div class=" form-group">
@@ -408,8 +414,9 @@ $form_wizard = 1;
 
                             <div class="form-group">
                                 <label for="passport_photograph"
-                                       class="control-label col-md-12 <?= ! file_exists( "user_uploads/$user_id/pp_photo.jpg" ) ? "required" : "" ?>">Passport
-                                    Photograph:Photo files should be passport-sized and not more than 300 pixels.</label>
+                                       class="control-label col-md-12 <?= !file_exists("user_uploads/$user_id/pp_photo.jpg") ? "required" : "" ?>">Passport
+                                    Photograph:Photo files should be passport-sized and not more than 300
+                                    pixels.</label>
                                 <div class="col-md-12">
                                     <div class="col-md-3">&nbsp;</div>
                                     <div class="col-md-8">
@@ -422,18 +429,21 @@ $form_wizard = 1;
                                             <div id="previewBig2" class="previewBig">
 
                                                 <?php
-                                                if (file_exists( "user_uploads/$user_id/pp_photo.jpg" )){
-                                                    $img	=	"user_uploads/$user_id/pp_photo.jpg";
+                                                if (file_exists("user_uploads/$user_id/pp_photo.jpg")) {
+                                                    $img = "user_uploads/$user_id/pp_photo.jpg";
                                                     //	$img	=	"user_uploads/$user_id/pp_photo.jpg";
-                                                    echo '<img id="old_preview"  src="'.$img.'">';
+                                                    echo '<img id="old_preview"  src="' . $img . '">';
                                                 } else {
                                                     echo '<img id="old_preview"  src="assets/images/Imageind.jpg">';
                                                 }
                                                 ?>
                                             </div>
                                         </div>
-                                        <input type="file" class="passport_photograph" id="passport_photograph" accept=".jpeg,.jpg,.png">
-                                        <div id="profilePicMsg" style="display:none;color: red;">Profile Photo Is Required.</div>
+                                        <input type="file" class="passport_photograph" id="passport_photograph"
+                                               accept=".jpeg,.jpg,.png">
+                                        <div id="profilePicMsg" style="display:none;color: red;">Profile Photo Is
+                                            Required.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -451,14 +461,16 @@ $form_wizard = 1;
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="father_phone" class="control-label col-md-4 required">Phone number of father:</label>
+                                <label for="father_phone" class="control-label col-md-4 required">Phone number of
+                                    father:</label>
                                 <div class="col-md-8">
                                     <input type="number" name="father_phone" id="father_phone"
                                            value="<?php echo $data->father_phone; ?>" class="form-control"/>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="father_email" class="control-label col-md-4 required">Email address of father
+                                <label for="father_email" class="control-label col-md-4 required">Email address of
+                                    father
                                     :</label>
                                 <div class="col-md-8"><input type="email" name="father_email" id="father_email"
                                                              value="<?php echo $data->father_email; ?>"
@@ -466,7 +478,8 @@ $form_wizard = 1;
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="father_profession" class="control-label col-md-4 required">Profession: </label>
+                                <label for="father_profession"
+                                       class="control-label col-md-4 required">Profession: </label>
                                 <div class="col-md-8"><input type="text" name="father_profession" id="father_profession"
                                                              value="<?php echo $data->father_profession; ?>"
                                                              class="form-control"/>
@@ -482,7 +495,8 @@ $form_wizard = 1;
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="mother_phone" class="control-label col-md-4 required">Phone number of Mother:</label>
+                                <label for="mother_phone" class="control-label col-md-4 required">Phone number of
+                                    Mother:</label>
                                 <div class="col-md-8">
                                     <input type="number" name="mother_phone" id="mother_phone"
                                            value="<?php echo $data->mother_phone; ?>"
@@ -490,7 +504,8 @@ $form_wizard = 1;
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="mother_email" class="control-label col-md-4 required">Email address of Mother
+                                <label for="mother_email" class="control-label col-md-4 required">Email address of
+                                    Mother
                                     :</label>
                                 <div class="col-md-8"><input type="email" name="mother_email" id="mother_email"
                                                              value="<?php echo $data->mother_email; ?>"
@@ -498,7 +513,8 @@ $form_wizard = 1;
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="mother_profession" class="control-label col-md-4 required">Profession: </label>
+                                <label for="mother_profession"
+                                       class="control-label col-md-4 required">Profession: </label>
                                 <div class="col-md-8"><input type="text" name="mother_profession" id="mother_profession"
                                                              value="<?php echo $data->mother_profession; ?>"
                                                              class="form-control"/>
@@ -516,7 +532,7 @@ $form_wizard = 1;
                                 </div>
                             </div>
 
-                            <div class=" form-group <?= ! @$data->addr_same_as_parent ? "" : "hidden" ?>">
+                            <div class=" form-group <?= !@$data->addr_same_as_parent ? "" : "hidden" ?>">
                                 <label for="contact_address" class="required control-label col-md-4">Contact address of
                                     Parents:</label>
                                 <div class="col-md-8">
@@ -536,10 +552,12 @@ $form_wizard = 1;
                                 </div>
                             </div>
 
-                            <div id="sponsor_details" class="<?= ! @$data->parent_is_sponsor ? "" : "hidden" ?>">
+                            <div id="sponsor_details" class="<?= !@$data->parent_is_sponsor ? "" : "hidden" ?>">
 
                                 <div class="form-group">
-                                    <label for="sponsor_name " class="control-label col-md-4  <?= ! @$data->parent_is_sponsor ? "required" : "" ?>">Name of Sponsor
+                                    <label for="sponsor_name "
+                                           class="control-label col-md-4  <?= !@$data->parent_is_sponsor ? "required" : "" ?>">Name
+                                        of Sponsor
                                         :</label>
                                     <div class="col-md-8">
                                         <input type="text" name="sponsor_name" id="sponsor_name "
@@ -549,7 +567,9 @@ $form_wizard = 1;
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="sponsor_address" class="control-label col-md-4 <?= ! @$data->parent_is_sponsor ? "required" : "" ?>">Address of
+                                    <label for="sponsor_address"
+                                           class="control-label col-md-4 <?= !@$data->parent_is_sponsor ? "required" : "" ?>">Address
+                                        of
                                         Sponsor:</label>
                                     <div class="col-md-8">
                                         <input type="text" name="sponsor_address" id="sponsor_address"
@@ -559,7 +579,9 @@ $form_wizard = 1;
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="sponsor_phone" class="control-label col-md-4 <?= ! @$data->parent_is_sponsor ? "required" : "" ?>">Phone number of
+                                    <label for="sponsor_phone"
+                                           class="control-label col-md-4 <?= !@$data->parent_is_sponsor ? "required" : "" ?>">Phone
+                                        number of
                                         Sponosr:</label>
                                     <div class="col-md-8">
                                         <input type="number" name="sponsor_phone" id="sponsor_phone"
@@ -568,7 +590,9 @@ $form_wizard = 1;
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="sponsor_email" class="control-label col-md-4 <?= ! @$data->parent_is_sponsor ? "required" : "" ?>">Email address of
+                                    <label for="sponsor_email"
+                                           class="control-label col-md-4 <?= !@$data->parent_is_sponsor ? "required" : "" ?>">Email
+                                        address of
                                         Sponosr
                                         :</label>
                                     <div class="col-md-8"><input type="email" name="sponsor_email" id="sponsor_email"
@@ -578,7 +602,8 @@ $form_wizard = 1;
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="sponsor_relation" class="control-label col-md-4 <?= ! @$data->parent_is_sponsor ? "required" : "" ?>">Relationship
+                                    <label for="sponsor_relation"
+                                           class="control-label col-md-4 <?= !@$data->parent_is_sponsor ? "required" : "" ?>">Relationship
                                         with
                                         Sponsor: </label>
                                     <div class="col-md-8"><input type="text" name="sponsor_relation"
@@ -590,7 +615,7 @@ $form_wizard = 1;
 
                                 <div class="form-group">
                                     <label for="sponsor_profession"
-                                           class="control-label col-md-4 <?= ! @$data->parent_is_sponsor ? "required" : "" ?>">Profession: </label>
+                                           class="control-label col-md-4 <?= !@$data->parent_is_sponsor ? "required" : "" ?>">Profession: </label>
                                     <div class="col-md-8"><input type="text" name="sponsor_profession"
                                                                  id="sponsor_profession"
                                                                  value="<?php echo $data->sponsor_profession; ?>"
@@ -701,7 +726,7 @@ $form_wizard = 1;
                                     <!--                                <input class="form-control form-control-inline input-medium date-picker" size="16" type="text" value="" />-->
 
                                     <input type="text" name="holiday_start_date" id="holiday_start_date"
-                                           value="<?= @$data->holiday_start_date ? $data->holiday_start_date->format( 'Y-m-d' ) : ""; ?>"
+                                           value="<?= @$data->holiday_start_date ? $data->holiday_start_date->format('Y-m-d') : ""; ?>"
                                            class="form-control date-picker"/>
                                 </div>
                             </div>
@@ -712,7 +737,7 @@ $form_wizard = 1;
                                     Holiday
                                     Ends:</label>
                                 <div class="col-md-7"><input type="text" name="holiday_end_date" id="holiday_end_date"
-                                                             value="<?= @$data->holiday_end_date ? $data->holiday_end_date->format( 'Y-m-d' ) : ""; ?>"
+                                                             value="<?= @$data->holiday_end_date ? $data->holiday_end_date->format('Y-m-d') : ""; ?>"
                                                              class="form-control date-picker"/>
                                 </div>
                             </div>
@@ -724,7 +749,7 @@ $form_wizard = 1;
                                     Graduation
                                     Date:</label>
                                 <div class="col-md-7"><input type="text" name="expect_grad_date" id="expect_grad_date"
-                                                             value="<?= @$data->expect_grad_date ? $data->expect_grad_date->format( 'Y-m-d' ) : ""; ?>"
+                                                             value="<?= @$data->expect_grad_date ? $data->expect_grad_date->format('Y-m-d') : ""; ?>"
                                                              class="form-control date-picker"/>
                                 </div>
                             </div>
@@ -741,15 +766,15 @@ $form_wizard = 1;
 
 
                                     <option value="friends"
-                                            <?php if ( $data->hear_about_program == 'friends' ): ?>selected="selected"<?php endif; ?>>
+                                            <?php if ($data->hear_about_program == 'friends'): ?>selected="selected"<?php endif; ?>>
                                         Friends
                                     </option>
                                     <option value="institution"
-                                            <?php if ( $data->hear_about_program == 'institution' ): ?>selected="selected"<?php endif; ?>>
+                                            <?php if ($data->hear_about_program == 'institution'): ?>selected="selected"<?php endif; ?>>
                                         Institution
                                     </option>
                                     <option value="others"
-                                            <?php if ( $data->hear_about_program == 'others' ): ?>selected="selected"<?php endif; ?>>
+                                            <?php if ($data->hear_about_program == 'others'): ?>selected="selected"<?php endif; ?>>
                                         Others
                                     </option>
                                 </select>
@@ -816,7 +841,8 @@ $form_wizard = 1;
                                 <td>
                                     <div class="form-group">
                                         <label class="hidden"></label>
-                                        <div class="col-md-12"><input type="text" class="form-control travel_country_req"
+                                        <div class="col-md-12"><input type="text"
+                                                                      class="form-control travel_country_req"
                                                                       name="travel_country[]">
                                         </div>
 
@@ -825,7 +851,8 @@ $form_wizard = 1;
                                 <td>
                                     <div class="form-group">
                                         <label class="hidden"></label>
-                                        <div class="col-md-12"><input type="text" class="form-control travel_purpose_req"
+                                        <div class="col-md-12"><input type="text"
+                                                                      class="form-control travel_purpose_req"
                                                                       name="travel_purpose[]">
                                         </div>
 
@@ -834,7 +861,8 @@ $form_wizard = 1;
                                 <td>
                                     <div class="form-group">
                                         <label class="hidden"></label>
-                                        <div class="col-md-12"><input type="text" class="form-control travel_stay_duration_req"
+                                        <div class="col-md-12"><input type="text"
+                                                                      class="form-control travel_stay_duration_req"
                                                                       name="travel_stay_duration[]"></div>
 
                                     </div>
@@ -857,14 +885,17 @@ $form_wizard = 1;
                                     </div>
                                 </td>
                             </tr>
-                            <tr><td colspan="5" align="center"> <strong>Please, click on Add button to create a new entry. Thank you</strong></td></tr>
+                            <tr>
+                                <td colspan="5" align="center"><strong>Please, click on Add button to create a new
+                                        entry. Thank you</strong></td>
+                            </tr>
                             </thead>
                             <tbody>
-                            <?php if ( $data->have_travel_history ):
+                            <?php if ($data->have_travel_history):
 
-                                $travel_history = TravelHistory::all( array( "conditions" => array( "user_id" => $user_id ) ) );
+                                $travel_history = TravelHistory::all(array("conditions" => array("user_id" => $user_id)));
 
-                                foreach ( $travel_history as $t_history ):
+                                foreach ($travel_history as $t_history):
                                     ?>
                                     <tr>
                                         <td>
@@ -911,13 +942,13 @@ $form_wizard = 1;
                                             <div class="form-group">
                                                 <label class="hidden"></label>
                                                 <div class="col-md-12"><input
-                                                        class="form-control btn_remove_travel_history"
-                                                        value="Remove" type="button"></div>
+                                                            class="form-control btn_remove_travel_history"
+                                                            value="Remove" type="button"></div>
 
                                             </div>
                                         </td>
                                     </tr>
-                                    <?php
+                                <?php
                                 endforeach;;
                             endif; ?>
                             </tbody>
@@ -991,13 +1022,16 @@ $form_wizard = 1;
                                     </div>
                                 </td>
                             </tr>
-                            <tr><td colspan="5" align="center"> <strong>Please, click on Add button to create a new entry. Thank you</strong></td></tr>
+                            <tr>
+                                <td colspan="5" align="center"><strong>Please, click on Add button to create a new
+                                        entry. Thank you</strong></td>
+                            </tr>
                             </thead>
                             <tbody>
-                            <?php if ( $data->have_applied_before ):
-                                $visa_history = VisaHistory::all( array( "conditions" => array( "user_id" => $user_id ) ) );
+                            <?php if ($data->have_applied_before):
+                                $visa_history = VisaHistory::all(array("conditions" => array("user_id" => $user_id)));
 
-                                foreach ( $visa_history as $v_history ):
+                                foreach ($visa_history as $v_history):
                                     ?>
                                     <tr>
                                         <td>
@@ -1044,14 +1078,14 @@ $form_wizard = 1;
                                             <div class="form-group">
                                                 <label class="hidden"></label>
                                                 <div class="col-md-12"><input
-                                                        class="form-control btn_remove_visa_history" value="Remove"
-                                                        type="button"></div>
+                                                            class="form-control btn_remove_visa_history" value="Remove"
+                                                            type="button"></div>
 
                                             </div>
                                         </td>
                                     </tr>
 
-                                    <?php
+                                <?php
                                 endforeach;
                             endif; ?>
                             </tbody>
@@ -1066,7 +1100,8 @@ $form_wizard = 1;
                     <div class="col-md-6">
 
                         <div class="form-group">
-                            <label for="" class="control-label col-md-8" style="text-align: left">Have you made an application to the Summer Work program previously?</label>
+                            <label for="" class="control-label col-md-8" style="text-align: left">Have you made an
+                                application to the Summer Work program previously?</label>
                             <div class="col-md-4">
                                 <input type="radio" name="have_experience"
                                        value="1" <?= $data->have_experience == 1 ? "checked" : "" ?>> Yes
@@ -1077,7 +1112,8 @@ $form_wizard = 1;
                         <div id="have_experience_input" class="<?= $data->have_experience == "1" ? "" : "hidden" ?>">
 
                             <div class="form-group">
-                                <label for="name_of_institution" class="control-label col-md-5 ">Name of Institution at the time of application:</label>
+                                <label for="name_of_institution" class="control-label col-md-5 ">Name of Institution at
+                                    the time of application:</label>
                                 <div class="col-md-7">
                                     <input type="text" name="name_of_institution" id="name_of_institution"
                                            value="<?php echo $data->name_of_institution; ?>"
@@ -1085,7 +1121,8 @@ $form_wizard = 1;
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="level_of_study" class=" control-label col-md-5">Level of Study at the time of application:</label>
+                                <label for="level_of_study" class=" control-label col-md-5">Level of Study at the time
+                                    of application:</label>
                                 <div class="col-md-7">
                                     <input type="text" name="level_of_study" id="level_of_study"
                                            value="<?php echo $data->level_of_study; ?>"
@@ -1093,8 +1130,12 @@ $form_wizard = 1;
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="local_representative" class=" control-label col-md-5">Name of Local Representative:</label>
-                                <div class="col-md-7"><input type="text" name="local_representative" id="local_representative" value="<?php echo $data->local_representative; ?>" class="form-control"/>
+                                <label for="local_representative" class=" control-label col-md-5">Name of Local
+                                    Representative:</label>
+                                <div class="col-md-7"><input type="text" name="local_representative"
+                                                             id="local_representative"
+                                                             value="<?php echo $data->local_representative; ?>"
+                                                             class="form-control"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -1102,38 +1143,65 @@ $form_wizard = 1;
                                 <div class="col-md-7">
                                     <select name="job_offer" class="form-control input-small">
                                         <option value=""> Select Job Offer</option>
-                                        <option value="yes" <?php if ( $data->job_offer == 'yes' ): ?>selected="selected"<?php endif; ?>>Yes</option>
-                                        <option value="no" <?php if ( $data->job_offer == 'no' ): ?>selected="selected"<?php endif; ?>>No</option>
+                                        <option value="yes"
+                                                <?php if ($data->job_offer == 'yes'): ?>selected="selected"<?php endif; ?>>
+                                            Yes
+                                        </option>
+                                        <option value="no"
+                                                <?php if ($data->job_offer == 'no'): ?>selected="selected"<?php endif; ?>>
+                                            No
+                                        </option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="program_sponsor_name" class=" control-label col-md-5">Visa Interview: </label>
+                                <label for="program_sponsor_name" class=" control-label col-md-5">Visa
+                                    Interview: </label>
                                 <div class="col-md-7">
                                     <select name="visa_interview" class="form-control input-small">
                                         <option value=""> Select Visa Interview</option>
-                                        <option value="yes" <?php if ( $data->visa_interview == 'yes' ): ?>selected="selected"<?php endif; ?>>Yes</option>
-                                        <option value="no" <?php if ( $data->visa_interview == 'no' ): ?>selected="selected"<?php endif; ?>>No</option>
+                                        <option value="yes"
+                                                <?php if ($data->visa_interview == 'yes'): ?>selected="selected"<?php endif; ?>>
+                                            Yes
+                                        </option>
+                                        <option value="no"
+                                                <?php if ($data->visa_interview == 'no'): ?>selected="selected"<?php endif; ?>>
+                                            No
+                                        </option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="besor_previous_application" class=" control-label col-md-5">Did you make your previous application with Besor Associates?</label>
+                                <label for="besor_previous_application" class=" control-label col-md-5">Did you make
+                                    your previous application with Besor Associates?</label>
                                 <div class="col-md-7">
                                     <select name="besor_previous_application" class="form-control input-small">
-                                        <option value=""> Select </option>
-                                        <option value="1" <?php if($data->besor_previous_application == 1){ echo 'selected=selected';}?>>Yes</option>
-                                        <option value="0" <?php if($data->besor_previous_application == 0){ echo 'selected=selected';}?>>No</option>
+                                        <option value=""> Select</option>
+                                        <option value="1" <?php if ($data->besor_previous_application == 1) {
+                                            echo 'selected=selected';
+                                        } ?>>Yes
+                                        </option>
+                                        <option value="0" <?php if ($data->besor_previous_application == 0) {
+                                            echo 'selected=selected';
+                                        } ?>>No
+                                        </option>
                                     </select>
                                 </div>
                             </div>
 
 
-                            <div id="reason_not_using_same_service_div" class="form-group" style="display:<?php if($data->besor_previous_application == '1'){ echo 'none';}?>">
-                                <label for="reason_not_using_same_service" class=" control-label col-md-5">Reason for not using the same service: </label>
-                                <div class="col-md-7"><input type="text" name="reason_not_using_same_service" id="reason_not_using_same_service" value="<?php echo $data->reason_not_using_same_service; ?>" class="form-control"/>
+                            <div id="reason_not_using_same_service_div" class="form-group"
+                                 style="display:<?php if ($data->besor_previous_application == '1') {
+                                     echo 'none';
+                                 } ?>">
+                                <label for="reason_not_using_same_service" class=" control-label col-md-5">Reason for
+                                    not using the same service: </label>
+                                <div class="col-md-7"><input type="text" name="reason_not_using_same_service"
+                                                             id="reason_not_using_same_service"
+                                                             value="<?php echo $data->reason_not_using_same_service; ?>"
+                                                             class="form-control"/>
                                 </div>
                             </div>
 
@@ -1212,7 +1280,8 @@ $form_wizard = 1;
                         provide updated information to Besor Associates.</p>
                     <div class="col-md-12">
 
-                        <input type="checkbox" value="1" id="chk_consent_agree" name="chk_consent_agree"> <label for="chk_consent_agree"> Yes,
+                        <input type="checkbox" value="1" id="chk_consent_agree" name="chk_consent_agree"> <label
+                                for="chk_consent_agree"> Yes,
                             I agree.</label>
 
                     </div>
@@ -1233,7 +1302,7 @@ $form_wizard = 1;
     </div>
 </div>
 
-<?php include( "includes/footerNew.php" ); ?>
+<?php include("includes/footerNew.php"); ?>
 <script type="text/javascript" src=""></script>
 <link rel="stylesheet" href="css/icropper.css">
 <!-- <script type="text/javascript" src="js/jquery-2.0.min.js"></script> -->
@@ -1248,6 +1317,7 @@ $form_wizard = 1;
         width: 480px;
         margin: auto;
     }
+
     .cropperContainer {
         float: left;
         border: 0px solid #eee;
@@ -1256,15 +1326,18 @@ $form_wizard = 1;
         min-height: auto;
         min-width: auto;
     }
+
     .previews {
         float: left;
         margin-left: 0px;
     }
+
     .previewSmall {
         margin: 40px;
         width: 200px;
         height: 100px;
     }
+
     .previewBig {
         margin: 40px;
         width: 200px;
@@ -1278,16 +1351,21 @@ $form_wizard = 1;
         font-size: 12px;
         color: #777;
     }
+
     h1 {
         font-family: Arial;
         color: #777;
         text-align: center;
     }
+
     h2 {
         font-family: Arial;
         color: #777;
     }
-    fieldset {margin-top: 156px !important;}
+
+    fieldset {
+        margin-top: 156px !important;
+    }
 </style>
 <script type="text/javascript">
 
@@ -1300,7 +1378,7 @@ $form_wizard = 1;
             onLeaveStep: leaveAStepCallback,
             onFinish: onFinishCallback,
             onContinueLater: onContinueLater,
-            enableFinishButton:<?=$data->current_step==6?"true":"false"?>
+            enableFinishButton:<?=$data->current_step == 6 ? "true" : "false"?>
         });
 
         <?php
@@ -1321,18 +1399,18 @@ $form_wizard = 1;
         //check file upload
         var _URL = window.URL || window.webkitURL;
 
-        var topImage    = 0;
-        var leftImage   = 0;
-        var widthImage  = 0;
+        var topImage = 0;
+        var leftImage = 0;
+        var widthImage = 0;
         var heightImage = 0;
 
-        $(function(){
+        $(function () {
 
             function readURLNew(input) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
 
-                    reader.onload = function(e) {
+                    reader.onload = function (e) {
                         initICropper(e.target.result);
                         $("#imageModel").modal('show');
                     }
@@ -1349,19 +1427,19 @@ $form_wizard = 1;
 
                 var ic2 = new ICropper(
                     'cropperContainer2'
-                    ,{
+                    , {
                         ratio: 0
-                        ,image: imageSrc
-                        ,onChange: function(info){	//onChange must be set when constructing.
-                            topImage    = info.t;
-                            leftImage   = info.l;
-                            widthImage  = info.w;
+                        , image: imageSrc
+                        , onChange: function (info) {	//onChange must be set when constructing.
+                            topImage = info.t;
+                            leftImage = info.l;
+                            widthImage = info.w;
                             heightImage = info.h;
 
                             infoNode2.innerHTML = 'Left: ' + info.l + 'px, Top: ' + info.t
                                 + 'px, Width: ' + info.w + 'px, Height: ' + info.h + 'px';
                         }
-                        ,preview: [
+                        , preview: [
                             'previewSmall2'
                         ]
                     });
@@ -1369,7 +1447,7 @@ $form_wizard = 1;
                 //ic2.bindPreview('previewBig2');
             }
 
-            $("#passport_photograph").change(function(){
+            $("#passport_photograph").change(function () {
                 readURLNew(this);
             });
 
@@ -1403,8 +1481,8 @@ $form_wizard = 1;
                 return base64Data;
             }
 
-            $('#apply').on("click",function(){
-                if(widthImage >300 || heightImage >300){
+            $('#apply').on("click", function () {
+                if (widthImage > 300 || heightImage > 300) {
                     alert('Please ensure that your image is not larger than 300 by 300 pixels in dimension before upload');
                     return;
                 }
@@ -1412,7 +1490,7 @@ $form_wizard = 1;
                 //$('#old_preview').remove();
                 var base64Data = cropImage($('#previewBig2 img').attr("src"));
                 //oldpreviews
-                $('#old_preview').attr('src',base64Data);
+                $('#old_preview').attr('src', base64Data);
                 $("#previews").show();
             });
 
@@ -1460,8 +1538,7 @@ $form_wizard = 1;
                 $("#sponsor_details").find(".has-error").removeClass("has-error");
                 $("#sponsor_details").addClass("hidden");
                 $("#sponsor_details").find("input").val("");
-            }
-            else {
+            } else {
                 $("#sponsor_details").find("label").addClass("required");
                 $("#sponsor_details").removeClass("hidden");
             }
@@ -1640,7 +1717,7 @@ $form_wizard = 1;
         var success = validateStep(step_num);
         //have_carry_over_classes
 
-        if($("input[name='have_valid_summer_holiday']:checked").val()==0 || $("input[name='have_carry_over_classes']:checked").val()==1){
+        if ($("input[name='have_valid_summer_holiday']:checked").val() == 0 || $("input[name='have_carry_over_classes']:checked").val() == 1) {
 
             $('form').submit();
             return false;
@@ -1652,12 +1729,11 @@ $form_wizard = 1;
 
     function onFinishCallback() {
 
-       // if ($("input[name='chk_consent_agree']").prop(":checked")) {
-        if(document.getElementById('chk_consent_agree').checked){
+        // if ($("input[name='chk_consent_agree']").prop(":checked")) {
+        if (document.getElementById('chk_consent_agree').checked) {
             $("#regform_complete").val(1);
             $('form').submit();
-        }
-        else {
+        } else {
             alert("Please accept the agreement to continue.");
         }
 
@@ -1713,7 +1789,7 @@ $form_wizard = 1;
         $.each($(container), function (idx, elem) {
             var input_elem = $(elem).find(":input");
 
-            var elem_type=$(input_elem).prop('type');
+            var elem_type = $(input_elem).prop('type');
 
             //console.log($(input_elem).attr("name"));
             var val = $(input_elem).val();
@@ -1722,17 +1798,15 @@ $form_wizard = 1;
                 isValid = false;
                 //console.log($(input_elem).attr("name"));
                 $(input_elem).closest('div.form-group').addClass('has-error');
-            }
-            else if(  elem_type=="email" ){
+            } else if (elem_type == "email") {
 
                 //alert(input_elem.attr("name")+" = "+val+" is valid: "+ isValidEmailAddress(val));
-                if(!isValidEmailAddress(val)){
+                if (!isValidEmailAddress(val)) {
                     isValid = false;
                     //console.log($(input_elem).attr("name"));
                     $(input_elem).closest('div.form-group').addClass('has-error');
                 }
-            }
-            else {
+            } else {
 
                 $(input_elem).closest('div.form-group').removeClass('has-error');
 
@@ -1748,7 +1822,7 @@ $form_wizard = 1;
         return pattern.test(val);
     }
 
-    function isNumeric(val){
+    function isNumeric(val) {
         var reg = /^\d+$/;
         return reg.test(val);
     }
@@ -1780,7 +1854,7 @@ $form_wizard = 1;
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="apply btn btn-info" id="apply"> Apply </button>
+                <button type="button" class="apply btn btn-info" id="apply"> Apply</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
 

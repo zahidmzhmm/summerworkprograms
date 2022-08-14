@@ -186,7 +186,7 @@ $act_token = @$_REQUEST["code"];
 if ($act_token) $error_status = 0;
 
 $show_slider = false;
-include("includes/headerNew.php");
+include("includes/header.php");
 
 ?>
 
@@ -230,4 +230,4 @@ include("includes/headerNew.php");
         <?php endif; ?>
         </div>
 </section>
-<?php include("includes/footerNew.php"); ?>
+<?php include("includes/footer.php"); ?>

@@ -13,10 +13,10 @@ include "includes/includes.php";
 $new_list = $_POST["new_list"];
 
 $latest_list = [];
-foreach($new_list as $item){
-	if($item != ""){
-		$latest_list[] = $item;
-	}
+foreach ($new_list as $item) {
+    if ($item != "") {
+        $latest_list[] = $item;
+    }
 }
 $id = $_GET["id"];
 
@@ -37,5 +37,5 @@ $list->save();
 
 // $conn->close();
 
-header('Location: home.php?modules=support_documents&action=view&id='.$id);
+header('Location: home.php?modules=support_documents&action=view&id=' . $id);
 ?>

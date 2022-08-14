@@ -2,7 +2,7 @@
 $show_slider=false;
 $page_titles_image = '4.jpg';
 
-include("includes/headerNew.php");?>
+include("includes/header.php");?>
 
 <section>
 	<div class="container">
@@ -31,4 +31,4 @@ include("includes/headerNew.php");?>
 		</div> <!-- /.row -->
 	</div>
 </section>
-<?php include("includes/footerNew.php");?>
+<?php include("includes/footer.php");?>

@@ -11,63 +11,56 @@ $secretkey = "6LfuG_YUAAAAABlUUjJzO--1MptsjLyjSblSZHad";
 $response = $_POST["g-recaptcha-response"];
 $verify = new recaptchalib($secretkey, $response);
 
-if(isset($_POST['h-captcha-response']) && !empty($_POST['h-captcha-response']))
-//if(1)
-  {
-        $secret = '0x9A2E2fa57f9925224dDA600cdbb231910A46d4F8';
-        $verifyResponse = file_get_contents('https://hcaptcha.com/siteverify?secret='.$secret.'&response='.$_POST['h-captcha-response'].'&remoteip='.$_SERVER['REMOTE_ADDR']);
-        $responseData = json_decode($verifyResponse);
-        if($responseData->success)
-        //if(1)
-        {
-          // Your code here to handle a successful verification
-          if ( $_POST ) {
-              //set posted value in session
-              $_SESSION["dob_day"]     = $_POST["dob_day"];
-              $_SESSION["dob_month"]   = $_POST["dob_month"];
-              $_SESSION["dob_year"]    = $_POST["dob_year"];
-              $_SESSION["res_country"] = $_POST["country"];
+if (isset($_POST['h-captcha-response']) && !empty($_POST['h-captcha-response'])) //if(1)
+{
+    $secret = '0x9A2E2fa57f9925224dDA600cdbb231910A46d4F8';
+    $verifyResponse = file_get_contents('https://hcaptcha.com/siteverify?secret=' . $secret . '&response=' . $_POST['h-captcha-response'] . '&remoteip=' . $_SERVER['REMOTE_ADDR']);
+    $responseData = json_decode($verifyResponse);
+    if ($responseData->success) //if(1)
+    {
+        // Your code here to handle a successful verification
+        if ($_POST) {
+            //set posted value in session
+            $_SESSION["dob_day"] = $_POST["dob_day"];
+            $_SESSION["dob_month"] = $_POST["dob_month"];
+            $_SESSION["dob_year"] = $_POST["dob_year"];
+            $_SESSION["res_country"] = $_POST["country"];
 
-              //check if catptcha is valid
-          /*  if ( @$_SESSION["captcha_result"] != "1" ) {
-                  require_once( 'recaptchalib.php' );
-                  $privatekey = RECAPTCHA_PRIVATE_KEY;
-                  $resp       = recaptcha_check_answer( $privatekey, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"] );
+            //check if catptcha is valid
+            /*  if ( @$_SESSION["captcha_result"] != "1" ) {
+                    require_once( 'recaptchalib.php' );
+                    $privatekey = RECAPTCHA_PRIVATE_KEY;
+                    $resp       = recaptcha_check_answer( $privatekey, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"] );
 
-                  if ( ! $resp->is_valid ) {
-                      //captcha is not valid go back to previous page
-                      $_SESSION["captcha_result"] = "-1";
-                      header( "location:signup.php" );
-                  }
-                  */
-                  $_SESSION["captcha_result"] = "1";
-              //}
+                    if ( ! $resp->is_valid ) {
+                        //captcha is not valid go back to previous page
+                        $_SESSION["captcha_result"] = "-1";
+                        header( "location:signup.php" );
+                    }
+                    */
+            $_SESSION["captcha_result"] = "1";
+            //}
 
-          } else {
+        } else {
 
-              //you just came here directly
-              //go to signup page first
-              if ( $_SESSION["captcha_result"] != "1" ) {
-                  header( "location:signup.php" );
-              }
+            //you just came here directly
+            //go to signup page first
+            if ($_SESSION["captcha_result"] != "1") {
+                header("location:signup.php");
+            }
 
-          }
         }
-        else
-        {
-          $_SESSION["captcha_result"] = "-1";
-          header( "location:signup.php" );
-        }
-   } else {
-     $_SESSION["captcha_result"] = "-1";
-     header( "location:signup.php" );
-   }
+    } else {
+        $_SESSION["captcha_result"] = "-1";
+        header("location:signup.php");
+    }
+} else {
+    $_SESSION["captcha_result"] = "-1";
+    header("location:signup.php");
+}
 
 
-
-
-
-include( "includes/headerNew.php" ); ?>
+include("includes/header.php"); ?>
 
 <section class="grid">
 
@@ -85,7 +78,7 @@ include( "includes/headerNew.php" ); ?>
 
                 // echo "dddd: ".isset($_SESSION['eMsgg']);
 
-                if ( @$_SESSION['err_msg'] == 'EMAIL_EXIST' ): ?>
+                if (@$_SESSION['err_msg'] == 'EMAIL_EXIST'): ?>
                     <ul class="message error no-margin">
                         <li>
                             Your E-Mail Address already exists in our records - please log in with the e-mail address or
@@ -124,29 +117,29 @@ include( "includes/headerNew.php" ); ?>
 
                         <option value=""> --- Select one ---</option>
                         <option value="Babcock University"
-                                <?php if ( $institution == 'Babcock University' ): ?>selected="selected"<?php endif; ?>>
+                                <?php if ($institution == 'Babcock University'): ?>selected="selected"<?php endif; ?>>
                             Babcock University
                         </option>
                         <option value="Bowen University"
-                                <?php if ( $institution == 'Bowen University' ): ?>selected="selected"<?php endif; ?>>
+                                <?php if ($institution == 'Bowen University'): ?>selected="selected"<?php endif; ?>>
                             Bowen University
                         </option>
                         <option value="Redeemers University"
-                                <?php if ( $institution == 'Redeemers University' ): ?>selected="selected"<?php endif; ?>>
+                                <?php if ($institution == 'Redeemers University'): ?>selected="selected"<?php endif; ?>>
                             Redeemers University
                         </option>
                         <option value="Covenant University"
-                                <?php if ( $institution == 'Covenant University' ): ?>selected="selected"<?php endif; ?>>
+                                <?php if ($institution == 'Covenant University'): ?>selected="selected"<?php endif; ?>>
                             Covenant University
                         </option>
                         <option value="Others"
-                                <?php if ( $institution == "Others" ): ?>selected="selected"<?php endif; ?>>Others
+                                <?php if ($institution == "Others"): ?>selected="selected"<?php endif; ?>>Others
                         </option>
                     </select>
                 </p>
 
 
-                <p id="435" style=" <?php if ( $institution != "Others" )
+                <p id="435" style=" <?php if ($institution != "Others")
                     echo "display:none;" ?> ">
 
                     <label for="email">Specify</label>
@@ -162,7 +155,7 @@ include( "includes/headerNew.php" ); ?>
 
                     <input type="text" name="email" id="email" value="<?php echo @$_SESSION['email']; ?>"
                            class="input-type-text"/>
-                        (Please DO NOT use Yahoo email)
+                    (Please DO NOT use Yahoo email)
                 </p>
 
                 <p class="required">
@@ -211,7 +204,7 @@ include( "includes/headerNew.php" ); ?>
 
 </section>
 
-<?php include( "includes/footerNew.php" ); ?>
+<?php include("includes/footer.php"); ?>
 
 <SCRIPT>
 
@@ -408,9 +401,7 @@ include( "includes/headerNew.php" ); ?>
             document.getElementById(435).style.display = 'block';
 
 
-        }
-
-        else {
+        } else {
 
             document.getElementById(435).style.display = 'none';
 

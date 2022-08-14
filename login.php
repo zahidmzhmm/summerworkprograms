@@ -3,21 +3,19 @@ session_start();
 include("config.php");
 
 
-
 if ($_POST) {    //echo "test";exit;
 
     $email = $_POST['email'];
     $password = md5($_POST['password']);
 
 
-	include "third_party/DataAccess.php";
+    include "third_party/DataAccess.php";
 
 
-
-	$members=Member::find("all",array("conditions"=>array("email=? and password=?", $email, $password)));
-$user_data=false;
-    if(sizeof($members)>0){
-        $user_data=$members[0];
+    $members = Member::find("all", array("conditions" => array("email=? and password=?", $email, $password)));
+    $user_data = false;
+    if (sizeof($members) > 0) {
+        $user_data = $members[0];
     }
 
 
@@ -31,19 +29,16 @@ $user_data=false;
 
         //set session
         //check activation status
-		if ($user_data->acstatus=="INACTIVE")
-		{
-			session_destroy();
-			$err_msg = "ACCOUNT_INACTIVE";
-		}
-		else
-		{
+        if ($user_data->acstatus == "INACTIVE") {
+            session_destroy();
+            $err_msg = "ACCOUNT_INACTIVE";
+        } else {
 
-        $_SESSION['user_id'] = $user_data->users_id;
-        //redirect to profile page
-        header("location:profile.php");
-        exit;
-		}
+            $_SESSION['user_id'] = $user_data->users_id;
+            //redirect to profile page
+            header("location:profile.php");
+            exit;
+        }
     }
 
 
@@ -51,7 +46,7 @@ $user_data=false;
 
 $hide_slider = true;
 ?>
-<?php include("includes/headerNew.php"); ?>
+<?php include("includes/header.php"); ?>
 
 <section class="grid">
     <div class="block-border">
@@ -69,7 +64,7 @@ $hide_slider = true;
             elseif (@$err_msg == 'ACCOUNT_INACTIVE') :
 
                 ?>
-			<ul class="message error no-margin">
+                <ul class="message error no-margin">
                     <li> You haven't activated your account yet. Please activate your account.</li>
                 </ul>
             <?php endif; ?>
@@ -95,7 +90,7 @@ $hide_slider = true;
 
     </div>
 </section>
-<?php include("includes/footerNew.php"); ?>
+<?php include("includes/footer.php"); ?>
 <SCRIPT>
     $('input[type="text"]').focus(function () {
         $(this).addClass("focus");
@@ -232,8 +227,7 @@ $hide_slider = true;
             document.getElementById(435).style.display = 'block';
 
 
-        }
-        else {
+        } else {
             document.getElementById(435).style.display = 'none';
 
         }
