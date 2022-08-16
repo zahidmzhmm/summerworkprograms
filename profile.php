@@ -1,13 +1,13 @@
 <?php
 session_start();
-include "third_party/DataAccess.php";
+include "adminpanel/includes/includes.php";
 
 if (!@$_SESSION['user_id']) {
     header('location:login.php');
 }
 
-
-$member = Member::find($_SESSION["user_id"]);
+$user_id = $_SESSION["user_id"];
+$member = (object)sql::Select_single("select * from tbl_member where users_id='$user_id'");
 
 if (!$member->regform_complete) {
     $_SESSION["user_id"] = $member->users_id;
@@ -144,7 +144,7 @@ if ($member->have_valid_summer_holiday == false || $member->have_carry_over_clas
                     <?php echo $member->referenceid; ?></p>
                 <p>
                     <label><strong>Date of Birth:</strong></label>
-                    <?php echo $member->dob->format("m-d-Y"); ?></p>
+                    <?php echo $member->dob; ?></p>
                 <p>
                     <label><strong>Age:</strong></label>
                     <?php echo ucwords($member->age); ?> &nbsp;</p>

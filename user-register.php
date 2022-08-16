@@ -3,62 +3,6 @@ session_start();
 
 require_once "config.php";
 
-//error_reporting(E_ALL);
-//ini_set('display_errors', 1);
-
-require_once('recaptchalib.php');
-$secretkey = "6LfuG_YUAAAAABlUUjJzO--1MptsjLyjSblSZHad";
-$response = $_POST["g-recaptcha-response"];
-$verify = new recaptchalib($secretkey, $response);
-
-if (isset($_POST['h-captcha-response']) && !empty($_POST['h-captcha-response'])) //if(1)
-{
-    $secret = '0x9A2E2fa57f9925224dDA600cdbb231910A46d4F8';
-    $verifyResponse = file_get_contents('https://hcaptcha.com/siteverify?secret=' . $secret . '&response=' . $_POST['h-captcha-response'] . '&remoteip=' . $_SERVER['REMOTE_ADDR']);
-    $responseData = json_decode($verifyResponse);
-    if ($responseData->success) //if(1)
-    {
-        // Your code here to handle a successful verification
-        if ($_POST) {
-            //set posted value in session
-            $_SESSION["dob_day"] = $_POST["dob_day"];
-            $_SESSION["dob_month"] = $_POST["dob_month"];
-            $_SESSION["dob_year"] = $_POST["dob_year"];
-            $_SESSION["res_country"] = $_POST["country"];
-
-            //check if catptcha is valid
-            /*  if ( @$_SESSION["captcha_result"] != "1" ) {
-                    require_once( 'recaptchalib.php' );
-                    $privatekey = RECAPTCHA_PRIVATE_KEY;
-                    $resp       = recaptcha_check_answer( $privatekey, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"] );
-
-                    if ( ! $resp->is_valid ) {
-                        //captcha is not valid go back to previous page
-                        $_SESSION["captcha_result"] = "-1";
-                        header( "location:signup.php" );
-                    }
-                    */
-            $_SESSION["captcha_result"] = "1";
-            //}
-
-        } else {
-
-            //you just came here directly
-            //go to signup page first
-            if ($_SESSION["captcha_result"] != "1") {
-                header("location:signup.php");
-            }
-
-        }
-    } else {
-        $_SESSION["captcha_result"] = "-1";
-        header("location:signup.php");
-    }
-} else {
-    $_SESSION["captcha_result"] = "-1";
-    header("location:signup.php");
-}
-
 
 include("includes/header.php"); ?>
 

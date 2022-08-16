@@ -7,17 +7,9 @@ if ($_POST) {    //echo "test";exit;
 
     $email = $_POST['email'];
     $password = md5($_POST['password']);
+    include "adminpanel/includes/includes.php";
 
-
-    include "third_party/DataAccess.php";
-
-
-    $members = Member::find("all", array("conditions" => array("email=? and password=?", $email, $password)));
-    $user_data = false;
-    if (sizeof($members) > 0) {
-        $user_data = $members[0];
-    }
-
+    $user_data = sql::Select_single("select * from tbl_member where email='$email' AND password='$password'");
 
     if (!$user_data) {
 
@@ -26,7 +18,7 @@ if ($_POST) {    //echo "test";exit;
 
 
     } else {
-
+        $user_data = (object)$user_data;
         //set session
         //check activation status
         if ($user_data->acstatus == "INACTIVE") {

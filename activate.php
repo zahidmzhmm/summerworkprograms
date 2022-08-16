@@ -1,7 +1,6 @@
 <?php
 session_start();
-include('third_party/mail/class.phpmailer.php');
-include('config.php');
+include "adminpanel/includes/includes.php";
 
 function RandomString($length)
 {
@@ -18,15 +17,16 @@ function RandomString($length)
 $error_status = 1;
 
 if ($_POST) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-    include "third_party/DataAccess.php";
-    $member = Member::find("", array("email" => $_POST["email"]));
-    //$member = Member::find_by_email( $_POST["email"] );
-    if (sizeof($member) > 0 && $member->status != "CLOSED") {
+    $member = sql::Select_single("select * from tbl_member where email='$email'");
+    if ($member) {
         $_SESSION['err_msg'] = "EMAIL_EXIST";
         header("location:user-register.php");
         exit;
     }
+    $member = (object)$member;
 
 
     //all good to go
@@ -44,18 +44,13 @@ if ($_POST) {
     $actcode = RandomString(5);
     $actcodehash = md5($actcode);
 
-    /*For tesing need to hide this row.*/
-    //$actcodehash = $_POST["email"];
-
-    //create a new registration
-    //prepare data
     $member_data = [
-        "res_countries" => $_SESSION["res_country"],
+        "res_countries" => @$_SESSION["res_country"],
         "fname" => $_POST["firstname"],
         "lname" => $_POST["lastname"],
         "email" => $_POST["email"],
         "password" => $password,
-        "dob" => sprintf("%s-%s-%s", $_SESSION["dob_year"], $_SESSION["dob_month"], $_SESSION["dob_day"]),
+        "dob" => sprintf("%s-%s-%s", @$_SESSION["dob_year"], @$_SESSION["dob_month"], @$_SESSION["dob_day"]),
         "name_institution" => $_SESSION["institution"] == "Others" ? $_POST["Others"] : $_SESSION["institution"],
         "date_joined" => date('Y-m-d'),
         "acstatus" => "INACTIVE",
@@ -199,12 +194,12 @@ include("includes/header.php");
                     <li> Invalid Activation code.</li>
                 </ul>
                 <?php
-                session_unregister("err_msg");
+                unset($_SESSION['err_msg']);
             endif; ?>
             <p>
                 <?php if (!$error_status): ?>
                 <?php if (@$_SESSION['reg_status'] == 1):
-                    session_unregister('reg_status');
+                    unset($_SESSION['reg_status']);
                     ?>
                     Thank you very much for completing the registration to create a profile. A confirmation email has been sent to your address.
                 <?php endif; ?>

@@ -1,3 +1,6 @@
+<?php
+$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+?>
 <table width="100%">
     <tr>
         <td align="left" class="bar">Administrative zone of Animal Kingdom</td>
@@ -20,48 +23,45 @@
                 </tr>
                 <tr>
                     <td align="left" class="tdtitle">Browser :</td>
-                    <td align="left"><?PHP $browser = new Browser;
-                        echo $browser->getBrowser();
-                        echo "&nbsp;";
-                        echo $browser->getVersion(); ?> </td>
+                    <td align="left"><?= $_SERVER["HTTP_USER_AGENT"] ?> </td>
                 </tr>
                 <tr>
                     <td align="left" class="site-State">Total Item Statistics:</td>
                     <td align="left">&nbsp;</td>
                 </tr>
-                <tr>
+                <!--<tr>
                     <td align="left" class="tdtitle">Menu:</td>
                     <td align="left">
-                        <!--<?PHP $query = "SELECT * FROM kyl_menu";
-                        $record = mysql_query($query);
-                        echo mysql_num_rows($record);
-                        ?>--></td>
+                        <?PHP /*$query = "SELECT * FROM kyl_menu";
+                        $record = mysqli_query($conn, $query);
+                        echo mysqli_num_rows($record);
+                        */ ?></td>
                 </tr>
                 <tr>
                     <td align="left" class="tdtitle">Pages:</td>
                     <td align="left">
-                        <!--<?PHP $query = "SELECT * FROM kyl_content";
-                        $record = mysql_query($query);
-                        echo mysql_num_rows($record);
-                        ?>--></td>
-                </tr>
+                        <?PHP /*$query = "SELECT * FROM kyl_content";
+                        $record = mysqli_query($conn, $query);
+                        echo mysqli_num_rows($record);
+                        */ ?></td>
+                </tr>-->
                 <!--<tr>
             <td align="left" class="tdtitle">News</td>
             <td align="left"><?PHP $query = "SELECT * FROM kyl_news";
-                $record = mysql_query($query);
-                echo mysql_num_rows($record); ?></td>
+                $record = mysqli_query($conn, $query);
+                echo mysqli_num_rows($record); ?></td>
           </tr>-->
                 <!--<tr>
             <td align="left" class="tdtitle">FAQ</td>
             <td align="left"><?PHP $query = "SELECT * FROM kyl_faq";
-                $record = mysql_query($query);
-                echo mysql_num_rows($record); ?></td>
+                $record = mysqli_query($conn, $query);
+                echo mysqli_num_rows($record); ?></td>
           </tr>	-->
                 <!--<tr>
             <td align="left" class="tdtitle">Testimonial</td>
             <td align="left"><?PHP $query = "SELECT * FROM kyl_testimonial";
-                $record = mysql_query($query);
-                echo mysql_num_rows($record);
+                $record = mysqli_query($conn, $query);
+                echo mysqli_num_rows($record);
                 ?></td>
           </tr>		-->
             </table>

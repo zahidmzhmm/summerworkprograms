@@ -12,7 +12,6 @@
             @$module = $_GET['modules'];
 
             switch ($module) {
-
                 case'books':
                     require_once("modules/$module/$module.php");
                     break;
@@ -20,7 +19,6 @@
                     require_once("modules/$module/$module.php");
                     break;
                 default:
-
                     kernel::redirect();
                     break;
 

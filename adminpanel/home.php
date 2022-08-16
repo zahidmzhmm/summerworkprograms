@@ -1,12 +1,13 @@
 <?php
 session_start();
 include('includes/includes.php');
-session::checkSession();
-
-$data = Admin::find($_SESSION["admin_user_id"]);
-
-//	$sql = "SELECT title,sitename FROM tbl_admin ";
-//	$data = sql::Select_single($sql);
+$session = new session();
+$session::checkSession();
+if (!$_SESSION['admin_user_id']){
+    header("location:adminindex.php");
+}
+$user_id = $_SESSION["admin_user_id"];
+$data = (object) sql::Select_single("SELECT title,sitename FROM tbl_admin where user_id='$user_id'");
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"

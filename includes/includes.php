@@ -1,7 +1,7 @@
 <?php
 
 
-//require_once('adminpanel/config/config.php');
+require_once('config.php');
 
 require_once('adminpanel/classes/class.session.php');
 require_once('adminpanel/classes/class.kernel.php');

@@ -30,7 +30,8 @@
 <?php */ ?>    </tr>
     <tr>
         <td class="menu" colspan="2"><a href="home.php?modules=appointment&amp;action=view">
-                <span>  Appointment Date Time List </span>
+                <?php if (@$_GET['modules'] == 'appointment') echo '<b>  Appointment Date Time List </b>'; else    echo '  Appointment Date Time List '; ?>
+                <span></span>
             </a></td>
     </tr>
     <tr>

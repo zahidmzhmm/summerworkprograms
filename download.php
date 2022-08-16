@@ -5,9 +5,10 @@ if (!@$_SESSION['user_id']) {
     header('location:login.php');
 }
 
-include "third_party/DataAccess.php";
+include "adminpanel/includes/includes.php";
 
-$member = Member::find($_SESSION["user_id"]);
+$user_id = $_SESSION['user_id'];
+$member = (object)sql::Select_single("select * from tbl_member where users_id='$user_id'");
 
 if (!$member->regform_complete) {
     $_SESSION["user_id"] = $member->users_id;
@@ -16,9 +17,9 @@ if (!$member->regform_complete) {
 }
 
 $has_file = false;
-
+$id = $_GET["id"];
 ?>
-<?php include("includes/headerNew.php"); ?>
+<?php include("includes/header.php"); ?>
 <section class="grid">
     <div class="block-border">
         <h1>Download Links </h1>
@@ -63,7 +64,7 @@ $has_file = false;
 
                 <?php
 
-                $list = Member::find($_GET["id"]);
+                $list = (object)sql::Select_single("select * from tbl_member where users_id='$id'");
                 if ($list != null):
                     $list = unserialize($list->upload_document_list);
 
@@ -81,4 +82,4 @@ $has_file = false;
         </div>
     </div>
 </section>
-<?php include("includes/footerNew.php"); ?>
+<?php include("includes/footer.php"); ?>

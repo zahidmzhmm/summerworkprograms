@@ -2,6 +2,7 @@
 session_start();
 
 include "includes/includes.php";
+$session = new session();
 
 
 ################################# INPUT FILTER ############################################
@@ -24,22 +25,20 @@ if ($password == '') {
 #################################################################################################
 
 
-$admin_user = Admin::find_all_by_username_and_password($username, $password, array("limit" => 1));
+$admin_user = query("select * from tbl_admin where username='$username' and password='$password'");
 
+$count = mysqli_num_rows($admin_user);
+$data = mysqli_fetch_array($admin_user);
 
-if (sizeof($admin_user) > 0) {
-    $raw = $admin_user[0];
-    $user_name = $raw->username;
-    $userid = $raw->user_id;
+if ($count > 0) {
+    $user_name = $data['username'];
+    $userid = $data['user_id'];
     $userinfo = array(
         'admin_user_name' => $user_name,
         'admin_user_id' => $userid
     );
-
-    session::setSession($userinfo);
-
+    $session::setSession($userinfo);
     return_to_page('home.php');
-
 
 } else {
     return_to_page('adminindex.php?error=login');

@@ -1,19 +1,23 @@
 <?php
 
-$sort=@$_GET["sort"]?$_GET["sort"]:"users_id asc";
-$keywords=@$_GET["keywords"]?$_GET["keywords"]:"";
-$conditions="fname LIKE '%$keywords%' OR lname LIKE '%$keywords%' OR email LIKE '%$keywords%'";
+$sort = @$_GET["sort"] ? $_GET["sort"] : "users_id asc";
+$keywords = @$_GET["keywords"] ? $_GET["keywords"] : "";
+$conditions = "fname LIKE '%$keywords%' OR lname LIKE '%$keywords%' OR email LIKE '%$keywords%'";
 
-$page_size    = 15;
+$page_size = 20;
 $current_page = @$_GET["pg"] ? $_GET["pg"] : 1;
-$offset=$page_size*($current_page-1);
+$offset = $page_size * ($current_page - 1);
 
-$query_records=Member::find_by_sql("select count(*) num_rows from tbl_member  where $conditions");
-$total_records=$query_records[0]->num_rows;
-$user_data = Member::find( "all", array('conditions' => $conditions, "order"=>$sort, "limit"=>$page_size, "offset"=>$offset) );
-
-
-
+$query_records = sql::Select_all("select count(*) num_rows from tbl_member  where $conditions");
+$total_records = $query_records[0]['num_rows'];
+//$user_data = Member::find("all", array('conditions' => $conditions, "order" => $sort, "limit" => $page_size, "offset" => $offset));
+array('conditions' => $conditions, "order" => $sort, "limit" => $page_size, "offset" => $offset);
+$sql = "select * from tbl_member ";
+if (!empty($_GET["sort"]) || !empty($_GET["keywords"])) {
+    $sql .= "where $conditions ";
+}
+$sql .= "order by $sort limit $offset,$page_size";
+$user_data = sql::Select_all($sql);
 //var_dump($p_data);
 ?>
 <style type="text/css">
@@ -36,33 +40,33 @@ $user_data = Member::find( "all", array('conditions' => $conditions, "order"=>$s
                     <tr>
                         <td width="15%"><strong>Sort: </strong>
                             <select name="sort" id="sort" size="1">
-                                <option value="users_id" <?php if ( $sort == 'users_id' ) {
-									echo "selected";
-								} ?>> -- select --
+                                <option value="users_id" <?php if ($sort == 'users_id') {
+                                    echo "selected";
+                                } ?>> -- select --
                                 </option>
-                                <option value="fname" <?php if ( $sort == 'fname' ) {
-									echo "selected";
-								} ?>>Name
+                                <option value="fname" <?php if ($sort == 'fname') {
+                                    echo "selected";
+                                } ?>>Name
                                 </option>
-                                <option value="gender" <?php if ( $sort == 'gender' ) {
-									echo "selected";
-								} ?>>Gender
+                                <option value="gender" <?php if ($sort == 'gender') {
+                                    echo "selected";
+                                } ?>>Gender
                                 </option>
-                                <option value="email" <?php if ( $sort == 'email' ) {
-									echo "selected";
-								} ?>>Email
+                                <option value="email" <?php if ($sort == 'email') {
+                                    echo "selected";
+                                } ?>>Email
                                 </option>
-                                <option value="date_joined" <?php if ( $sort == 'date_joined' ) {
-									echo "selected";
-								} ?>>Date Joined
+                                <option value="date_joined" <?php if ($sort == 'date_joined') {
+                                    echo "selected";
+                                } ?>>Date Joined
                                 </option>
-                                <option value="status" <?php if ( $sort == 'status' ) {
-									echo "selected";
-								} ?>>Status
+                                <option value="status" <?php if ($sort == 'status') {
+                                    echo "selected";
+                                } ?>>Status
                                 </option>
                             </select></td>
                         <td width="17%"><strong>Keywords: </strong>
-                            <input type="text" name="keywords" value="<?=$keywords?>"/></td>
+                            <input type="text" name="keywords" value="<?= $keywords ?>"/></td>
                         <td width="68%"><input type="submit" value="Search"/></td>
                     </tr>
                 </table>
@@ -83,21 +87,21 @@ $user_data = Member::find( "all", array('conditions' => $conditions, "order"=>$s
 
                     <td colspan="2">Action</td>
                 </tr>
-				<?php
-				if ( sizeof( $user_data ) ) {
-					$counter = ($current_page-1) * $page_size;
-					foreach ( $user_data as $user_item ) {
-						$counter ++;
+                <?php
+                if (sizeof($user_data)) {
+                    $counter = ($current_page - 1) * $page_size;
+                    foreach ($user_data as $item) {
+                        $counter++;
+                        $user_item = (object)$item;
 
-
-						?>
+                        ?>
                         <tr>
                             <td align="center"><?= $counter; ?></td>
-                            <td><?php echo trim(ucwords( $user_item->fname )); ?> <?php echo trim(ucwords( $user_item->midname )); ?> <?php echo trim(ucwords( $user_item->lname )); ?></td>
-                            <td> <?= ucwords( $user_item->gender ); ?></td>
+                            <td><?php echo trim(ucwords($user_item->fname)); ?> <?php echo trim(ucwords($user_item->midname)); ?> <?php echo trim(ucwords($user_item->lname)); ?></td>
+                            <td> <?= ucwords($user_item->gender); ?></td>
                             <td><?= $user_item->email; ?></td>
                             <td><a href="#">
-									<?= $user_item->date_joined->format( "Y-m-d" ); ?>
+                                    <?= $user_item->date_joined; ?>
                                 </a></td>
                             <td><?php echo $user_item->status; ?></td>
 
@@ -132,17 +136,17 @@ $user_data = Member::find( "all", array('conditions' => $conditions, "order"=>$s
 
                             </td>
                         </tr>
-					<?php }
-				} ?>
+                    <?php }
+                } ?>
                 <tr>
                     <td colspan="8" align="center"><?php
 
-                        echo paging_control("home.php?modules=users&action=users",  $total_records, $page_size, $current_page );
-//						if ( $paging_data['paging'] ) {
-//							echo $paging_data['paging'];
-//						}
+                        echo paging_control("home.php?modules=users&action=users", $total_records, $page_size, $current_page);
+                        //						if ( $paging_data['paging'] ) {
+                        //							echo $paging_data['paging'];
+                        //						}
 
-						?></td>
+                        ?></td>
                 </tr>
             </table>
 

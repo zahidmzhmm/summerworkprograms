@@ -1,11 +1,10 @@
 <?php
 session_start();
-include "includes/includes.php";
-include "third_party/DataAccess.php";
+include "adminpanel/includes/includes.php";
 
 if (!@$_SESSION['user_id'])
     header('location:login.php');
-
+$id = $_SESSION['user_id'];
 $send_to_profile = false;
 $message = "";
 $allowed_types = array(".pdf", ".jpg");
@@ -13,7 +12,7 @@ $allowed_types = array(".pdf", ".jpg");
 
 if ($_POST) {
 
-    $list = Member::find($_SESSION['user_id']);
+    $list = (object)sql::Select_single("select * from tbl_member where users_id='$id'");
     $list = unserialize($list->support_document_list);
 
     $files_uploaded = 0;
@@ -134,7 +133,7 @@ if ($_POST) {
 
 }
 
-$member_data = Member::find($_SESSION['user_id']);
+$member_data = (object)sql::Select_single("select * from tbl_member where users_id='$id'");
 // $members_data = unserialize($member_data->support_document_list);
 // var_dump($members_data);return;
 
@@ -164,7 +163,7 @@ endif; ?>
 
             <fieldset>
                 <?php
-                $list = Member::find($_SESSION['user_id']);
+                $list = (object)sql::Select_single("select * from tbl_member where users_id='$id'");
                 $users_id = $_SESSION["user_id"];
                 //var_dump($users_id);return;
                 $list = unserialize($list->support_document_list);
