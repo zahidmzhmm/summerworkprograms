@@ -17,8 +17,7 @@ include("includes/header.php"); ?>
             <fieldset>
 
                 <?php
-
-                echo "invalid capta result: " . $_SESSION["captcha_result"] == "-1";
+                echo "invalid capta result: " . @$_SESSION["captcha_result"] == "-1";
 
                 // echo "dddd: ".isset($_SESSION['eMsgg']);
 

@@ -45,12 +45,12 @@ if ($_POST) {
     $actcodehash = md5($actcode);
 
     $member_data = [
-        "res_countries" => @$_SESSION["res_country"],
+        "res_countries" => $_SESSION["res_country"],
         "fname" => $_POST["firstname"],
         "lname" => $_POST["lastname"],
         "email" => $_POST["email"],
         "password" => $password,
-        "dob" => sprintf("%s-%s-%s", @$_SESSION["dob_year"], @$_SESSION["dob_month"], @$_SESSION["dob_day"]),
+        "dob" => sprintf("%s-%s-%s", $_SESSION["dob_year"], $_SESSION["dob_month"], $_SESSION["dob_day"]),
         "name_institution" => $_SESSION["institution"] == "Others" ? $_POST["Others"] : $_SESSION["institution"],
         "date_joined" => date('Y-m-d'),
         "acstatus" => "INACTIVE",
