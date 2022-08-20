@@ -858,7 +858,7 @@ $form_wizard = 1;
                                     <!--                                <input class="form-control form-control-inline input-medium date-picker" size="16" type="text" value="" />-->
 
                                     <input type="text" name="holiday_start_date" id="holiday_start_date"
-                                           value="<?= @$data->holiday_start_date ? $data->holiday_start_date->format('Y-m-d') : ""; ?>"
+                                           value="<?= @$data->holiday_start_date ? $data->holiday_start_date : ""; ?>"
                                            class="form-control date-picker"/>
                                 </div>
                             </div>
@@ -869,7 +869,7 @@ $form_wizard = 1;
                                     Holiday
                                     Ends:</label>
                                 <div class="col-md-7"><input type="text" name="holiday_end_date" id="holiday_end_date"
-                                                             value="<?= @$data->holiday_end_date ? $data->holiday_end_date->format('Y-m-d') : ""; ?>"
+                                                             value="<?= @$data->holiday_end_date ? $data->holiday_end_date : ""; ?>"
                                                              class="form-control date-picker"/>
                                 </div>
                             </div>
@@ -881,7 +881,7 @@ $form_wizard = 1;
                                     Graduation
                                     Date:</label>
                                 <div class="col-md-7"><input type="text" name="expect_grad_date" id="expect_grad_date"
-                                                             value="<?= @$data->expect_grad_date ? $data->expect_grad_date->format('Y-m-d') : ""; ?>"
+                                                             value="<?= @$data->expect_grad_date ? $data->expect_grad_date : ""; ?>"
                                                              class="form-control date-picker"/>
                                 </div>
                             </div>
