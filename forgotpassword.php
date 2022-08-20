@@ -1,18 +1,9 @@
 <?php
-session_start();
-include('third_party/mail/class.phpmailer.php');
-include("config.php");
+include "app/main.php";
 
 if ($_POST) {
-
-
     $email = $_POST['email'];
-
-    include "third_party/DataAccess.php";
-
-
-    $members = Member::find_by_email($_POST["email"]);
-
+    $members = \app\Sql::Select_single("select * from tbl_member where email='$email'");
     if ($members == null) {
         header('Location: forgotpassword.php?code=1');
     }
@@ -20,21 +11,18 @@ if ($_POST) {
     if ($members != null) {
 
         $password_token = mt_rand(100000, 999999);
-        $members->password_reset = $password_token;
-        $members->save();
-
-        $url = $_SERVER['SERVER_NAME'] . "/password-reset.php?email=" . $email . "&token=" . $password_token;
-
-        $mail1 = new PHPMailer();
-        $mail1->IsHTML(true);
-        $mail1->IsMail();
-        $mail1->SetFrom(NO_REPLY_EMAIL, "Summer Work Programs");
-        $mail1->AddAddress($_POST["email"], "");
-        $mail1->Subject = "Password Reset Message";
-        $mail1->Body = "Go to this link to reset your password " . $url;
-        $msgAd .= "<br><br>" .
+        $medoo = new \Medoo\Medoo($database);
+        $medoo->update('tbl_member', ['password_reset' => $password_token], ['email' => $email]);
+        $url = SITE_URL . "password-reset.php?email=" . $email . "&token=" . $password_token;
+        $mail1 = new \app\Mailer();
+        $mail1->mail->addAddress($_POST["email"]);
+        $mail1->mail->Subject = "Password Reset Message";
+        $mail1->mail->Body = "Go to this link to reset your password " . $url;
+        $msgAd = "<br><br>" .
             " 
-            Go to this link to reset your password " . $url . "
+            Go to this link to reset your password ";
+        $msgAd .= "<a href='" . $url . "'>" . $url . "</a>";
+        $msgAd .= "
             
              <br/><br/>
              __________ <br />
@@ -46,8 +34,8 @@ if ($_POST) {
             www.summerworkprograms.com.<br/>";
 
         //$msgAd = preg_replace( "[\]", '', $msgAd );
-
-        if ($mail1->Send()) {
+        $mail1->mail->msgHTML($msgAd);
+        if ($mail1->mail->send()) {
         }
 
     }
@@ -68,7 +56,8 @@ $hide_slider = true;
                 <fieldset>
                     <p>
                         <label for="email">Email Address:</label>
-                        <input type="text" name="email" id="email" value="" class="input-type-text"/>
+                        <input type="text" name="email" id="email" value="<?= @$_REQUEST['email'] ?>"
+                               class="input-type-text"/>
                     </p>
                 </fieldset>
                 <fieldset class="grey-bg no-margin">

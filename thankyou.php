@@ -2,6 +2,7 @@
 include "app/main.php";
 
 $referenceid = "";
+$medoo = new \Medoo\Medoo($database);
 if ($_POST) {
 
     $save_and_continue = @$_POST['save_and_continue'];
@@ -94,7 +95,8 @@ if ($_POST) {
         $travel_stay_duration = $_POST["travel_stay_duration"];
         $travel_year = $_POST["travel_year"];
 
-        TravelHistory::table()->delete(array('user_id' => $users_id));
+        $medoo->delete('tbl_travel_history', array('user_id' => $users_id));
+//        TravelHistory::table()->delete();
         foreach ($travel_country as $idx => $t_country) {
             $travel_history_data = [
                 "user_id" => $users_id,
@@ -103,8 +105,7 @@ if ($_POST) {
                 "stay_duration" => $travel_stay_duration[$idx],
                 "year" => $travel_year[$idx]
             ];
-            $travel_history = new TravelHistory($travel_history_data);
-            $travel_history->save();
+            $medoo->insert('tbl_travel_history', $travel_history_data);
         }
     }
 
@@ -114,7 +115,8 @@ if ($_POST) {
         $visa_decision = $_POST["visa_decision"];
         $visa_application = $_POST["visa_application"];
 
-        VisaHistory::table()->delete(array('user_id' => $users_id));
+        $medoo->delete('tbl_visa_history', array('user_id' => $users_id));
+//        VisaHistory::table()->delete(array('user_id' => $users_id));
         foreach ($visa_purpose as $idx => $v_purpose) {
             $visa_history_data = [
                 "user_id" => $users_id,
@@ -123,8 +125,7 @@ if ($_POST) {
                 "visa_decision" => $visa_decision[$idx],
                 "visa_application" => $visa_application[$idx]
             ];
-            $visa_history = new VisaHistory($visa_history_data);
-            $visa_history->save();
+            $medoo->insert('tbl_visa_history', $visa_history_data);
         }
     }
     $target_file = null;
@@ -144,10 +145,7 @@ if ($_POST) {
             file_put_contents("$upload_path/$file_name", $proImage);
         }
     }
-    $member = Member::find($users_id);
-    $referenceid = $member->referenceid;
-    $member->update_attributes($input_data);
-    $member->save();
+    $member = $medoo->update('tbl_member', $input_data, ['users_id' => $users_id]);
 
     if ($save_and_continue) {
         //print_r( $input_data );
@@ -190,14 +188,14 @@ if ($_POST) {
  Regards, <br/>
 Summer Work Programs Processing Team </p>";
 
-        $mail1->mail->MsgHTML($msg);
+        $mail1->mail->msgHTML($msg);
 
         $address = $_POST["email"];
         $pdf_file_name = strtolower($_POST["fname"] . "_" . $_POST["lname"]);
-        $mail1->mail->AddStringAttachment(GetCompletedForm($_SESSION["user_id"], "S"), "{$pdf_file_name}.pdf");
-        $mail1->mail->AddAddress($address, @$_POST["fname"] . " " . @$_POST["lname"]);
+        //$mail1->mail->AddStringAttachment(GetCompletedForm($_SESSION["user_id"], "S"), "{$pdf_file_name}.pdf");
+        $mail1->mail->addAddress($address, @$_POST["fname"] . " " . @$_POST["lname"]);
 
-        $mail1->mail->Send();
+        $mail1->mail->send();
     endif;
 
 } else {

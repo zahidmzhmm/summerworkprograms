@@ -1,27 +1,28 @@
 <?php
 
-include("config.php");
-include "third_party/DataAccess.php";
+include("app/main.php");
 
 if (isset($_POST['submit'])) {
-    $members = Member::find_by_email($_POST["email"]);
-    $members->password = md5($_POST["new_password"]);
-    $members->password_reset = null;
-    $members->save();
-    header("location:login.php");
+    $medoo = new \Medoo\Medoo($database);
+    if (!empty($_POST['email']) && !empty($_POST['new_password'])) {
+        $update = $medoo->update('tbl_member', ['password' => md5($_POST['new_password'])], ['email' => $_POST['email']]);
+        header("location:login.php");
+    } else {
+        header("location:login.php");
+    }
     exit;
 }
 
 $email = $_GET['email'];
 $token = $_GET['token'];
+if (empty($email) || empty($token)) {
+    header("location:login.php");
+}
 
-$members = Member::find_by_email($email);
-
-if ($members->password_reset == $token) {
-    ?>
-
-    <?php include("includes/header.php"); ?>
-
+$members = \app\Sql::Select_single("select * from tbl_member where email='$email' and password_reset='$token'");
+if ($members && !empty($members)) {
+    $members = (object)$members;
+    include("includes/header.php"); ?>
     <section class="grid">
         <div class="block-border">
             <h1>Reset Password </h1>
@@ -42,9 +43,9 @@ if ($members->password_reset == $token) {
             </form>
         </div>
     </section>
-    <?php include("includes/footer.php"); ?>
-
-<?php } else {
+    <?php
+    include("includes/footer.php");
+} else {
     echo "<h2> Invalid Link </h2>";
 }
 ?>

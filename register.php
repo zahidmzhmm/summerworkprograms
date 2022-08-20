@@ -30,7 +30,7 @@ if ($_POST) {
         $member = (object)$member;
         $password = $member->referenceid;
         $referenceid = strtoupper(substr(md5(uniqid(rand())), 0, 8));
-        $update_data = \app\Sql::update("update tbl_member set `acstatus`='ACTIVE', `actcode`='' where `referenceid`='$referenceid'");
+        $update_data = \app\Sql::update("update tbl_member set `acstatus`='ACTIVE', `actcode`='' where `referenceid`='$password'");
         if (!$update_data) {
             @$_SESSION["err_msg"] = "INVALID_CODE";
             session_destroy();

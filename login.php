@@ -1,15 +1,13 @@
 <?php
-session_start();
-include("config.php");
+include("app/main.php");
 
 
 if ($_POST) {    //echo "test";exit;
 
     $email = $_POST['email'];
     $password = md5($_POST['password']);
-    include "adminpanel/includes/includes.php";
 
-    $user_data = sql::Select_single("select * from tbl_member where email='$email' AND password='$password'");
+    $user_data = \app\Sql::Select_single("select * from tbl_member where email='$email' AND password='$password'");
 
     if (!$user_data) {
 

@@ -6,9 +6,8 @@ if (!@$_SESSION['user_id']) {
 }
 
 $user_id = $_SESSION["user_id"];
-$member = \app\models\Member::find($user_id);
-var_dump($member);
-exit;
+$medoo = new \Medoo\Medoo($database);
+
 $member = (object)\app\Sql::Select_single("select * from tbl_member where users_id='$user_id'");
 
 if (!$member->regform_complete) {
