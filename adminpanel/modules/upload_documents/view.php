@@ -1,15 +1,11 @@
 <?php
 $id = $_GET["id"];
-$member = (object)sql::Select_single("select * from tbl_member where users_id='$id'");
-// $list = UploadDocumentList::first();
-
+$member = (object)\app\Sql::Select_single("select * from tbl_member where users_id='$id'");
 if ($member != null) {
     $list = unserialize($member->upload_document_list);
 }
-// print_r($list);
-// return;
 ?>
-<form method="post" action="update-upload-list.php?id=<?= $member->id ?>">
+<form method="post" action="update-upload-list.php?id=<?= $member->users_id ?>">
     <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
             <td align="right">&nbsp;</td>
@@ -38,7 +34,7 @@ if ($member != null) {
                     }
                     ?>
                     <?php
-                    for ($i = count($list); $i < 5; $i++) {
+                    for ($i = count($list); $i < count($list) + 1; $i++) {
                         ?>
                         <tr>
                             <td><?= $i + 1; ?></td>

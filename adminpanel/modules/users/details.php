@@ -3,10 +3,10 @@
 if (isset($_GET['usersid'])) {
 $id = $_GET['usersid'];
 
-$user_data = (object)sql::Select_single("select * from tbl_member where users_id='$id'");
+$user_data = (object)app\Sql::Select_single("select * from tbl_member where users_id='$id'");
 
-$travel_history = sql::Select_single("select * from tbl_travel_history where user_id='$id'");
-$visa_history = sql::Select_single("select * from tbl_visa_history where user_id='$id'");
+$travel_history = app\Sql::Select_all("select * from tbl_travel_history where user_id='$id'");
+$visa_history = app\Sql::Select_all("select * from tbl_visa_history where user_id='$id'");
 
 
 $parent_address_n_sponsor = [
@@ -277,26 +277,27 @@ $pp_photo_path = "../user_uploads/$id/pp_photo.jpg";
         <td></td>
     </tr>
 
-    <?php if ($user_data->have_travel_history): ?>
-
-
+    <?php if ($user_data->have_travel_history) {
+        ?>
         <tr>
             <td colspan="2">
-                <table>
+                <table width="100%">
                     <tr>
                         <th>Country</th>
                         <th>Purpose</th>
                         <th>Duration</th>
                         <th>Year</th>
                     </tr>
-                    <?php foreach ($travel_history as $travel): ?>
+                    <?php foreach ($travel_history as $travel) {
+                        $travel = (object)$travel;
+                        ?>
                         <tr>
                             <td><?= $travel->country ?></td>
                             <td><?= $travel->purpose ?></td>
                             <td><?= $travel->stay_duration ?></td>
                             <td><?= $travel->year ?></td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php } ?>
                 </table>
 
 
@@ -305,7 +306,7 @@ $pp_photo_path = "../user_uploads/$id/pp_photo.jpg";
         <tr>
             <td colspan="2">&nbsp;</td>
         </tr>
-    <?php endif; ?>
+    <?php } ?>
 
 
     <tr>
@@ -326,14 +327,16 @@ $pp_photo_path = "../user_uploads/$id/pp_photo.jpg";
 
         <tr>
             <td colspan="2">
-                <table>
+                <table width="100%">
                     <tr>
                         <th>Purpose</th>
                         <th>Year</th>
                         <th>Visa Decision</th>
                         <th>Place of Visa Applicaiton</th>
                     </tr>
-                    <?php foreach ($visa_history as $visa): ?>
+                    <?php foreach ($visa_history as $visa):
+                        $visa = (object)$visa;
+                        ?>
                         <tr>
                             <td><?= $visa->purpose ?></td>
                             <td><?= $visa->year ?></td>
@@ -518,7 +521,7 @@ $pp_photo_path = "../user_uploads/$id/pp_photo.jpg";
 
     <?php
     $id = $_GET["usersid"];
-    $list = (object)sql::Select_single("select * from tbl_member where users_id='$id'");
+    $list = (object)app\Sql::Select_single("select * from tbl_member where users_id='$id'");
     $list = unserialize($list->support_document_list);
 
     foreach ($list as $index => $item):

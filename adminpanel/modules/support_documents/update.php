@@ -1,7 +1,5 @@
 <?php
 include "includes/includes.php";
-use Classes/class.sql.php as sql;
-
 $new_list = $_POST["new_list"];
 
 $latest_list = [];

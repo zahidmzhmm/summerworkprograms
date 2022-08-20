@@ -1,9 +1,9 @@
 <?php
 $id = $_GET["id"];
-$member = (object)sql::Select_single("select * from tbl_member where users_id='$id'");
+$member = (object)\app\Sql::Select_single("select * from tbl_member where users_id='$id'");
 $list = unserialize($member->support_document_list);
 ?>
-<form method="post" action="update-document-list.php?id=<?= $member->id; ?>">
+<form method="post" action="update-document-list.php?id=<?= $member->users_id; ?>">
     <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
             <td align="right">&nbsp;</td>
@@ -30,7 +30,7 @@ $list = unserialize($member->support_document_list);
                     <?php }
                     ?>
                     <?php
-                    for ($i = count($list); $i < 7; $i++) {
+                    for ($i = count($list); $i < count($list) + 1; $i++) {
                         ?>
                         <tr>
                             <td><?= $i + 1; ?></td>

@@ -1,11 +1,11 @@
 <?php
 $id = $_GET['id'];
-$order_data = (object)sql::Select_single("select * from tbl_member where users_id='$id'");
+$order_data = (object)app\Sql::Select_single("select * from tbl_member where users_id='$id'");
 $type = 'onsite';
 if ($order_data->appointment_type != "") {
     $type = $order_data->appointment_type;
 }
-$list = sql::Select_all("select * from appointment_time_list where type='$type'");
+$list = app\Sql::Select_all("select * from appointment_time_list where type='$type'");
 ?>
 <script type="text/javascript">
     $(function () {
@@ -86,20 +86,31 @@ $list = sql::Select_all("select * from appointment_time_list where type='$type'"
                     <tr>
                         <td width="20%" align="left" valign="top">Appointment Date / Time:</td>
                         <td width="80%" align="left">
-                            <input list="browsers" value="<?= $order_data->appointment_date_time; ?>"
+                            <input list="browsers" type="datetime-local"
+                                   value="<?= $order_data->appointment_date_time; ?>"
                                    name="appointment_date_time" class="form-control" autocomplete="off">
                             <?php
                             if ($list != null) {
                                 ?>
                                 <datalist id="browsers">
-                                    <?php foreach ($list as $item){
-                                        ?>
+                                    <?php foreach ($list
+
+                                    as $item){
+                                    ?>
                                     <option value="<?php echo $item['date_time'] ?>">
                                         <?php } ?>
                                 </datalist>
                             <?php } ?>
                         </td>
                     </tr>
+
+                    <tr>
+                        <td width="20%" align="left" valign="top">Fee:</td>
+                        <td width="80%" align="left">
+                            <input type="text" value="<?= $order_data->appointment_fee ?>" name="fee" class="form-control">
+                        </td>
+                    </tr>
+
 
                     <tr>
                         <td align="left">&nbsp;</td>

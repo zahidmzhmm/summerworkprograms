@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(0);
 $sort = @$_GET["sort"] ? $_GET["sort"] : "users_id asc";
 $keywords = @$_GET["keywords"] ? $_GET["keywords"] : "";
 $conditions = "fname LIKE '%$keywords%' OR lname LIKE '%$keywords%' OR email LIKE '%$keywords%'";

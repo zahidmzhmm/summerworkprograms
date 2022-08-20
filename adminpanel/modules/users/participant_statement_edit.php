@@ -1,6 +1,6 @@
 <?php
 $id = $_GET['id'];
-$order_data = (object)sql::Select_single("select * from tbl_member where users_id='$id'");
+$order_data = (object)app\Sql::Select_single("select * from tbl_member where users_id='$id'");
 $participant_statement_link = $order_data->participant_statement_link;
 ?>
 <table width="100%">

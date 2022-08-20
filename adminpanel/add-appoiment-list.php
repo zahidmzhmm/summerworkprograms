@@ -5,6 +5,7 @@ $new_date_time = $_POST["new_date_time"];
 $type = $_POST['type'];
 
 if ($new_date_time != null && $new_date_time != "") {
+    $new_date_time = \Carbon\Carbon::parse($new_date_time);
     $insert = app\Sql::insert("INSERT INTO appointment_time_list (date_time,type) VALUES ('$new_date_time','$type')");
     if ($insert === TRUE) {
         echo "Record updated successfully";
