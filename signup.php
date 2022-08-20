@@ -1,20 +1,18 @@
 <?php
+
 error_reporting(1);
 
-session_start();
-ob_start();
-include("config.php");
-include('includes/includes.php');
+include __DIR__ . '/app/main.php';
 
-// if(@$_SESSION["captcha_result"]=="-1" ){
-// 	$country=$_SESSION["res_country"];
-// 	$dd=$_SESSION["dob_day"];
-// 	$mm=$_SESSION["dob_month"];
-// 	$yy=$_SESSION["dob_year"];
-// }
+if (@$_SESSION["res_country"]) {
+    $country = $_SESSION["res_country"];
+    $dd = $_SESSION["dob_day"];
+    $mm = $_SESSION["dob_month"];
+    $yy = $_SESSION["dob_year"];
+}
+
+include("includes/header.php");
 ?>
-
-<?php include("includes/header.php"); ?></td>
 
 <style>
     #recaptcha_response_field {
@@ -117,7 +115,7 @@ include('includes/includes.php');
                     </select>
 
                 </p>
-
+                <input type="hidden" name="register_posted" value="yes">
                 <p class="captcha">
                     <label for="dob_month">PLEASE VERIFY CAPTCHA:</label>
                 <div class="h-captcha" data-sitekey="bf00817b-aad5-4797-b063-6f100319a9cb">
@@ -139,7 +137,6 @@ include('includes/includes.php');
                 </p>
             </fieldset>
 
-            <!--<div class="g-recaptcha" data-sitekey="6LfzbQoTAAAAABcXnFYd2JwWfpVeylB9kXE8bHnD"></div>	-->
         </form>
     </div>
 </section>

@@ -1,9 +1,6 @@
 <?php
-session_start();
 
-include "config.php";
-include "third_party/mail/class.phpmailer.php";
-include "third_party/DataAccess.php";
+include "app/main.php";
 
 function createcountrycombo($CSelectedValue, $CComboName, $JS, $cssClass = "")
 {
@@ -25,41 +22,27 @@ function createcountrycombo($CSelectedValue, $CComboName, $JS, $cssClass = "")
 $data = false;
 if ($_POST) {
 
-    //$act_codehash = $_POST["act_code"];
-    $act_codehash = md5($_POST["act_code"]);
+    $act_codehash = $_POST["act_code"];
+//    $act_codehash = md5($_POST["act_code"]);
+    $member = \app\Sql::Select_single("select * from tbl_member where actcode='$act_codehash'");
 
-    $password = "";
-    $members = Member::all('all', array(
-        'conditions' => array(
-            'acstatus = ? and actcode = ?',
-            'INACTIVE',
-            $act_codehash
-        )
-    ));
-
-    if (sizeof($members) > 0) {
-        $member = $members[0];
+    if ($member && !empty($member)) {
+        $member = (object)$member;
         $password = $member->referenceid;
         $referenceid = strtoupper(substr(md5(uniqid(rand())), 0, 8));
-        $update_data = array("acstatus" => 'ACTIVE', "actcode" => "", "referenceid" => $referenceid);
-        $success = $member->update_attributes($update_data);
-        if (!$success) {
+        $update_data = \app\Sql::update("update tbl_member set `acstatus`='ACTIVE', `actcode`='' where `referenceid`='$referenceid'");
+        if (!$update_data) {
             @$_SESSION["err_msg"] = "INVALID_CODE";
             session_destroy();
             header("location:activate.php");
             exit;
         }
-        @$_SESSION["user_id"] = @$member->users_id;
+        $_SESSION["user_id"] = $member->users_id;
         $data = $member;
 
         //send welcome email to users
-        $mail1 = new PHPMailer();
-        //$mail1->SMTPDebug  =1;
-        $mail1->IsHTML(true);
-        $mail1->IsMail();
-
-        $mail1->SetFrom(NO_REPLY_EMAIL, "Summer Work Programs");
-        $mail1->Subject = "Welcome to Summer Work Programs";
+        $mail1 = new \app\Mailer();
+        $mail1->mail->Subject = "Welcome to Summer Work Programs";
 
         $msg = "<p>Dear  $data->fname  $data->lname,</p>
 			 <br><p>Your account is now activated.</p></br>
@@ -82,22 +65,20 @@ if ($_POST) {
 		 www.summerworkprograms.com.</p>";
 
         //$msg = preg_replace( "\\", '', $msg );
-        $mail1->MsgHTML($msg);
+        $mail1->mail->MsgHTML($msg);
 
-        $address = $data->email;
-        $mail1->AddAddress($address, $data->fname . " " . $data->lname);
+        $mail1->mail->AddAddress($data->email, $data->fname . " " . $data->lname);
 
-        @$mail1->Send();
+        @$mail1->mail->Send();
     }
 
 }
-
-if (!@$_SESSION["user_id"]) {
+if (!isset($_SESSION["user_id"])) {
     header("location:index.php");
 }
 
 $user_id = $_SESSION["user_id"];
-$data = Member::find($user_id);
+$data = (object)\app\Sql::Select_single("select * from tbl_member where users_id='$user_id'");
 
 if ($data->have_valid_summer_holiday == 0 || $data->have_carry_over_classes == 1) {
     echo "<script>location.replace('message.php');</script>";
@@ -148,7 +129,6 @@ $form_wizard = 1;
             <input type="hidden" id="regform_complete" name="regform_complete" value="0">
             <input type="hidden" id="current_step" name="current_step" value="0">
             <input type="hidden" id="id" name="users_id" value="<?php echo $data->users_id; ?>">
-
             <div id="wizard" class="swMain">
                 <ul>
                     <li><a href="#step-1">
@@ -201,6 +181,13 @@ $form_wizard = 1;
 
                 <div id="step-1">
                     <h2 class="StepTitle">Step 1: Personal Details</h2>
+                    <!-- Zahid Mzhmm -->
+                    <select name="" id="" class="form-control" style="width: 10rem">
+                        <?php \app\Web::yearloop(); ?>
+                    </select>
+                    <select name="country" id="" class="form-control" style="width: 15rem;">
+                        <?php \app\Web::createcountrycombo(); ?>
+                    </select>
                     <div class="form-horizontal">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -240,7 +227,7 @@ $form_wizard = 1;
 
                                 <?php
 
-                                $date_of_birth = strtotime($data->dob->format('Y-m-d'));
+                                $date_of_birth = strtotime($data->dob);
 
                                 ?>
                                 <label for="dob_month" class="required control-label col-md-4 ">Date of Birth: </label>
@@ -374,6 +361,23 @@ $form_wizard = 1;
                                            value="<?php echo $data->no_siblings; ?>" class="form-control"/>
                                 </div>
                             </div>
+                            <!-- Zahid Mzhmm -->
+                            <div class="form-group">
+                                <label for="no_siblings" class="required control-label col-md-4">Number of
+                                    BVN:</label>
+                                <div class="col-md-8">
+                                    <input type="text" name="no_siblings" id="no_siblings"
+                                           value="<?php echo $data->no_siblings; ?>" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="no_siblings" class="required control-label col-md-4">Number of
+                                    National ID Number:</label>
+                                <div class="col-md-8">
+                                    <input type="text" name="no_siblings" id="no_siblings"
+                                           value="<?php echo $data->no_siblings; ?>" class="form-control"/>
+                                </div>
+                            </div>
                             <div class=" form-group">
                                 <label for="contact_address" class="required control-label col-md-4">Contact
                                     Address:</label>
@@ -401,6 +405,45 @@ $form_wizard = 1;
                                 <div class="col-md-8">
                                     <input type="email" name="email" id="email" readonly
                                            value="<?php echo $data->email; ?>" class="form-control"/>
+                                </div>
+                            </div>
+                            <!-- Zahid Mzhmm -->
+                            <div class="form-group">
+                                <label for="phone_no" class="required control-label col-md-4">Skype ID:</label>
+                                <div class="col-md-8">
+                                    <input type="number" name="phone_no" id="phone_no"
+                                           value="<?php echo $data->phone_no; ?>" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone_no" class="required control-label col-md-4">Social Media
+                                    Handles:</label>
+                                <div class="col-md-8">
+                                    <select name="social" class="form-control mb-2" id="" style="width: 15rem;">
+                                        <option value="Facebook">Facebook</option>
+                                        <option value="Instagram">Instagram</option>
+                                        <option value="Snapchat">Snapchat</option>
+                                        <option value="Telegram">Telegram</option>
+                                        <option value="Twitter">Twitter</option>
+                                        <option value="Signal">Signal</option>
+                                    </select>
+                                    <input type="number" name="phone_no" id="phone_no"
+                                           value="<?php echo $data->phone_no; ?>" class="form-control"
+                                           placeholder="Facebook Profile Link"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone_no" class="required control-label col-md-4">LinkedIn Profile:</label>
+                                <div class="col-md-8">
+                                    <input type="number" name="phone_no" id="phone_no"
+                                           value="<?php echo $data->phone_no; ?>" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone_no" class="required control-label col-md-4">WhatsApp Number:</label>
+                                <div class="col-md-8">
+                                    <input type="number" name="phone_no" id="phone_no"
+                                           value="<?php echo $data->phone_no; ?>" class="form-control"/>
                                 </div>
                             </div>
                             <div class=" form-group">
@@ -477,6 +520,31 @@ $form_wizard = 1;
                                                              class="form-control"/>
                                 </div>
                             </div>
+                            <!-- Zahid Mzhmm -->
+                            <div class="form-group">
+                                <label for="father_email" class="control-label col-md-4 required">Home Address of
+                                    Father</label>
+                                <div class="col-md-8"><input type="email" name="father_email" id="father_email"
+                                                             value="<?php echo $data->father_email; ?>"
+                                                             class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="father_email" class="control-label col-md-4 required">Work Address of
+                                    Father:</label>
+                                <div class="col-md-8"><input type="email" name="father_email" id="father_email"
+                                                             value="<?php echo $data->father_email; ?>"
+                                                             class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="father_email" class="control-label col-md-4 required">National ID Number of
+                                    Father:</label>
+                                <div class="col-md-8"><input type="email" name="father_email" id="father_email"
+                                                             value="<?php echo $data->father_email; ?>"
+                                                             class="form-control"/>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label for="father_profession"
                                        class="control-label col-md-4 required">Profession: </label>
@@ -507,6 +575,31 @@ $form_wizard = 1;
                                 <label for="mother_email" class="control-label col-md-4 required">Email address of
                                     Mother
                                     :</label>
+                                <div class="col-md-8"><input type="email" name="mother_email" id="mother_email"
+                                                             value="<?php echo $data->mother_email; ?>"
+                                                             class="form-control"/>
+                                </div>
+                            </div>
+                            <!-- Zahid Mzhmm -->
+                            <div class="form-group">
+                                <label for="mother_email" class="control-label col-md-4 required">Home Address of
+                                    Mother:</label>
+                                <div class="col-md-8"><input type="email" name="mother_email" id="mother_email"
+                                                             value="<?php echo $data->mother_email; ?>"
+                                                             class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="mother_email" class="control-label col-md-4 required">Work Address of
+                                    Mother:</label>
+                                <div class="col-md-8"><input type="email" name="mother_email" id="mother_email"
+                                                             value="<?php echo $data->mother_email; ?>"
+                                                             class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="mother_email" class="control-label col-md-4 required">National ID Number of
+                                    Mother:</label>
                                 <div class="col-md-8"><input type="email" name="mother_email" id="mother_email"
                                                              value="<?php echo $data->mother_email; ?>"
                                                              class="form-control"/>
@@ -598,6 +691,45 @@ $form_wizard = 1;
                                     <div class="col-md-8"><input type="email" name="sponsor_email" id="sponsor_email"
                                                                  value="<?php echo $data->sponsor_email; ?>"
                                                                  class="form-control "/>
+                                    </div>
+                                </div>
+                                <!--Zahid Mzhmm-->
+                                <div class="form-group">
+                                    <label for="sponsor_email"
+                                           class="control-label col-md-4 <?= !@$data->parent_is_sponsor ? "required" : "" ?>">Home
+                                        Address of Sponsor:</label>
+                                    <div class="col-md-8">
+                                        <input type="email" name="sponsor_email" id="sponsor_email"
+                                               value="<?php echo $data->sponsor_email; ?>" class="form-control "/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="sponsor_email"
+                                           class="control-label col-md-4 <?= !@$data->parent_is_sponsor ? "required" : "" ?>">Work
+                                        Address of Sponsor:</label>
+                                    <div class="col-md-8">
+                                        <input type="email" name="sponsor_email" id="sponsor_email"
+                                               value="<?php echo $data->sponsor_email; ?>" class="form-control "/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="sponsor_email"
+                                           class="control-label col-md-4 <?= !@$data->parent_is_sponsor ? "required" : "" ?>">National
+                                        ID Number of Sponsor:</label>
+                                    <div class="col-md-8">
+                                        <input type="email" name="sponsor_email" id="sponsor_email"
+                                               value="<?php echo $data->sponsor_email; ?>" class="form-control "/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sponsor_email"
+                                           class="control-label col-md-4 <?= !@$data->parent_is_sponsor ? "required" : "" ?>">Number
+                                        of Dependents on Sponsor:</label>
+                                    <div class="col-md-8">
+                                        <input type="email" name="sponsor_email" id="sponsor_email"
+                                               value="<?php echo $data->sponsor_email; ?>" class="form-control "/>
                                     </div>
                                 </div>
 
@@ -1204,6 +1336,93 @@ $form_wizard = 1;
                                                              class="form-control"/>
                                 </div>
                             </div>
+                            <!-- Zahid Mzhmm -->
+                            <div id="reason_not_using_same_service_div" class="form-group"
+                                 style="display:<?php if ($data->besor_previous_application == '1') {
+                                     echo 'none';
+                                 } ?>">
+                                <label for="reason_not_using_same_service" class=" control-label col-md-5">
+                                    Do you have friends or family members who participated in the Summer Work Program
+                                    previously?
+                                </label>
+                                <div class="col-md-7">
+                                    <input type="radio" name="ans[]" value="yes"> Yes
+                                    <input type="radio" name="ans[]" value="no"> No
+                                </div>
+                            </div>
+                            <!-- If Yes -->
+                            <div class="form-group">
+                                <label for="local_representative" class=" control-label col-md-5">
+                                    Name of Student:
+                                </label>
+                                <div class="col-md-7">
+                                    <input type="text" name="local_representative" id="local_representative"
+                                           value="<?php echo $data->local_representative; ?>" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="local_representative" class=" control-label col-md-5">
+                                    Relationship to you:
+                                </label>
+                                <div class="col-md-7">
+                                    <input type="text" name="local_representative" id="local_representative"
+                                           value="<?php echo $data->local_representative; ?>" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="local_representative" class=" control-label col-md-5">
+                                    Name of Institution at the time participation:
+                                </label>
+                                <div class="col-md-7">
+                                    <input type="text" name="local_representative" id="local_representative"
+                                           value="<?php echo $data->local_representative; ?>" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="local_representative" class=" control-label col-md-5">
+                                    Year of Participation:
+                                </label>
+                                <div class="col-md-7">
+                                    <input type="text" name="local_representative" id="local_representative"
+                                           value="<?php echo $data->local_representative; ?>" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="local_representative" class=" control-label col-md-5">
+                                    Name of Program Sponsor:
+                                </label>
+                                <div class="col-md-7">
+                                    <input type="text" name="local_representative" id="local_representative"
+                                           value="<?php echo $data->local_representative; ?>" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="local_representative" class=" control-label col-md-5">
+                                    Name of Local Representative:
+                                </label>
+                                <div class="col-md-7">
+                                    <input type="text" name="local_representative" id="local_representative"
+                                           value="<?php echo $data->local_representative; ?>" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="local_representative" class=" control-label col-md-5">
+                                    Name of Employer:
+                                </label>
+                                <div class="col-md-7">
+                                    <input type="text" name="local_representative" id="local_representative"
+                                           value="<?php echo $data->local_representative; ?>" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="local_representative" class=" control-label col-md-5">
+                                    Location (City, State) of Employer:
+                                </label>
+                                <div class="col-md-7">
+                                    <input type="text" name="local_representative" id="local_representative"
+                                           value="<?php echo $data->local_representative; ?>" class="form-control"/>
+                                </div>
+                            </div>
 
                         </div>
                     </div>
@@ -1254,13 +1473,33 @@ $form_wizard = 1;
                             </div>
                         </div>
 
-
                         <div class="form-group">
                             <label for="usa_contact_status" class="control-label col-md-4 required">Resident Status in
                                 the USA: </label>
                             <div class="col-md-8"><input type="text" name="usa_contact_status" id="usa_contact_status"
                                                          value="<?php echo $data->usa_contact_status; ?>"
                                                          class="form-control"/>
+                            </div>
+                        </div>
+                        <!-- Zahid Mzhmm -->
+                        <div class="form-group">
+                            <label for="usa_contact_status" class="control-label col-md-4 required">
+                                Occupation in the USA:
+                            </label>
+                            <div class="col-md-8">
+                                <input type="text" name="usa_contact_status" id="usa_contact_status"
+                                       value="<?php echo $data->usa_contact_status; ?>"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="usa_contact_status" class="control-label col-md-4 required">
+                                Duration of Stay in the USA:
+                            </label>
+                            <div class="col-md-8">
+                                <input type="text" name="usa_contact_status" id="usa_contact_status"
+                                       value="<?php echo $data->usa_contact_status; ?>"
+                                       class="form-control"/>
                             </div>
                         </div>
 
@@ -1302,7 +1541,7 @@ $form_wizard = 1;
     </div>
 </div>
 
-<?php include("includes/footerNew.php"); ?>
+<?php include("includes/footer.php"); ?>
 <script type="text/javascript" src=""></script>
 <link rel="stylesheet" href="css/icropper.css">
 <!-- <script type="text/javascript" src="js/jquery-2.0.min.js"></script> -->

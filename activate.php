@@ -1,6 +1,5 @@
 <?php
-session_start();
-include "adminpanel/includes/includes.php";
+include __DIR__ . '/app/main.php';
 
 function RandomString($length)
 {
@@ -16,19 +15,18 @@ function RandomString($length)
 
 $error_status = 1;
 
-if ($_POST) {
+
+if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['firstname']) && isset($_POST['lastname'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $member = sql::Select_single("select * from tbl_member where email='$email'");
-    if ($member) {
+    $member = \app\Sql::Select_single("select * from tbl_member where email='$email'");
+    if ($member || !empty($member)) {
         $_SESSION['err_msg'] = "EMAIL_EXIST";
         header("location:user-register.php");
         exit;
     }
     $member = (object)$member;
-
-
     //all good to go
     $_SESSION["firstname"] = $_POST["firstname"];
     $_SESSION["lastname"] = $_POST["lastname"];
@@ -42,7 +40,6 @@ if ($_POST) {
 
     $password = md5($_POST["password"]);
     $actcode = RandomString(5);
-    $actcodehash = md5($actcode);
 
     $member_data = [
         "res_countries" => $_SESSION["res_country"],
@@ -54,39 +51,33 @@ if ($_POST) {
         "name_institution" => $_SESSION["institution"] == "Others" ? $_POST["Others"] : $_SESSION["institution"],
         "date_joined" => date('Y-m-d'),
         "acstatus" => "INACTIVE",
-        "actcode" => $actcodehash,
+        "actcode" => $actcode,
         "status" => "INCOMPLETE",
         "referenceid" => $_POST["password"]
 
     ];
+    $res_country = $_SESSION['res_country'];
+    $fname = $_POST['firstname'];
+    $lname = $_POST['lastname'];
+    $email = $_POST['email'];
+    $dob = sprintf("%s-%s-%s", $_SESSION["dob_year"], $_SESSION["dob_month"], $_SESSION["dob_day"]);
+    $name_ins = $_SESSION["institution"] == "Others" ? $_POST["Others"] : $_SESSION["institution"];
+    $date_joined = date('Y-m-d');
+    $acstatus = "INACTIVE";
+    $status = "INCOMPLETE";
+    $referenceid = $_POST["password"];
 
-    $new_member = new Member($member_data);
-    $new_member->save();
-    $new_member_id = $new_member->id;
-
-
-    if ($new_member_id > 0) {
+    $insert = \app\Sql::insert("INSERT INTO `tbl_member` (`res_countries`, `fname`, `lname`, `email`, `password`, `dob`, `name_institution`, `date_joined`, `acstatus`, `actcode`, `status`, `referenceid`)
+                                                    values   ('$res_country', '$fname', '$lname', '$email', '$password', '$dob', '$name_ins', '$date_joined', '$acstatus', '$actcode', '$status', '$referenceid')");
+    if ($insert) {
 
         $_SESSION['reg_status'] = 1;
         $error_status = 0;
 
 
         //send activation code email to user
-        $mail1 = new PHPMailer();
-        //$mail1->SMTPDebug  =1;
-        //$mail1->SMTPAuth   = false;
-        $mail1->IsHTML(true);
-        $mail1->IsMail();
-
-        //$mail1->Host       = HOST_NAME;
-        //$mail1->Port       = SMTP_PORT;
-        //$mail1->Username   = NO_REPLY_EMAIL;
-        //$mail1->Password   = AUTH_KEY;
-        $mail1->SetFrom(NO_REPLY_EMAIL, "Summer Work Programs");
-        $mail1->Subject = "Verify Your Summer Work Registration";
-
-        $randStr = RandomString(5);
-
+        $mail1 = new \app\Mailer();
+        $mail1->mail->Subject = "Verify Your Summer Work Registration";
         $msg = "Dear " . $_POST["firstname"] . " " . $_POST["lastname"] . ",<br/><br/>
 
 
@@ -102,7 +93,7 @@ We are requesting that you validate your email address. This is required because
 
 You need to complete this process in order to access the 2nd part of the complete registration form. To verify your email address and continue with your registration and account creation, please click this link:<br/><br/>
 
-<a href='" . SITE_URL . "activate.php?code=$randStr'>" . SITE_URL . "activate.php?code=$randStr</a><br/><br/>
+<a href='" . SITE_URL . "activate.php?code=$actcode'>" . SITE_URL . "activate.php?code=$actcode</a><br/><br/>
 
 and enter your verification code: $actcode<br/><br/>
 
@@ -117,30 +108,15 @@ Besor  Associates<br/>
 Lagos State, Nigeria 100001<br/>
 info@summerworkprograms.com<br/>
 www.summerworkprograms.com.<br/>";
+        $mail1->mail->MsgHTML($msg);
+        $mail1->mail->AddAddress($_POST["email"], $_POST["firstname"] . " " . $_POST["lastname"]);
 
-        //$msg = preg_replace( "\\", '', $msg );
-        $mail1->MsgHTML($msg);
-
-        $address = $_POST["email"];
-        $mail1->AddAddress($address, $_POST["firstname"] . " " . $_POST["lastname"]);
-
-        @$mail1->Send();
+        @$mail1->mail->send();
 
 
         //send notificaion email to admin
-        $mail2 = new PHPMailer();
-        //$mail2->SMTPAuth   = false;
-        //$mail2->SMTPDebug  =1;
-        $mail2->IsHTML(true);
-        $mail2->IsMail();
-
-        //$mail2->Host       = HOST_NAME;
-//			$mail2->Port       = SMTP_PORT;
-//			$mail2->Username   = NO_REPLY_EMAIL;
-        //$mail2->Password   = AUTH_KEY;
-        $mail2->SetFrom(NO_REPLY_EMAIL);
-
-        $mail2->Subject = "A NEW REGISTRATION HAS BEEN DONE";
+        $mail2 = new \app\Mailer();
+        $mail2->mail->Subject = "A NEW REGISTRATION HAS BEEN DONE";
 
         $msgAd = "<br>Dear Administrator,<br><br>";
         $msgAd .= "--------------------------\n";
@@ -161,25 +137,16 @@ www.summerworkprograms.com.<br/>";
 			 info@summerworkprograms.com<br>
 			 www.summerworkprograms.com.\n";
 
-        //$msgAd = preg_replace( "[\]", '', $msgAd );
-
-        $mail2->MsgHTML($msgAd);
-
-        $address = ADMIN_EMAIL;
-        $mail2->AddAddress($address);
-
-        @$mail2->Send();
-
-
+        $mail2->mail->MsgHTML($msgAd);
+        $mail2->mail->AddAddress(ADMIN_EMAIL);
+        @$mail2->mail->send();
         session_destroy();
-
 
     }
 }
 
 $act_token = @$_REQUEST["code"];
 if ($act_token) $error_status = 0;
-
 $show_slider = false;
 include("includes/header.php");
 

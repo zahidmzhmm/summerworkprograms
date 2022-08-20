@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="description" content="Summer Work Programs | Besor Associates">
-    <?php if(@$viewport){ ?>
-    <meta name="viewport" content="width=1024, initial-scale=1, maximum-scale=1">
+    <?php if (@$viewport) { ?>
+        <meta name="viewport" content="width=1024, initial-scale=1, maximum-scale=1">
     <?php } ?>
 
     <link href="assets/images/favicon/favicon.ico" rel="icon">
@@ -83,21 +83,21 @@
 
 
     <!-- Fancybox -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
     <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
     <!-- ENDS Fancybox -->
 
-    <link href="js/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="js/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
 
     <link href="js/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css"/>
 
 
     <script type="text/css">
-        .datepicker >div:first-of-type{
-            display: block ;
+        .datepicker > div:first-of-type {
+            display: block;
         }
     </script>
-    <?php if ( @$form_wizard == 1 ): ?>
+    <?php if (@$form_wizard == 1): ?>
 
         <script type="text/javascript" src="js/jquery.smartWizard.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -112,10 +112,11 @@
     <?php endif; ?>
     <link href="css/common.css" rel="stylesheet" type="text/css">
     <style>
-        .swal-overlay{
+        .swal-overlay {
             z-index: 100000;
         }
-        .datepicker >div:first-of-type{
+
+        .datepicker > div:first-of-type {
             display: block;
         }
     </style>
@@ -124,8 +125,8 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700%7cSource+Sans+Pro:300,300i,400,400i,600,600i,700">
 
-    <link rel="stylesheet" href="assets/css/libraries.css" />
-    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/libraries.css"/>
+    <link rel="stylesheet" href="assets/css/style.css"/>
 </head>
 
 <body class="wrapper">
@@ -157,21 +158,26 @@
                     <li class="nav__item with-dropdown">
                         <a href="#" data-toggle="dropdown" class="dropdown-toggle nav__item-link">Check Status</a>
                         <ul class="dropdown-menu">
-                            <?php if ( @$_SESSION['user_id'] ) { ?>
+                            <?php if (@$_SESSION['user_id']) { ?>
                                 <li class="nav__item"><a href="profile.php" class="nav__item-link">Access Profile</a>
                             <?php } else { ?>
-                            <li class="nav__item"><a href="login.php" class="nav__item-link">Access Profile</a></li>
+                                <li class="nav__item"><a href="login.php" class="nav__item-link">Access Profile</a></li>
                             <?php } ?>
                             <!-- /.nav-item -->
                         </ul><!-- /.dropdown-menu -->
                     </li><!-- /.nav-item -->
-                    <li class="nav__item with-dropdown">
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle nav__item-link">Register</a>
-                        <ul class="dropdown-menu">
-                            <li class="nav__item"><a href="user-register.php" class="nav__item-link">Participate Now</a></li>
-                            <!-- /.nav-item -->
-                        </ul><!-- /.dropdown-menu -->
-                    </li><!-- /.nav-item -->
+                    <?php if (@$_SESSION['user_id']) { ?>
+                        <!--                        Logged in Code-->
+                    <?php } else { ?>
+                        <li class="nav__item with-dropdown">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle nav__item-link">Register</a>
+                            <ul class="dropdown-menu">
+                                <li class="nav__item"><a href="signup.php" class="nav__item-link">Participate Now</a>
+                                </li>
+                                <!-- /.nav-item -->
+                            </ul><!-- /.dropdown-menu -->
+                        </li><!-- /.nav-item -->
+                    <?php } ?>
                     <li class="nav__item with-dropdown">
                         <a href="#" data-toggle="dropdown" class="dropdown-toggle nav__item-link">Program</a>
                         <ul class="dropdown-menu">
@@ -190,9 +196,9 @@
                         </ul>
                     </li><!-- /.nav-item -->
 
-                    <?php if ( @$_SESSION['user_id'] ) { ?>
+                    <?php if (@$_SESSION['user_id']) { ?>
                         <li class="nav__item">
-                            <a href="logout.php"  class="nav__item-link">Logout</a>
+                            <a href="logout.php" class="nav__item-link">Logout</a>
                         </li>
                     <?php } ?>
 
@@ -206,14 +212,15 @@
 <!-- ENDS HEADER -->
 
 
-<?php if ( @$show_slider == true ){ ?>
+<?php if (@$show_slider == true) { ?>
 
     <!-- Slider -->
     <!-- ============================
        Slider
    ============================== -->
     <section id="slider6" class="slider slider-6">
-        <div class="carousel owl-carousel carousel-arrows carousel-dots" data-slide="1" data-slide-md="1" data-slide-sm="1"
+        <div class="carousel owl-carousel carousel-arrows carousel-dots" data-slide="1" data-slide-md="1"
+             data-slide-sm="1"
              data-autoplay="true" data-nav="true" data-dots="true" data-space="0" data-loop="true" data-speed="600"
              data-transition="fade" data-animate-out="fadeOut" data-animate-in="fadeIn">
             <div class="slide-item align-v bg-overlay bg-overlay-2">
@@ -327,14 +334,15 @@
 
     <!-- ENDS Slider -->
 
-<?php } else{
+<?php } else {
     $bg_image = '5.jpg';
-    if(isset($page_titles_image)){
+    if (isset($page_titles_image)) {
         $bg_image = $page_titles_image;
     }
     ?>
 
-    <section id="page-title" class="page-title page-title-layout16 bg-overlay bg-overlay-2 text-center" style="background-image: url(&quot;assets/images/page-titles/<?php echo $bg_image; ?>&quot); background-size: cover; background-position: center center;">
+    <section id="page-title" class="page-title page-title-layout16 bg-overlay bg-overlay-2 text-center"
+             style="background-image: url(&quot;assets/images/page-titles/<?php echo $bg_image; ?>&quot); background-size: cover; background-position: center center;">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12">
@@ -350,11 +358,10 @@
 <script type="text/javascript">
     $(".sf-menu").ready(function () {
 
-        var curLink = $('.sf-menu li a[href*="<?php echo substr( $_SERVER["SCRIPT_NAME"], strrpos( $_SERVER["SCRIPT_NAME"], "/" ) + 1 )?>"]');
+        var curLink = $('.sf-menu li a[href*="<?php echo substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER["SCRIPT_NAME"], "/") + 1)?>"]');
         $(curLink).parent().addClass("current-menu-item");
     });
 </script>
-
 
 
 <div id="main">

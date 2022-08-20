@@ -1,13 +1,15 @@
 <?php
-session_start();
-include "adminpanel/includes/includes.php";
+include "app/main.php";
 
 if (!@$_SESSION['user_id']) {
     header('location:login.php');
 }
 
 $user_id = $_SESSION["user_id"];
-$member = (object)sql::Select_single("select * from tbl_member where users_id='$user_id'");
+$member = \app\models\Member::find($user_id);
+var_dump($member);
+exit;
+$member = (object)\app\Sql::Select_single("select * from tbl_member where users_id='$user_id'");
 
 if (!$member->regform_complete) {
     $_SESSION["user_id"] = $member->users_id;

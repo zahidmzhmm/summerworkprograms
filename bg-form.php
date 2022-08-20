@@ -1,14 +1,15 @@
 <?php
-include "includes/includes.php";
-include "third_party/DataAccess.php";
-session_start();
+include "app/main.php";
 
 if (!@$_SESSION['user_id']) {
     header('location:login.php');
 }
-
-$member = Member::find($_SESSION["user_id"]);
-
+$user_id = $_SESSION['user_id'];
+$member = \app\Sql::Select_single("select * from tbl_member where users_id='$user_id'");
+if (!$member) {
+    header("location:logout.php");
+}
+$member = (object)$member;
 if ($member->bgform_id != null) {
     header('location:index.php');
 }
@@ -16,7 +17,7 @@ if ($member->participant_statement_link == 'close') {
     header('location:index.php');
 }
 
-include("includes/headerNew.php");
+include("includes/header.php");
 ?>
 
 <section class="grid">
@@ -84,4 +85,4 @@ include("includes/headerNew.php");
     </div>
 </section>
 
-<?php include("includes/footerNew.php"); ?>
+<?php include("includes/footer.php"); ?>

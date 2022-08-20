@@ -1,10 +1,19 @@
 <?php
 session_start();
 
-require_once "config.php";
+if (isset($_POST['register_posted']) && $_POST['register_posted'] == 'yes') {
+    $_SESSION['res_country'] = $_POST["country"];
+    $_SESSION['dob_year'] = $_POST['dob_year'];
+    $_SESSION['dob_month'] = $_POST['dob_month'];
+    $_SESSION['dob_day'] = $_POST['dob_month'];
+}
 
 
-include("includes/header.php"); ?>
+if (!isset($_SESSION['res_country']) && empty($_SESSION['res_country'])) {
+    header("location:signup.php");
+}
+include("includes/header.php");
+?>
 
 <section class="grid">
 

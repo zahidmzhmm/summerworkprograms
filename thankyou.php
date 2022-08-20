@@ -1,11 +1,5 @@
 <?php
-session_start();
-
-include "third_party/mail/class.phpmailer.php";
-include "config.php";
-include "pdf.php";
-
-include "third_party/DataAccess.php";
+include "app/main.php";
 
 $referenceid = "";
 if ($_POST) {
@@ -80,14 +74,6 @@ if ($_POST) {
         'job_offer' => @$_POST['job_offer'],
         'visa_interview' => @$_POST['visa_interview'],
         'reason_not_using_same_service' => @$_POST['reason_not_using_same_service'],
-
-        // 'employer_name'             => @$_POST['employer_name'],
-        // 'employer_location'         => @$_POST['employer_location'],
-        // 'job_position'              => @$_POST['job_position'],
-        // 'program_sponsor_name'      => @$_POST['program_sponsor_name'],
-        // 'local_representative'      => @$_POST['local_representative'],
-        // 'program_start_date'        => @$_POST['program_start_date'],
-        // 'program_end_date'          => @$_POST['program_end_date'],
         'usa_contact_name' => @$_POST['usa_contact_name'],
         'usa_contact_address' => @$_POST['usa_contact_address'],
         'usa_contact_phone' => @$_POST['usa_contact_phone'],
@@ -103,7 +89,6 @@ if ($_POST) {
     }
 
     if ($input_data["have_travel_history"] == 1) {
-        //save travel_history_data
         $travel_country = $_POST["travel_country"];
         $travel_purpose = $_POST["travel_purpose"];
         $travel_stay_duration = $_POST["travel_stay_duration"];
@@ -111,7 +96,6 @@ if ($_POST) {
 
         TravelHistory::table()->delete(array('user_id' => $users_id));
         foreach ($travel_country as $idx => $t_country) {
-// 			if ( $idx > 0 ) {
             $travel_history_data = [
                 "user_id" => $users_id,
                 "country" => $t_country,
@@ -121,12 +105,10 @@ if ($_POST) {
             ];
             $travel_history = new TravelHistory($travel_history_data);
             $travel_history->save();
-// 			}
         }
     }
 
     if ($input_data["have_applied_before"] == 1) {
-        //save previous apply history
         $visa_purpose = $_POST["visa_purpose"];
         $visa_year = $_POST["visa_year"];
         $visa_decision = $_POST["visa_decision"];
@@ -134,7 +116,6 @@ if ($_POST) {
 
         VisaHistory::table()->delete(array('user_id' => $users_id));
         foreach ($visa_purpose as $idx => $v_purpose) {
-// 			if ( $idx > 0 ) {
             $visa_history_data = [
                 "user_id" => $users_id,
                 "purpose" => $v_purpose,
@@ -144,27 +125,8 @@ if ($_POST) {
             ];
             $visa_history = new VisaHistory($visa_history_data);
             $visa_history->save();
-// 			}
         }
     }
-
-    // if ( $_FILES && $_FILES["passport_photograph"]["size"] > 0 ) {
-    // 	include "third_party/image_resize/ImageResize.php";
-    // 	//create directory if not exists already
-    // 	$upload_path = "user_uploads/{$users_id}";
-    // 	if ( ! file_exists( $upload_path ) ) {
-    // 		mkdir( $upload_path, 0777, true );
-    // 	}
-    // 	$new_filename     = "pp_photo.jpg";
-    // 	$resize_file_name = "pp_photo_45x35mm.jpg";  ////128x99px
-    // 	move_uploaded_file( $_FILES["passport_photograph"]["tmp_name"], "$upload_path/$new_filename" );
-    // 	if ( file_exists( "$upload_path/$new_filename" ) ) {
-    // 		$image              = new \Eventviva\ImageResizeAlt();
-    // 		$image->ImageResize("$upload_path/$new_filename", 128,99);
-    // 		$image->Save( "$upload_path/$resize_file_name" );
-    // 	}
-    // }
-
     $target_file = null;
     $upload_path = "user_uploads/{$users_id}";
     if (!file_exists($upload_path)) {
@@ -180,12 +142,8 @@ if ($_POST) {
                 unlink("$upload_path/$file_name");
             }
             file_put_contents("$upload_path/$file_name", $proImage);
-            // move_uploaded_file($proImage, "$upload_path/$file_name");
         }
-
     }
-
-
     $member = Member::find($users_id);
     $referenceid = $member->referenceid;
     $member->update_attributes($input_data);
@@ -210,18 +168,8 @@ if ($_POST) {
     if ($regform_complete):
 
         //send activation code email to user
-        $mail1 = new PHPMailer();
-        //$mail1->SMTPAuth   = false;
-        //$mail1->SMTPDebug  =1;
-        $mail1->IsHTML(true);
-        $mail1->IsMail();
-
-        //$mail1->Host       = HOST_NAME;
-        //$mail1->Port       = SMTP_PORT;
-        //$mail1->Username   = NO_REPLY_EMAIL;
-        //$mail1->Password   = AUTH_KEY;
-        $mail1->SetFrom(NO_REPLY_EMAIL, "Summer Work Programs");
-        $mail1->Subject = "Summer Work Programs Registration";
+        $mail1 = new \app\Mailer();
+        $mail1->mail->Subject = "Summer Work Programs Registration";
 
         $msg = "<p>Dear " . ucwords($_POST['fname']) . " " . ucwords($_POST['midname']) . " " . ucwords($_POST['lname']) . ",</p>
 			<p >Thank you for registering to participate in the Summer Work & Travel Program.</p>
@@ -242,17 +190,15 @@ if ($_POST) {
  Regards, <br/>
 Summer Work Programs Processing Team </p>";
 
-        //$msg = preg_replace( "\\", '', $msg );
-
-        $mail1->MsgHTML($msg);
+        $mail1->mail->MsgHTML($msg);
 
         $address = $_POST["email"];
         $pdf_file_name = strtolower($_POST["fname"] . "_" . $_POST["lname"]);
-        $mail1->AddStringAttachment(GetCompletedForm($_SESSION["user_id"], "S"), "{$pdf_file_name}.pdf");
-        $mail1->AddAddress($address, @$_POST["fname"] . " " . @$_POST["lname"]);
+        $mail1->mail->AddStringAttachment(GetCompletedForm($_SESSION["user_id"], "S"), "{$pdf_file_name}.pdf");
+        $mail1->mail->AddAddress($address, @$_POST["fname"] . " " . @$_POST["lname"]);
 
-        $mail1->Send();
-    endif; //if recform_complete
+        $mail1->mail->Send();
+    endif;
 
 } else {
     $location = ($_SESSION["user_id"]) ? "profile.php" : "index.php";
