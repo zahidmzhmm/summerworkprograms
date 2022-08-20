@@ -8,7 +8,7 @@ $page_size = 20;
 $current_page = @$_GET["pg"] ? $_GET["pg"] : 1;
 $offset = $page_size * ($current_page - 1);
 
-$query_records = sql::Select_all("select count(*) num_rows from tbl_member  where $conditions");
+$query_records = app\Sql::Select_all("select count(*) num_rows from tbl_member  where $conditions");
 $total_records = $query_records[0]['num_rows'];
 //$user_data = Member::find("all", array('conditions' => $conditions, "order" => $sort, "limit" => $page_size, "offset" => $offset));
 array('conditions' => $conditions, "order" => $sort, "limit" => $page_size, "offset" => $offset);
@@ -17,7 +17,7 @@ if (!empty($_GET["sort"]) || !empty($_GET["keywords"])) {
     $sql .= "where $conditions ";
 }
 $sql .= "order by $sort limit $offset,$page_size";
-$user_data = sql::Select_all($sql);
+$user_data = app\Sql::Select_all($sql);
 //var_dump($p_data);
 ?>
 <style type="text/css">
@@ -97,7 +97,7 @@ $user_data = sql::Select_all($sql);
                         ?>
                         <tr>
                             <td align="center"><?= $counter; ?></td>
-                            <td><?php echo trim(ucwords($user_item->fname)); ?> <?php echo trim(ucwords($user_item->midname)); ?> <?php echo trim(ucwords($user_item->lname)); ?></td>
+                            <td><?php echo trim(ucwords($user_item->fname)); ?><?php echo trim(ucwords($user_item->midname)); ?><?php echo trim(ucwords($user_item->lname)); ?></td>
                             <td> <?= ucwords($user_item->gender); ?></td>
                             <td><?= $user_item->email; ?></td>
                             <td><a href="#">
@@ -139,14 +139,11 @@ $user_data = sql::Select_all($sql);
                     <?php }
                 } ?>
                 <tr>
-                    <td colspan="8" align="center"><?php
-
-                        echo paging_control("home.php?modules=users&action=users", $total_records, $page_size, $current_page);
-                        //						if ( $paging_data['paging'] ) {
-                        //							echo $paging_data['paging'];
-                        //						}
-
-                        ?></td>
+                    <td colspan="8" align="center">
+                        <?php
+                        echo app\Web::paging_control("home.php?modules=users&action=users", $total_records, $page_size, $current_page);
+                        ?>
+                    </td>
                 </tr>
             </table>
 

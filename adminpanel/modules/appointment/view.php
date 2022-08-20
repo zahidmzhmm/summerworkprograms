@@ -1,9 +1,5 @@
 <?php
-$list = sql::Select_all("select * from appointment_time_list");
-// echo '<pre>';
-// print_r($list[0]->date_time);
-// echo "Manoj:".$list['0']->date_time->format('Y-m-d H:i:s');
-// exit;
+$list = app\Sql::Select_all("select * from appointment_time_list");
 ?>
 
 <script type="text/javascript">
