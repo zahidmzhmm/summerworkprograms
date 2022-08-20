@@ -223,12 +223,12 @@ if ($member->have_valid_summer_holiday == false || $member->have_carry_over_clas
             if ($member->appointment_status == "open") {
 
                 if ($member->appointment_date_time == null || $member->appointment_date_time == "") {
-                    $list = AppointmentTimeList::all();
+                    $list = \app\Sql::Select_all("select * from appointment_time_list");
                     if ($list != null) {
                         ?>
                         <div style="font-size: 1.25em;padding-top: 15px;padding-bottom: 15px;">
-                            <form method="post" action="appoiment_update.php">
-                                <input type="hidden" name="id" value="<?= $member->id; ?>">
+                            <form method="post" action="appointment_update.php">
+                                <input type="hidden" name="id" value="<?= $member->users_id; ?>">
                                 <div><b>Appointment Approval Status:</b> <?php
                                     if ($member->appointment_approve_status == "approve") {
                                         ?>Approved<?php } else if ($member->appointment_approve_status == "declined") {
@@ -270,7 +270,26 @@ if ($member->have_valid_summer_holiday == false || $member->have_carry_over_clas
                                 } else {
                                     echo 'Virtual (Online)';
                                 } ?></div><br>
-                            <div><b>Appointment Date / Time</b> <?= $member->appointment_date_time ?></div><br>
+                            <div><b>Appointment Date /
+                                    Time</b> <?= $member->appointment_date_time ?>
+                            </div><br>
+                        <?php } ?>
+                        <b>Appointment Fees:</b> <?= $member->appointment_fee ?>
+                        <br><br>
+                        <?php
+                        if ($member->appointment_payment_status != 2) {
+                            ?>
+                            <div class="">
+                                <button onclick="window.location.href='payment.php?id=<?= $member->users_id ?>'">Pay
+                                    Fees
+                                </button>
+                            </div>
+                            <br>
+                        <?php } else { ?>
+                            <div class="">
+                                <button disabled>Paid</button>
+                            </div>
+                            <br>
                         <?php } ?>
                     </div>
                     <?php

@@ -17,4 +17,5 @@ define("SMTP_PASS", "dlwcvnhycpsbrjll");
 define("SMTP_DEBUG", 0);
 define("SMTP_PORT", 465);
 
+define('PS_KEY', 'sk_test_9c5da4397931a6e1b3084d45029fceb1f6088780');
 ?>

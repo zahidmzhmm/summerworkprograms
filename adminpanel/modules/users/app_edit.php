@@ -107,7 +107,14 @@ $list = app\Sql::Select_all("select * from appointment_time_list where type='$ty
                     <tr>
                         <td width="20%" align="left" valign="top">Fee:</td>
                         <td width="80%" align="left">
-                            <input type="text" value="<?= $order_data->appointment_fee ?>" name="fee" class="form-control">
+                            <input type="text" value="<?= $order_data->appointment_fee ?>" name="fee"
+                                   class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" align="left" valign="top">Pement Status:</td>
+                        <td width="80%" align="left">
+                            <?= $order_data->appointment_payment_status == 2 ? 'Paid' : 'Unpaid' ?>
                         </td>
                     </tr>
 

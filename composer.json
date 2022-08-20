@@ -18,6 +18,8 @@
     "catfan/medoo": "^2.1",
     "tecnickcom/tcpdf": "^6.5",
     "ext-mysqli": "*",
-    "ext-json": "*"
+    "ext-json": "*",
+    "unicodeveloper/laravel-paystack": "^1.0",
+    "ext-curl": "*"
   }
 }
