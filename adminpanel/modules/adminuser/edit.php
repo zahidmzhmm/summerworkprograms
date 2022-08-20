@@ -1,6 +1,6 @@
 <?php
 $id = $_GET['id'];
-$user_data = (object)sql::Select_single("select * from tbl_admin where user_id='$id'");
+$user_data = (object)app\Sql::Select_single("select * from tbl_admin where user_id='$id'");
 ?>
 <table width="100%">
     <tr>

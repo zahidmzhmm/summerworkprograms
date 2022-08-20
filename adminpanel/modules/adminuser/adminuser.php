@@ -1,11 +1,6 @@
 <?php
-//$user_sql="SELECT * FROM tbl_admin ORDER BY user_id DESC";
-
 $url = 'home.php?moduels=faq&action=faq&pg=';
-//$paging_data=paging_admin($user_sql,$url);
-//$user_data=sql::Query_select($paging_data['query']);
-
-$user_data = \app\Sql::Select_all("SELECT * FROM tbl_admin");
+$user_data = app\Sql::Select_all("SELECT * FROM tbl_admin");
 ?>
 <table width="100%" cellpadding="0" cellspacing="0">
     <tr>

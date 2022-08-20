@@ -1,19 +1,17 @@
-
 <?php
 
 //########################################## Get Data ###############################
-$id=$_GET['id'];
+$id = $_GET['id'];
 
 
 #####################################################################################
 
 //###################################### Delete Now #################################
- $delete_query="DELETE from  uio_faq  where faq_id='$id' limit 1";
-sql::update_query($delete_query);
+app\Sql::update("DELETE from  uio_faq  where faq_id='$id' limit 1");
 
 //###################################################################################
 
 //############# Redirect #######################
-return_to_page($_SERVER['HTTP_REFERER']);
+app\Web::return_to_page($_SERVER['HTTP_REFERER']);
 
 ?>

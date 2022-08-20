@@ -16,6 +16,7 @@
     "gabordemooij/redbean": "^5.7",
     "nesbot/carbon": "^2.61",
     "catfan/medoo": "^2.1",
-    "tecnickcom/tcpdf": "^6.5"
+    "tecnickcom/tcpdf": "^6.5",
+    "ext-mysqli": "*"
   }
 }
