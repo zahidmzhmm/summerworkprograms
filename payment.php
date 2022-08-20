@@ -2,6 +2,13 @@
 error_reporting(1);
 include __DIR__ . '/app/main.php';
 
+$user_id = $_SESSION['user_id'];
+
+if (isset($_GET['status'])) {
+    $medoo = new \Medoo\Medoo($database);
+    $medoo->update("tbl_member", ['appointment_payment_status' => 2], ['users_id' => $user_id]);
+    header("location:profile.php?success");
+}
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     header("location:profile.php");
 }
@@ -31,13 +38,6 @@ $result = curl_exec($ch);
 $result = json_decode($result, true);
 if ($result['status'] === true) {
     header("location:" . $result["data"]["authorization_url"]);
-} else {
-    header("location:profile.php");
-}
-if (isset($_GET['status'])) {
-    $medoo = new \Medoo\Medoo($database);
-    $medoo->update("tbl_member", ['appointment_payment_status' => 2], ['users_id' => $user_id]);
-    header("location:profile.php?success");
 } else {
     header("location:profile.php");
 }
