@@ -397,7 +397,7 @@ $form_wizard = 1;
                             <div class="form-group">
                                 <label for="phone_no" class="required control-label col-md-4">Phone Number:</label>
                                 <div class="col-md-8">
-                                    <input type="number" name="phone_no" id="phone_no"
+                                    <input type="text" name="phone_no" id="phone_no"
                                            value="<?php echo $data->phone_no; ?>" class="form-control"/>
                                 </div>
                             </div>
@@ -412,7 +412,7 @@ $form_wizard = 1;
                             <div class="form-group">
                                 <label for="skype_id" class="required control-label col-md-4">Skype ID:</label>
                                 <div class="col-md-8">
-                                    <input type="number" name="skype_id" id="skype_id"
+                                    <input type="text" name="skype_id" id="skype_id"
                                            value="<?php echo $data->skype_id; ?>" class="form-control"/>
                                 </div>
                             </div>
@@ -511,7 +511,7 @@ $form_wizard = 1;
                                 <label for="father_phone" class="control-label col-md-4 required">Phone number of
                                     father:</label>
                                 <div class="col-md-8">
-                                    <input type="number" name="father_phone" id="father_phone"
+                                    <input type="text" name="father_phone" id="father_phone"
                                            value="<?php echo $data->father_phone; ?>" class="form-control"/>
                                 </div>
                             </div>
@@ -572,7 +572,7 @@ $form_wizard = 1;
                                 <label for="mother_phone" class="control-label col-md-4 required">Phone number of
                                     Mother:</label>
                                 <div class="col-md-8">
-                                    <input type="number" name="mother_phone" id="mother_phone"
+                                    <input type="text" name="mother_phone" id="mother_phone"
                                            value="<?php echo $data->mother_phone; ?>"
                                            class="form-control"/>
                                 </div>

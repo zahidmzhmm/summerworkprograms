@@ -1,6 +1,5 @@
 <?php
-session_start();
-include "adminpanel/includes/includes.php";
+include "app/main.php";
 
 if (!@$_SESSION['user_id'])
     header('location:login.php');
@@ -12,7 +11,7 @@ $allowed_types = array(".pdf", ".jpg");
 
 if ($_POST) {
 
-    $list = (object)sql::Select_single("select * from tbl_member where users_id='$id'");
+    $list = (object)\app\Sql::Select_single("select * from tbl_member where users_id='$id'");
     $list = unserialize($list->support_document_list);
 
     $files_uploaded = 0;
@@ -133,7 +132,7 @@ if ($_POST) {
 
 }
 
-$member_data = (object)sql::Select_single("select * from tbl_member where users_id='$id'");
+$member_data = (object)\app\Sql::Select_single("select * from tbl_member where users_id='$id'");
 // $members_data = unserialize($member_data->support_document_list);
 // var_dump($members_data);return;
 
@@ -163,7 +162,7 @@ endif; ?>
 
             <fieldset>
                 <?php
-                $list = (object)sql::Select_single("select * from tbl_member where users_id='$id'");
+                $list = (object)\app\Sql::Select_single("select * from tbl_member where users_id='$id'");
                 $users_id = $_SESSION["user_id"];
                 //var_dump($users_id);return;
                 $list = unserialize($list->support_document_list);
@@ -183,15 +182,15 @@ endif; ?>
 
                             ?>
                             <a target="_blank"
-                               href="/user_uploads/<?= $users_id ?>/<?= $item ?>.pdf">View</a>
+                               href="user_uploads/<?= $users_id ?>/<?= $item ?>.pdf">View</a>
                         <?php }
                         if (file_exists($file_pointer1)) { ?>
                             <a target="_blank"
-                               href="/user_uploads/<?= $users_id ?>/<?= $item ?>.jpg">View</a>
+                               href="user_uploads/<?= $users_id ?>/<?= $item ?>.jpg">View</a>
                         <?php }
                         if (file_exists($file_pointer2)) { ?>
                             <a target="_blank"
-                               href="/user_uploads/<?= $users_id ?>/<?= $item ?>.png">View</a>
+                               href="user_uploads/<?= $users_id ?>/<?= $item ?>.png">View</a>
                         <?php } ?>
 
                     </p>
@@ -208,3 +207,4 @@ endif; ?>
         </form>
     </div>
 </section>
+<?php include "includes/footer.php";

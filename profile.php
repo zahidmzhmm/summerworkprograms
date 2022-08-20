@@ -208,7 +208,7 @@ if ($member->have_valid_summer_holiday == false || $member->have_carry_over_clas
     <div class="modal-content">
         <div class="modal-header">
             <span class="close" data-dismiss="modal">&times;</span>
-            <h5><b>Appointment Details</b></h5>
+            <h5><b>Appointment Form</b></h5>
         </div>
         <div class="modal-body">
             <?php if ($member->appointment_status == "close") { ?>
