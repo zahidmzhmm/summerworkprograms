@@ -15,6 +15,7 @@
     "phpmailer/phpmailer": "^6.6",
     "gabordemooij/redbean": "^5.7",
     "nesbot/carbon": "^2.61",
-    "catfan/medoo": "^2.1"
+    "catfan/medoo": "^2.1",
+    "tecnickcom/tcpdf": "^6.5"
   }
 }

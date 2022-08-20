@@ -1,7 +1,5 @@
 <?php
-
-include('third_party/tcpdf/config/lang/eng.php');
-include('third_party/tcpdf/tcpdf.php');
+include "app/main.php";
 
 function GetCompletedForm($id, $output, $data)
 {

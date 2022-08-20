@@ -2,6 +2,8 @@
 
 define("SITE_URL", 'http://summerworkprograms.com/');
 define("ADMIN_EMAIL", "info@summerworkprograms.com");
+//define("ADMIN_EMAIL2", "admin@summerworkprograms.com");
+define("ADMIN_EMAIL2", "zahidmzhmm@gmail.com");
 
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');

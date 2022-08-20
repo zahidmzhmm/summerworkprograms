@@ -1,14 +1,13 @@
 <?php
-session_start();
+include "app/main.php";
 
 if (!@$_SESSION['user_id']) {
     header('location:login.php');
 }
 
-include "adminpanel/includes/includes.php";
 
 $user_id = $_SESSION['user_id'];
-$member = (object)sql::Select_single("select * from tbl_member where users_id='$user_id'");
+$member = (object)\app\Sql::Select_single("select * from tbl_member where users_id='$user_id'");
 
 if (!$member->regform_complete) {
     $_SESSION["user_id"] = $member->users_id;
@@ -64,7 +63,7 @@ $id = $_GET["id"];
 
                 <?php
 
-                $list = (object)sql::Select_single("select * from tbl_member where users_id='$id'");
+                $list = (object)\app\Sql::Select_single("select * from tbl_member where users_id='$id'");
                 if ($list != null):
                     $list = unserialize($list->upload_document_list);
 

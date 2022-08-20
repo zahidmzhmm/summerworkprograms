@@ -219,8 +219,9 @@ Summer Work Programs Processing Team </p>";
         $mail1->mail->msgHTML($msg);
 
         $address = $_POST["email"];
+        $web = new \app\Web();
         $pdf_file_name = strtolower($_POST["fname"] . "_" . $_POST["lname"]);
-        //$mail1->mail->AddStringAttachment(GetCompletedForm($_SESSION["user_id"], "S"), "{$pdf_file_name}.pdf");
+        $mail1->mail->AddStringAttachment($web->GetCompletedForm($_SESSION["user_id"], "S"), "{$pdf_file_name}.pdf");
         $mail1->mail->addAddress($address, @$_POST["fname"] . " " . @$_POST["lname"]);
 
         $mail1->mail->send();
