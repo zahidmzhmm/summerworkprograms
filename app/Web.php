@@ -6,7 +6,7 @@ namespace app;
 
 class Web
 {
-    function paging_control($base_url, $total_records, $page_size, $current_page)
+    static function paging_control($base_url, $total_records, $page_size, $current_page)
     {
         $url = $base_url;
         if (@$_REQUEST["sort"]) {
@@ -31,14 +31,14 @@ class Web
         return $pager;
     }
 
-    function message($message)
+    static function message($message)
     {
         echo "<script language='javascript'>
 			alert('$message');
 		</script>";
     }
 
-    function return_to_page($page)
+    static function return_to_page($page)
     {
         echo "<script language='javascript'>window.location.href='$page'
 			</script>";

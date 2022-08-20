@@ -19,7 +19,7 @@
                     require_once("modules/$module/$module.php");
                     break;
                 default:
-                    kernel::redirect();
+                    \app\Kernel::redirect();
                     break;
 
             }
