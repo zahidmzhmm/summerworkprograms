@@ -16,6 +16,10 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 $user_id = $_GET['id'];
 $member = (object)\app\Sql::Select_single("select * from tbl_member where users_id='$user_id'");
 $fees = $member->appointment_fee;
+if ($member->appointment_payment_status == 2) {
+    header("location:profile.php?paid=2");
+    exit;
+}
 $url = "https://api.paystack.co/transaction/initialize";
 
 $fields = [

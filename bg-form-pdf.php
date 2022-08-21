@@ -63,33 +63,40 @@ function GetCompletedForm($id, $output, $data)
 function GetHTML($data)
 {
 
-    $return_str = "<h3>Explain why you want to participate in the Work & Travel USA program. ** Minimum 250 characters</h3><br>" . $data['q1'] . "<br><br><br>";
+    $return_str = "<h3>Explain why you want to participate in the Work & Travel USA program.</h3><br>" . $data['q1'] . "<br><br><br>";
 
-    $return_str .= "<h3>What do you hope to achieve by spending your summer living and working in the U.S.? ** Minimum 200 characters</h3><br>" . $data['q2'] . "<br><br><br>";
+    $return_str .= "<h3>How do you think your life in the U.S.A. will be similar or different to your life at home?</h3><br>" . $data['q2'] . "<br><br><br>";
 
-    $return_str .= "<h3>How do you think your life in the U.S.A. will be similar to your life at home? ** Minimum 120 characters</h3><br>" . $data['q3'] . "<br><br><br>";
 
-    $return_str .= "<h3>How do you think your life in the U.S.A. will be different from your life at home? ** Minimum 120 characters</h3><br>" . $data['q4'] . "<br><br><br>";
+    $return_str .= "<h3>Mention U.S. cultural activities do you want to participate in during your program.</h3>";
+    $return_str .= "- Explain what you want to learn about the U.S. culture <br>";
+    $return_str .= "- How you will share your culture <br>";
+    $return_str .= "- Events or activities you plan to attend and places you want to see or travel to. <br>";
+    $return_str .= $data['q3'];
+    $return_str .= "<br><br><br>";
 
-    $return_str .= "<h3>What type of seasonal jobs do you hope to be placed in? (Refer to the SWT Job Profiles)</h3><br>" . $data['q5'] . "<br><br><br>";
+    $return_str .= "<h3>What do you hope to achieve by spending your summer living and working in the U.S.?</h3><br>" . $data['q4'] . "<br><br><br>";
 
-    $return_str .= "<h3>What do you hope to gain by participating in the SWT program?</h3><br>" . $data['q6'] . "<br><br><br>";
+    $return_str .= "<h3>Do you have plans to travel within the US during or the program? If yes, list destinations and purpose.</h3><br>" . $data['q5'] . "<br><br><br>";
 
-    $return_str .= "<h3>How do you plan to participate in U.S. cultural activities during your program?</h3><br>" . $data['q7'] . "<br><br><br>";
+    $return_str .= "<h3>What cultural activities do you want to experience in the U.S., and why?</h3><br>" . $data['q6'] . "<br><br><br>";
 
-    $return_str .= "<h3>Explain what you want to learn about U.S. culture, how you will share your culture, events or activities you plan to attend, places you want to see or travel to. ** Minimum 250 characters</h3><br>" . $data['q8'] . "<br><br><br>";
+    $return_str .= "<h3>What do you plan to do upon your return from the U.S.?</h3><br>" . $data['q7'] . "<br><br><br>";
 
-    $return_str .= "<h3>How do you best learn a new task?</h3><br>" . $data['q9'] . "<br><br><br>";
+    $return_str .= "<h3>What would you like to do after the completion of your Summer Work Program participation in the US?</h3>";
+    $return_str .= "- Extend your stay in the US <br>";
+    $return_str .= $data['q81'];
+    $return_str .= "- Change your return date <br>";
+    $return_str .= $data['q82'];
+    $return_str .= "- Stay back in the US <br>";
+    $return_str .= $data['q83'];
+    $return_str .= "<br><br><br>";
 
-    $return_str .= "<h3>What is your plan after participating in the Work & Travel USA program?</h3><br>" . $data['q10'] . "<br><br><br>";
+    $return_str .= "<h3>If YES to any or all of the questions above, why will you desire to take such action?</h3><br>" . $data['q9'] . "<br><br><br>";
 
-    $return_str .= "<h3>Do you have plans to travel within the US during the program? If yes, list destinations and purpose.</h3><br>" . $data['q11'] . "<br><br><br>";
+    $return_str .= "<h3>Where will you stay and with whom?</h3><br>" . $data['q10'] . "<br><br><br>";
 
-    $return_str .= "<h3>If you have an opportunity to extend your stay and change your return date, or stay back in the US after your Summer Work Program participation with the consent of your parents, will you?</h3><br>" . $data['q12'] . "<br><br><br>";
-
-    $return_str .= "<h3>If yes, which US city will you prefer to live in and why?</h3><br>" . $data['q13'] . "<br><br><br>";
-
-    $return_str .= "<h3>SIGNATURE ** Input your First and Last Names ONLY</h3><br>" . $data['q14'] . "<br><br><br>";
+    $return_str .= "<h3>SIGNATURE ** Input your First and Last Names ONLY</h3><br>" . $data['q11'] . "<br><br><br>";
 
     return $return_str;
 
