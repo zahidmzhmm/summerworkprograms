@@ -182,13 +182,6 @@ $form_wizard = 1;
 
                 <div id="step-1">
                     <h2 class="StepTitle">Step 1: Personal Details</h2>
-                    <!-- Zahid Mzhmm -->
-                    <select name="" id="" class="form-control" style="width: 10rem">
-                        <?php \app\Web::yearloop(); ?>
-                    </select>
-                    <select name="country" id="" class="form-control" style="width: 15rem;">
-                        <?php \app\Web::createcountrycombo(); ?>
-                    </select>
                     <div class="form-horizontal">
                         <div class="col-md-6">
                             <div class="form-group">
