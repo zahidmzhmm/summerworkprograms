@@ -71,7 +71,7 @@ function GetHTML($data)
     $return_str .= "<h3>Mention U.S. cultural activities do you want to participate in during your program.</h3>";
     $return_str .= "- Explain what you want to learn about the U.S. culture <br>";
     $return_str .= "- How you will share your culture <br>";
-    $return_str .= "- Events or activities you plan to attend and places you want to see or travel to. <br>";
+    $return_str .= "- Events or activities you plan to attend and places you want to see or travel to. <br><br>";
     $return_str .= $data['q3'];
     $return_str .= "<br><br><br>";
 
