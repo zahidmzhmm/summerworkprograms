@@ -34,7 +34,8 @@ include("includes/header.php");
                 <br>
                 <textarea name="q1" cols="152" rows="6" minlength="250" required></textarea><br><br><br>
 
-                <h6>How do you think your life in the U.S.A. will be similar or different to your life at home? ** Minimum 120 characters</h6><br>
+                <h6>How do you think your life in the U.S.A. will be similar or different to your life at home? **
+                    Minimum 120 characters</h6><br>
                 <textarea name="q2" cols="152" rows="6" minlength="120" required></textarea><br><br><br>
 
                 <h6>Mention U.S. cultural activities do you want to participate in during your program.</h6>
@@ -83,7 +84,9 @@ include("includes/header.php");
 
                 <h6>SIGNATURE ** Input your First and Last Names ONLY</h6><br>
                 <textarea name="q11" cols="152" rows="6" required></textarea><br><br><br>
-                <center><input type="submit" class="form-control" value="Submit"></center>
+                <center>
+                    <button type="submit" class="form-control" value="Submit">Submit</button>
+                </center>
             </fieldset>
         </form>
     </div>

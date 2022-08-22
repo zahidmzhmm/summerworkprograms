@@ -1,6 +1,6 @@
 <?php
 
-require_once("config.php");
+require_once("app/main.php");
 if ($_POST) {
 
     $secret = '0x9A2E2fa57f9925224dDA600cdbb231910A46d4F8';

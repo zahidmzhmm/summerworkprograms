@@ -252,7 +252,7 @@ if ($member->have_valid_summer_holiday == false || $member->have_carry_over_clas
                                     </select><br><br>
                                 </div>
 
-                                <button type="submit">Save</button>
+                                <button type="submit">Next</button>
                             </form>
                         </div>
                     <?php }
@@ -274,7 +274,7 @@ if ($member->have_valid_summer_holiday == false || $member->have_carry_over_clas
                                     Time</b> <?= $member->appointment_date_time ?>
                             </div><br>
                         <?php } ?>
-                        <b>Appointment Fees:</b> <?= $member->appointment_fee ?>
+                        <b>Administrative Fee:</b> <?= $member->appointment_fee ?>
                         <br><br>
                         <?php
                         if ($member->appointment_payment_status != 2) {

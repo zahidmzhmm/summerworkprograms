@@ -112,7 +112,7 @@ $list = app\Sql::Select_all("select * from appointment_time_list where type='$ty
                         </td>
                     </tr>
                     <tr>
-                        <td width="20%" align="left" valign="top">Pement Status:</td>
+                        <td width="20%" align="left" valign="top">Payment Status:</td>
                         <td width="80%" align="left">
                             <?= $order_data->appointment_payment_status == 2 ? 'Paid' : 'Unpaid' ?>
                         </td>

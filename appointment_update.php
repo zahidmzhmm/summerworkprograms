@@ -10,4 +10,4 @@ if (isset($_POST['id'], $_POST['appointment_type'], $_POST['appointment_date_tim
     $sql = "update tbl_member set `appointment_type`='$appointment_type', `appointment_date_time`='$appointment_date_time' where users_id='$id'";
     app\Sql::update($sql);
 }
-header("location:profile.php");
+header("location:appointmentd.php");

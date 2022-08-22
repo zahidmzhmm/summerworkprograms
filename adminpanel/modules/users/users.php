@@ -97,7 +97,7 @@ $user_data = app\Sql::Select_all($sql);
                         ?>
                         <tr>
                             <td align="center"><?= $counter; ?></td>
-                            <td><?php echo trim(ucwords($user_item->fname)); ?><?php echo trim(ucwords($user_item->midname)); ?><?php echo trim(ucwords($user_item->lname)); ?></td>
+                            <td><?php echo trim(ucwords($user_item->fname)) . ' '; ?><?php echo trim(ucwords($user_item->midname)) . ' '; ?><?php echo trim(ucwords($user_item->lname)) . ' '; ?></td>
                             <td> <?= ucwords($user_item->gender); ?></td>
                             <td><?= $user_item->email; ?></td>
                             <td><a href="#">
