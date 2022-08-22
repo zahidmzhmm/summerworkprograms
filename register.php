@@ -357,16 +357,15 @@ $form_wizard = 1;
                             </div>
                             <!-- Zahid Mzhmm -->
                             <div class="form-group">
-                                <label for="bvn" class="required control-label col-md-4">Number of
-                                    BVN:</label>
+                                <label for="bvn" class="required control-label col-md-4">BVN:</label>
                                 <div class="col-md-8">
                                     <input type="text" name="bvn" id="bvn"
                                            value="<?php echo $data->bvn; ?>" class="form-control"/>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="nid_number" class="required control-label col-md-4">Number of
-                                    National ID Number:</label>
+                                <label for="nid_number" class="required control-label col-md-4">National ID
+                                    Number:</label>
                                 <div class="col-md-8">
                                     <input type="text" name="nid_number" id="nid_number"
                                            value="<?php echo $data->nid_number; ?>" class="form-control"/>
@@ -413,7 +412,8 @@ $form_wizard = 1;
                                 <label for="social_media_handles" class="required control-label col-md-4">Social Media
                                     Handles:</label>
                                 <div class="col-md-8">
-                                    <select name="social_media_handles" class="form-control mb-2"
+                                    <select name="social_media_handles"
+                                            class="form-control mb-2"
                                             id="social_media_handles" style="width: 15rem;">
                                         <option value="Facebook">Facebook</option>
                                         <option value="Instagram">Instagram</option>
@@ -1381,98 +1381,103 @@ $form_wizard = 1;
                                     previously?
                                 </label>
                                 <div class="col-md-7">
-                                    <input type="radio" name="members_participated" value="yes"> Yes
-                                    <input type="radio" name="members_participated" value="no"> No
+                                    <input type="radio" onclick="members_paricipated(1)" checked
+                                           name="members_participated" value="yes"> Yes
+                                    <input type="radio" onclick="members_paricipated(2)" name="members_participated"
+                                           value="no"> No
                                 </div>
                             </div>
                             <!-- If Yes -->
-                            <div class="form-group">
-                                <label for="members_participated_student" class=" control-label col-md-5">
-                                    Name of Student:
-                                </label>
-                                <div class="col-md-7">
-                                    <input type="text" name="members_participated_student"
-                                           id="members_participated_student"
-                                           value="<?php echo $data->members_participated_student; ?>"
-                                           class="form-control"/>
+                            <div id="members_participated_yes">
+                                <div class="form-group">
+                                    <label for="members_participated_student" class="control-label col-md-5">
+                                        Name of Student:
+                                    </label>
+                                    <div class="col-md-7">
+                                        <input type="text" name="members_participated_student"
+                                               id="members_participated_student"
+                                               value="<?php echo $data->members_participated_student; ?>"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="members_participated_relationship" class=" control-label col-md-5">
+                                        Relationship to you:
+                                    </label>
+                                    <div class="col-md-7">
+                                        <input type="text" name="members_participated_relationship"
+                                               id="members_participated_relationship"
+                                               value="<?php echo $data->members_participated_relationship; ?>"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="members_participated_institution" class=" control-label col-md-5">
+                                        Name of Institution at the time participation:
+                                    </label>
+                                    <div class="col-md-7">
+                                        <input type="text" name="members_participated_institution"
+                                               id="members_participated_institution"
+                                               value="<?php echo $data->members_participated_institution; ?>"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="members_participated_yes" class=" control-label col-md-5">
+                                        Year of Participation:
+                                    </label>
+                                    <div class="col-md-7">
+                                        <input type="text" name="members_participated_yes" id="members_participated_yes"
+                                               value="<?php echo $data->members_participated_yes; ?>"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="members_participated_p_sponsor" class=" control-label col-md-5">
+                                        Name of Program Sponsor:
+                                    </label>
+                                    <div class="col-md-7">
+                                        <input type="text" name="members_participated_p_sponsor"
+                                               id="members_participated_p_sponsor"
+                                               value="<?php echo $data->members_participated_p_sponsor; ?>"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="members_participated_local_representative"
+                                           class=" control-label col-md-5">
+                                        Name of Local Representative:
+                                    </label>
+                                    <div class="col-md-7">
+                                        <input type="text" name="members_participated_local_representative"
+                                               id="members_participated_local_representative"
+                                               value="<?php echo $data->members_participated_local_representative; ?>"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="members_participated_employer" class=" control-label col-md-5">
+                                        Name of Employer:
+                                    </label>
+                                    <div class="col-md-7">
+                                        <input type="text" name="members_participated_employer"
+                                               id="members_participated_employer"
+                                               value="<?php echo $data->members_participated_employer; ?>"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="members_participated_em_location" class=" control-label col-md-5">
+                                        Location (City, State) of Employer:
+                                    </label>
+                                    <div class="col-md-7">
+                                        <input type="text" name="members_participated_em_location"
+                                               id="members_participated_em_location"
+                                               value="<?php echo $data->members_participated_em_location; ?>"
+                                               class="form-control"/>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="members_participated_relationship" class=" control-label col-md-5">
-                                    Relationship to you:
-                                </label>
-                                <div class="col-md-7">
-                                    <input type="text" name="members_participated_relationship"
-                                           id="members_participated_relationship"
-                                           value="<?php echo $data->members_participated_relationship; ?>"
-                                           class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="members_participated_institution" class=" control-label col-md-5">
-                                    Name of Institution at the time participation:
-                                </label>
-                                <div class="col-md-7">
-                                    <input type="text" name="members_participated_institution"
-                                           id="members_participated_institution"
-                                           value="<?php echo $data->members_participated_institution; ?>"
-                                           class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="members_participated_yes" class=" control-label col-md-5">
-                                    Year of Participation:
-                                </label>
-                                <div class="col-md-7">
-                                    <input type="text" name="members_participated_yes" id="members_participated_yes"
-                                           value="<?php echo $data->members_participated_yes; ?>" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="members_participated_p_sponsor" class=" control-label col-md-5">
-                                    Name of Program Sponsor:
-                                </label>
-                                <div class="col-md-7">
-                                    <input type="text" name="members_participated_p_sponsor"
-                                           id="members_participated_p_sponsor"
-                                           value="<?php echo $data->members_participated_p_sponsor; ?>"
-                                           class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="members_participated_local_representative" class=" control-label col-md-5">
-                                    Name of Local Representative:
-                                </label>
-                                <div class="col-md-7">
-                                    <input type="text" name="members_participated_local_representative"
-                                           id="members_participated_local_representative"
-                                           value="<?php echo $data->members_participated_local_representative; ?>"
-                                           class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="members_participated_employer" class=" control-label col-md-5">
-                                    Name of Employer:
-                                </label>
-                                <div class="col-md-7">
-                                    <input type="text" name="members_participated_employer"
-                                           id="members_participated_employer"
-                                           value="<?php echo $data->members_participated_employer; ?>"
-                                           class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="members_participated_em_location" class=" control-label col-md-5">
-                                    Location (City, State) of Employer:
-                                </label>
-                                <div class="col-md-7">
-                                    <input type="text" name="members_participated_em_location"
-                                           id="members_participated_em_location"
-                                           value="<?php echo $data->members_participated_em_location; ?>"
-                                           class="form-control"/>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                     <div class="col-md-6"></div>
@@ -2113,6 +2118,30 @@ $form_wizard = 1;
     function isNumeric(val) {
         var reg = /^\d+$/;
         return reg.test(val);
+    }
+
+    $("#social_media_handles").on("change", function () {
+        var e = document.getElementById("social_media_handles");
+        var selected = e.options[e.selectedIndex].value;
+        var placeholderid = document.getElementById("social_media_handles_val");
+        placeholderid.placeholder = selected + ' Profile Link';
+    })
+
+    function members_paricipated(val) {
+        let memberdiv = $("#members_participated_yes");
+        if (val == 1) {
+            memberdiv.addClass("hidden");
+            memberdiv.removeClass("hidden");
+            memberdiv.find("label").addClass("required");
+            memberdiv.removeClass("hidden");
+        } else {
+            memberdiv.find("label").removeClass("required");
+            memberdiv.find(".has-error").removeClass("has-error");
+            memberdiv.addClass("hidden");
+            memberdiv.find("input").val("");
+            memberdiv.removeClass("hidden");
+            memberdiv.addClass("hidden")
+        }
     }
 </script>
 
