@@ -20,7 +20,13 @@ $parent_address_n_sponsor = [
     "mother_profession" => "Mother Profession",
     "addr_same_as_parent" => "Contact Same as Parent",
     "contact_address_parent" => "Parent Contact Address",
-    "parent_is_sponsor" => "Parent is Sponsor"
+    "parent_is_sponsor" => "Parent is Sponsor",
+    "home_address_father" => "Home Address of Father",
+    "work_address_father" => "Work Address of Father",
+    "nid_father" => "National ID Number of Father",
+    "home_address_mother" => "Home Address of Mother",
+    "work_address_mother" => "Work Address of Mother",
+    "nid_mother" => "National ID Number of Mother",
 ];
 
 if ($user_data->addr_same_as_parent) {
@@ -34,7 +40,12 @@ if (!$user_data->parent_is_sponsor) {
         "sponsor_phone" => "Sponsor Phone",
         "sponsor_email" => "Sponsor Email",
         "sponsor_relation" => "Relation to Sponsor",
-        "sponsor_profession" => "Sponsor profession"));
+        "sponsor_profession" => "Sponsor profession",
+        "home_address_sponsor" => "Home Address of Sponsor",
+        "work_address_sponsor" => "Work Address of Sponsor",
+        "nid_sponsor" => "National ID Number of Sponsor",
+        "num_dependents_sponsor" => "Number of Dependents on Sponsor",
+    ));
 }
 
 $fields_to_display = [
@@ -55,7 +66,14 @@ $fields_to_display = [
             "mobile_no" => "Mobile No#",
             "phone_no" => "Phone No#",
             "email" => "Email",
-            "passport_number" => "Passport No#"
+            "passport_number" => "Passport No#",
+            "bvn" => "BVN",
+            "nid_number" => "National ID Number",
+            "skype_id" => "Skype ID",
+            "social_media_handles" => "Social Media Handles: ",
+            "social_media_handles_val" => "Social Media Link: ",
+            "linkedin_profile" => "LinkedIn Profile",
+            "whatsapp_number" => "WhatsApp Number",
         ],
         $parent_address_n_sponsor
     ],
@@ -79,6 +97,17 @@ $fields_to_display = [
                 "have_carry_over_classes" => "Do you have summer classes or have carry-over classes to take during the summer?",
                 "hear_about_program" => "How did you hear about us?",
                 "hear_from_other" => ""
+            ],
+            [
+                "members_participated" => "Do you have friends or family members who participated in the Summer Work Program previously? ",
+                "members_participated_student" => "Name of Student",
+                "members_participated_relationship" => "Relationship to you",
+                "members_participated_institution" => "Name of Institution at the time participation",
+                "members_participated_yes" => "Year of Participation",
+                "members_participated_p_sponsor" => "Name of Program Sponsor",
+                "members_participated_local_representative" => "Name of Local Representative",
+                "members_participated_employer" => "Name of Employer",
+                "members_participated_em_location" => "Location (City, State) of Employer"
             ]
         ],
 
@@ -260,7 +289,36 @@ $pp_photo_path = "../user_uploads/$id/pp_photo.jpg";
         </td>
     </tr>
     <tr>
-        <td colspan="2">&nbsp;</td>
+        <td colspan="2">
+            <table><?php
+                foreach ($fields_to_display["education"][2] as $field => $display_name):
+
+
+                    $value = "";
+                    if (in_array($field, $boolean_fields)) {
+                        $value = $boolan_value[$user_data->$field ? 1 : 0];
+                    } else if (in_array($field, $date_fields)) {
+                        if ($user_data->$field != "") {
+                            $value = $user_data->$field;
+                        }
+                    } else {
+                        $value = $user_data->$field;
+                    }
+
+                    if ($value != ""):
+                        ?>
+                        <tr>
+                            <td width="24%"><?= $display_name ?></td>
+                            <td width="1%" align="center">:</td>
+                            <td width="75%"><?php
+                                echo $value;
+                                ?></td>
+                        </tr>
+
+                    <?php
+                    endif;
+                endforeach; ?></table>
+        </td>
     </tr>
 
     <tr>
