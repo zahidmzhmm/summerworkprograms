@@ -10,18 +10,11 @@ if (!$member) {
     header("location:logout.php");
 }
 $member = (object)$member;
-if ($member->bgform_id != null) {
-    header('location:index.php');
-}
-if ($member->participant_statement_link == 'close') {
-    header('location:index.php');
-}
-
 include("includes/header.php");
 ?>
 
 <section class="grid">
-    <div class="block-border">
+    <div class="block-border" style="margin: 5rem">
         <div><b>Appointment Approval Status:</b> <?php
             if ($member->appointment_approve_status == "approve") {
                 ?>Approved<?php } else if ($member->appointment_approve_status == "declined") {

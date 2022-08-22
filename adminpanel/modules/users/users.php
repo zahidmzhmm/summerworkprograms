@@ -4,7 +4,7 @@ $sort = @$_GET["sort"] ? $_GET["sort"] : "users_id asc";
 $keywords = @$_GET["keywords"] ? $_GET["keywords"] : "";
 $conditions = "fname LIKE '%$keywords%' OR lname LIKE '%$keywords%' OR email LIKE '%$keywords%'";
 
-$page_size = 20;
+$page_size = 50;
 $current_page = @$_GET["pg"] ? $_GET["pg"] : 1;
 $offset = $page_size * ($current_page - 1);
 
