@@ -277,7 +277,7 @@ if ($member->have_valid_summer_holiday == false || $member->have_carry_over_clas
                                     echo 'Virtual (Online)';
                                 } ?></div><br>
                             <div><b>Appointment Date /
-                                    Time</b> <?= $member->appointment_date_time ?>
+                                    Time: </b> <?= $member->appointment_date_time ?>
                             </div><br>
                         <?php } ?>
                         <b>Administrative Fee:</b> <?= $member->appointment_fee ?>

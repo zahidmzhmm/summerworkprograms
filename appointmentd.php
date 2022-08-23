@@ -27,8 +27,8 @@ include("includes/header.php");
                 } else {
                     echo 'Virtual (Online)';
                 } ?></div><br>
-            <div><b>Appointment Date /
-                    Time</b> <?= $member->appointment_date_time ?>
+            <div style="width: 300px"><b>Appointment Date /
+                    Time: </b> <?= $member->appointment_date_time ?>
             </div><br>
         <?php } ?>
         <b>Administrative Fee:</b> <?= $member->appointment_fee ?>
