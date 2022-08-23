@@ -65,10 +65,10 @@ function GetHTML($data)
 
     $return_str = "<h3>Explain why you want to participate in the Work & Travel USA program.</h3><br>" . $data['q1'] . "<br><br><br>";
 
-    $return_str .= "<h3>How do you think your life in the U.S.A. will be similar or different to your life at home?</h3><br>" . $data['q2'] . "<br><br><br>";
+    $return_str .= "<h3>How do you think your life in the U.S.A. will be similar to or different from your life at home?</h3><br>" . $data['q2'] . "<br><br><br>";
 
 
-    $return_str .= "<h3>Mention U.S. cultural activities do you want to participate in during your program.</h3>";
+    $return_str .= "<h3>Mention U.S. cultural activities you want to participate in during your program.</h3>";
     $return_str .= "- Explain what you want to learn about the U.S. culture <br>";
     $return_str .= "- How you will share your culture <br>";
     $return_str .= "- Events or activities you plan to attend and places you want to see or travel to. <br><br>";
@@ -77,9 +77,7 @@ function GetHTML($data)
 
     $return_str .= "<h3>What do you hope to achieve by spending your summer living and working in the U.S.?</h3><br>" . $data['q4'] . "<br><br><br>";
 
-    $return_str .= "<h3>Do you have plans to travel within the US during or the program? If yes, list destinations and purpose.</h3><br>" . $data['q5'] . "<br><br><br>";
-
-    $return_str .= "<h3>What cultural activities do you want to experience in the U.S., and why?</h3><br>" . $data['q6'] . "<br><br><br>";
+    $return_str .= "<h3>Do you have plans to travel within the US during or after the program? If yes, list destinations and purpose.</h3><br>" . $data['q5'] . "<br><br><br>";
 
     $return_str .= "<h3>What do you plan to do upon your return from the U.S.?</h3><br>" . $data['q7'] . "<br><br><br>";
 

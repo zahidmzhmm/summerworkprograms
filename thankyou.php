@@ -13,6 +13,8 @@ if ($_POST) {
     $have_carry_over_class = @$_POST['have_carry_over_classes'] ? $_POST['have_carry_over_classes'] : '0';
 
     $users_id = $_SESSION["user_id"];
+    $user = (object)\app\Sql::Select_single("select * from tbl_member where users_id='$users_id'");
+    $referenceid .= $user->referenceid;
     $fname = @$_POST['fname'];
     $lname = @$_POST['lname'];
 
