@@ -235,16 +235,22 @@ if ($member->have_valid_summer_holiday == false || $member->have_carry_over_clas
                                         echo 'Appointment has been Declined. The office will open new dates when available';
                                     } else { ?>Pending<?php } ?></div>
                                 <br>
-                                <div class="form-group form-inline">
-                                    <label class="text-left" style="padding-right: 5px">Type</label>
+                                <style>
+                                    .form-inline label {
+                                        align-content: start !important;
+                                        justify-content: start;
+                                    }
+                                </style>
+                                <div class="form-group form-inline" style="">
+                                    <label class="text-left" style="width: 253px">Appointment Type</label>
                                     <select class="form-control" name="appointment_type" id="appointment_type">
                                         <option value="">Select Type</option>
                                         <option value="onsite">In-person (Onsite)</option>
                                         <option value="online">Virtual (Online)</option>
                                     </select>
                                 </div>
-                                <div class="form-group form-inline">
-                                    <label class="text-left" style="padding-right: 5px">Appointment Date /
+                                <div class="form-group form-inline" style="">
+                                    <label class="text-left" style="width: 253px">Appointment Date /
                                         Time<?= $member->appointment_date_time; ?></label>
                                     <select class="form-control" name="appointment_date_time"
                                             id="appointment_date_time">
