@@ -16,6 +16,7 @@ $success = $medoo->update('tbl_member', [
     'appointment_approve_status' => $appointment_approve_status,
     'appointment_date_time' => $appointment_date_time,
     'appointment_fee' => $_POST['fee'],
+    'appointment_payment_status' => 1,
 ], ['users_id' => $id]);
 
 if ($success) {
