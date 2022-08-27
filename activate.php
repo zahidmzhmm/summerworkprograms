@@ -21,12 +21,13 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['firstna
     $password = $_POST['password'];
 
     $member = \app\Sql::Select_single("select * from tbl_member where email='$email'");
-    if ($member || !empty($member)) {
-        $_SESSION['err_msg'] = "EMAIL_EXIST";
-        header("location:user-register.php");
-        exit;
+    if (isset($member['status']) && $member['status'] != 'CLOSED') {
+        if ($member || !empty($member)) {
+            $_SESSION['err_msg'] = "EMAIL_EXIST";
+            header("location:user-register.php");
+            exit;
+        }
     }
-    $member = (object)$member;
     //all good to go
     $_SESSION["firstname"] = $_POST["firstname"];
     $_SESSION["lastname"] = $_POST["lastname"];
@@ -65,7 +66,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['firstna
     $date_joined = date('Y-m-d');
     $acstatus = "INACTIVE";
     $status = "INCOMPLETE";
-    $referenceid = $_POST["password"];
+    $referenceid = ucwords(RandomString(5));
 
     $insert = \app\Sql::insert("INSERT INTO `tbl_member` (`res_countries`, `fname`, `lname`, `email`, `password`, `dob`, `name_institution`, `date_joined`, `acstatus`, `actcode`, `status`, `referenceid`)
                                                     values   ('$res_country', '$fname', '$lname', '$email', '$password', '$dob', '$name_ins', '$date_joined', '$acstatus', '$actcode', '$status', '$referenceid')");
