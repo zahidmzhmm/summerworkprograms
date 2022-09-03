@@ -8,7 +8,7 @@ $appointment_status = $_POST['appointment_status'];
 $appointment_approve_status = $_POST['appointment_approve_status'];
 $appointment_date_time = $_POST['appointment_date_time'];
 $appointment_type = $_POST['appointment_type'];
-
+$member = (object)\app\Sql::Select_single("select * from tbl_member where users_id='$id'");
 $medoo = new Medoo\Medoo($database);
 $success = $medoo->update('tbl_member', [
     'appointment_type' => $appointment_type,
@@ -16,7 +16,7 @@ $success = $medoo->update('tbl_member', [
     'appointment_approve_status' => $appointment_approve_status,
     'appointment_date_time' => $appointment_date_time,
     'appointment_fee' => $_POST['fee'],
-    'appointment_payment_status' => 1,
+    'appointment_payment_status' => $_POST['appointment_payment']
 ], ['users_id' => $id]);
 
 if ($success) {

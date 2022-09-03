@@ -11,8 +11,8 @@ $allowed_types = array(".pdf", ".jpg");
 
 if ($_POST) {
 
-    $list = (object)\app\Sql::Select_single("select * from tbl_member where users_id='$id'");
-    $list = unserialize($list->support_document_list);
+    $member = (object)\app\Sql::Select_single("select * from tbl_member where users_id='$id'");
+    $list = unserialize($member->support_document_list);
 
     $files_uploaded = 0;
     $update_fields = "";
@@ -48,88 +48,44 @@ if ($_POST) {
 
         }
     }
-
-    //    if ($_FILES["student_id"]["size"] > 0) {
-    //        //student id\
-    //        $upfile = $_FILES["student_id"]["name"];
-    //        $ext = substr($upfile, strrpos($upfile, "."));
-    //        if (in_array($ext, $allowed_types)) {
-    //            $file_name = "std_id{$ext}";
-    //            $update_fields .= " student_id='$file_name',";
-    //            move_uploaded_file($_FILES["student_id"]["tmp_name"], "$upload_path/$file_name");
-    //            $files_uploaded++;
-    //        } else {
-    //            $message .= "Invalid file format for Student Id.\\n";
-    //        }
-
-    //    }
-    //    if ($_FILES["admission_letter"]["size"] > 0) {
-    //        //admission letter
-    //        $upfile = $_FILES["admission_letter"]["name"];
-    //        $ext = substr($upfile, strrpos($upfile, "."));
-    //        if (in_array($ext, $allowed_types)) {
-    //            $file_name = "adm_ltr{$ext}";
-    //            $update_fields .= " admission_letter='$file_name',";
-    //            move_uploaded_file($_FILES["admission_letter"]["tmp_name"], "$upload_path/$file_name");
-    //            $files_uploaded++;
-    //        } else {
-    //            $message .= "Invalid file format for Admission letter.\\n";
-    //        }
-    //    }
-    //    if ($_FILES["pp_photo"]["size"] > 0) {
-    //        //pp_photo
-    //        $upfile = $_FILES["pp_photo"]["name"];
-    //        $ext = substr($upfile, strrpos($upfile, "."));
-    //        if (in_array($ext, $allowed_types)) {
-    //            $file_name = "pp_photo{$ext}";
-    //            $update_fields .= " pp_photo='$file_name',";
-    //            move_uploaded_file($_FILES["pp_photo"]["tmp_name"], "$upload_path/$file_name");
-    //            $files_uploaded++;
-    //        } else {
-    //            $message .= "Invalid file format for Passport photo.\\n";
-    //        }
-    //    }
-
-    // if ($_FILES["intl_passport"]["size"] > 0) {
-    // 	//intl_passport
-    // 	$upfile = $_FILES["intl_passport"]["name"];
-    // 	$ext = substr($upfile, strrpos($upfile, "."));
-    // 	if (in_array($ext, $allowed_types)) {
-    // 		$file_name = "intl_passport{$ext}";
-    // 		$update_fields .= " intl_passport='$file_name',";
-    // 		move_uploaded_file($_FILES["intl_passport"]["tmp_name"], "$upload_path/$file_name");
-    // 		$files_uploaded++;
-    // 	} else {
-    // 		$message .= "Invalid file format for International Passport.\\n";
-    // 	}
-    // }
-
-
-    // if ($_FILES["academic_record"]["size"] > 0) {
-    // 	//intl_passport
-    // 	$upfile = $_FILES["academic_record"]["name"];
-    // 	$ext = substr($upfile, strrpos($upfile, "."));
-    // 	if (in_array($ext, $allowed_types)) {
-    // 		$file_name = "academic_record{$ext}";
-    // 		$update_fields .= " academic_record='$file_name',";
-    // 		move_uploaded_file($_FILES["academic_record"]["tmp_name"], "$upload_path/$file_name");
-    // 		$files_uploaded++;
-    // 	} else {
-    // 		$message .= "Invalid file format for Academic Record.\\n";
-    // 	}
-    // }
-
+    $content = "";
+    foreach ($list as $index => $item) {
+        $content .= "<p>";
+        $file_pointer = "user_uploads/$users_id/$item.pdf";
+        $file_pointer1 = "user_uploads/$users_id/$item.jpg";
+        $file_pointer2 = "user_uploads/$users_id/$item.png";
+        if (file_exists($file_pointer)) {
+            $content .= '<a target="_blank" href="user_uploads/' . $users_id . $item . '.pdf">' . $item . '.pdf</a><br>';
+        }
+        if (file_exists($file_pointer1)) {
+            $content .= '<a target="_blank" href="user_uploads/' . $users_id . $item . '.pdf">' . $item . '.jpg</a><br>';
+        }
+        if (file_exists($file_pointer2)) {
+            $content .= '<a target="_blank" href="user_uploads/' . $users_id . $item . '.pdf">' . $item . '.png</a><br>';
+        }
+        $content .= "</p>";
+    }
+    $mail1 = new \app\Mailer();
+    $mail1->mail->Subject = $member->fname . " " . $member->lname . " has uploaded " . $files_uploaded . " files";
+    $msg = "<p>Dear Administrator,</p>";
+    $msg .= "<p>" . $member->fname . " " . $member->lname . " has uploaded " . $files_uploaded . " files as listed below:</p>";
+    $msg .= $content;
+    $msg .= "<p>Thank you !<br />
+            _______________________
+            <br><br>
+            Summer Work Programs <br>
+            Besor Associates <br>
+            Lagos State, Nigeria 100001 <br>
+            info@summerworkprograms.com <br>
+            www.summerworkprograms.com <br>
+            <br/>
+            </p>";
+    $mail1->mail->msgHTML($msg);
+    $mail1->mail->addAddress(ADMIN_EMAIL);
+    $mail1->mail->send();
 
     $message = "$files_uploaded file(s) uploaded.\\n$message";
-
-
-    // $update_fields = substr($update_fields, 0, strrpos($update_fields, ","));
-
-    // $query = "UPDATE `tbl_member` SET $update_fields  WHERE `users_id` = $users_id";
-    // sql::update_query($query);
-    $send_to_profile = true;
-
-
+    echo '<script>alert("' . $message . '");window.location.href="profile.php"</script>';
 }
 
 $member_data = (object)\app\Sql::Select_single("select * from tbl_member where users_id='$id'");
@@ -153,58 +109,58 @@ if ($send_to_profile): ?>
 
 endif; ?>
 
-<section class="grid">
-    <div class="block-border">
-        <h1>Upload support documents </h1>
+    <section class="grid">
+        <div class="block-border">
+            <h1>Upload support documents </h1>
 
-        <form name="login" action="" method="post" class="block-content form inline-small-label"
-              enctype="multipart/form-data">
+            <form name="login" action="" method="post" class="block-content form inline-small-label"
+                  enctype="multipart/form-data">
 
-            <fieldset>
-                <?php
-                $list = (object)\app\Sql::Select_single("select * from tbl_member where users_id='$id'");
-                $users_id = $_SESSION["user_id"];
-                //var_dump($users_id);return;
-                $list = unserialize($list->support_document_list);
+                <fieldset>
+                    <?php
+                    $list = (object)\app\Sql::Select_single("select * from tbl_member where users_id='$id'");
+                    $users_id = $_SESSION["user_id"];
+                    //var_dump($users_id);return;
+                    $list = unserialize($list->support_document_list);
 
-                foreach ($list as $index => $item) {
-                    ?>
-                    <p>
-                        <label for="password"><?= $item ?>:</label>
-                        <input type="file" name="new_item[]" id="academic_record" value="" class="input-type-text"
-                               accept="image/x-png, image/jpeg, application/pdf"/>&nbsp;&nbsp;
-                        <?php
-                        //echo "/user_uploads/$users_id/$item.pdf";
-                        $file_pointer = "user_uploads/$users_id/$item.pdf";
-                        $file_pointer1 = "user_uploads/$users_id/$item.jpg";
-                        $file_pointer2 = "user_uploads/$users_id/$item.png";
-                        if (file_exists($file_pointer)) {
+                    foreach ($list as $index => $item) {
+                        ?>
+                        <p>
+                            <label for="password"><?= $item ?>:</label>
+                            <input type="file" name="new_item[]" id="academic_record" value="" class="input-type-text"
+                                   accept="image/x-png, image/jpeg, application/pdf"/>&nbsp;&nbsp;
+                            <?php
+                            //echo "/user_uploads/$users_id/$item.pdf";
+                            $file_pointer = "user_uploads/$users_id/$item.pdf";
+                            $file_pointer1 = "user_uploads/$users_id/$item.jpg";
+                            $file_pointer2 = "user_uploads/$users_id/$item.png";
+                            if (file_exists($file_pointer)) {
 
-                            ?>
-                            <a target="_blank"
-                               href="user_uploads/<?= $users_id ?>/<?= $item ?>.pdf">View</a>
-                        <?php }
-                        if (file_exists($file_pointer1)) { ?>
-                            <a target="_blank"
-                               href="user_uploads/<?= $users_id ?>/<?= $item ?>.jpg">View</a>
-                        <?php }
-                        if (file_exists($file_pointer2)) { ?>
-                            <a target="_blank"
-                               href="user_uploads/<?= $users_id ?>/<?= $item ?>.png">View</a>
-                        <?php } ?>
+                                ?>
+                                <a target="_blank"
+                                   href="user_uploads/<?= $users_id ?>/<?= $item ?>.pdf">View</a>
+                            <?php }
+                            if (file_exists($file_pointer1)) { ?>
+                                <a target="_blank"
+                                   href="user_uploads/<?= $users_id ?>/<?= $item ?>.jpg">View</a>
+                            <?php }
+                            if (file_exists($file_pointer2)) { ?>
+                                <a target="_blank"
+                                   href="user_uploads/<?= $users_id ?>/<?= $item ?>.png">View</a>
+                            <?php } ?>
 
+                        </p>
+                    <?php } ?>
+
+
+                    <input type="hidden" name="register_posted" value="yes">
+                </fieldset>
+                <fieldset class="grey-bg no-margin">
+                    <p class="input-with-button">
+                        <button type="submit" name="submit">Submit</button>
                     </p>
-                <?php } ?>
-
-
-                <input type="hidden" name="register_posted" value="yes">
-            </fieldset>
-            <fieldset class="grey-bg no-margin">
-                <p class="input-with-button">
-                    <button type="submit" name="submit">Submit</button>
-                </p>
-            </fieldset>
-        </form>
-    </div>
-</section>
+                </fieldset>
+            </form>
+        </div>
+    </section>
 <?php include "includes/footer.php";

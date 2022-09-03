@@ -13,32 +13,31 @@ if (isset($_POST['user_id'])) {
     if (!$id) {
         exit("Error");
     }
-
+    $files_uploaded = 0;
+    $update_fields = "";
     $upload_path = "../user_uploads/$id";
-
     if (!file_exists($upload_path)) {
         mkdir($upload_path);
     }
-
     $allowed_types = array(".pdf");
-    $count = count($_FILES['new_item']) - 3;
-    for ($i = 0; $i < $count; $i++) {
-        $name = $_FILES['new_item']['name'][$i];
-        $tmp_name = $_FILES['new_item']['tmp_name'][$i];
-        $size = $_FILES['new_item']['size'];
-        if ($size > 0) {
-            $upfile = $_FILES["new_item"]["name"][$i];
+    foreach ($_FILES['new_item']['tmp_name'] as $key => $tmp_name) {
+        if ($_FILES['new_item']["size"][$key] > 0) {
+            $upfile = $_FILES["new_item"]["name"][$key];
             $ext = substr($upfile, strrpos($upfile, "."));
             if (in_array($ext, $allowed_types)) {
-                $file_name = $list[$i] . "{$ext}";
-                move_uploaded_file($_FILES["new_item"]["tmp_name"][$i], "$upload_path/$file_name");
+                $file_name = $list[$key] . "{$ext}";
+                move_uploaded_file($_FILES["new_item"]["tmp_name"][$key], "$upload_path/$file_name");
+                $files_uploaded++;
+
             } else {
-                $message .= "Invalid file format for " . $upfile;
+                $message .= "Invalid file format for" . $list[4 + $key];
             }
+
         }
     }
+    $message = "$files_uploaded file(s) uploaded.";
+    echo '<script>alert("' . $message . '")</script>';
     header('Location: home.php?modules=users&action=upload_doc&usersid=' . $id . '&pg=' . @$_REQUEST["pg"]);
-
 }
 ?>
 <table width="100%">

@@ -43,18 +43,18 @@ include("includes/header.php");
                 <h6>What would you like to do after the completion of your Summer Work Program participation in the
                     US?</h6>
                 - Extend your stay in the US <br>
-                <input type="radio" name="q81" value="Yes"> Yes
-                <input type="radio" name="q81" style="margin-left:3px;" value="No"> No
+                <input type="radio" name="q81" required value="Yes"> Yes
+                <input type="radio" name="q81" required style="margin-left:3px;" value="No"> No
                 <br>
                 <br>
                 - Change your return date <br>
-                <input type="radio" name="q82" value="Yes"> Yes
-                <input type="radio" name="q82" style="margin-left:3px;" value="No"> No
+                <input type="radio" name="q82" required value="Yes"> Yes
+                <input type="radio" name="q82" required style="margin-left:3px;" value="No"> No
                 <br>
                 <br>
                 - Stay back in the US <br>
-                <input type="radio" name="q83" value="Yes"> Yes
-                <input type="radio" name="q83" style="margin-left:3px;" value="No"> No
+                <input type="radio" name="q83" required value="Yes"> Yes
+                <input type="radio" name="q83" required style="margin-left:3px;" value="No"> No
                 <br>
                 <br>
                 <br>

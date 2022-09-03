@@ -37,9 +37,9 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['firstna
     if ($_POST["institution"] == "Others") {
         $_SESSION["OtherInst"] = $_POST["Others"];
     }
+    $pwd = $_POST["password"];
 
-
-    $password = md5($_POST["password"]);
+    $password = md5($pwd);
     $actcode = RandomString(5);
 
     $member_data = [
@@ -66,7 +66,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['firstna
     $date_joined = date('Y-m-d');
     $acstatus = "INACTIVE";
     $status = "INCOMPLETE";
-    $referenceid = ucwords(RandomString(5));
+    $referenceid = strtoupper(substr(sha1(md5($pwd)),0,8));
 
     $insert = \app\Sql::insert("INSERT INTO `tbl_member` (`res_countries`, `fname`, `lname`, `email`, `password`, `dob`, `name_institution`, `date_joined`, `acstatus`, `actcode`, `status`, `referenceid`)
                                                     values   ('$res_country', '$fname', '$lname', '$email', '$password', '$dob', '$name_ins', '$date_joined', '$acstatus', '$actcode', '$status', '$referenceid')");
@@ -109,10 +109,10 @@ Besor  Associates<br/>
 Lagos State, Nigeria 100001<br/>
 info@summerworkprograms.com<br/>
 www.summerworkprograms.com.<br/>";
-        $mail1->mail->MsgHTML($msg);
-        $mail1->mail->AddAddress($_POST["email"], $_POST["firstname"] . " " . $_POST["lastname"]);
+        $mail1->mail->msgHTML($msg);
+        $mail1->mail->addAddress($_POST["email"], $_POST["firstname"] . " " . $_POST["lastname"]);
 
-        @$mail1->mail->send();
+        $mail1->mail->send();
 
 
         //send notificaion email to admin
@@ -174,6 +174,7 @@ include("includes/header.php");
                 Enter the activation code from your email into the space below to complete the registration
                 process.</p>
             <form class="form inline-small-label" method="post" action="register.php">
+                <input type="hidden" name="pwd" value="<?= $pwd ?>">
                 <p>
                     <label for="act_code">Activation code:</label>
                     <input type="text" name="act_code"/>

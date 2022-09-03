@@ -243,7 +243,7 @@ Summer Work Programs Processing Team </p>";
         <div class="form block-content">
             <p> Dear <?php echo ucwords("$fname $lname"); ?>, </p>
             <p>Thank you for registering to participate in the Summer Work & Travel Program.</p>
-            <p>Your unique registration number is <?= ucwords($referenceid) ?> and your application is pending
+            <p>Your unique registration number is <?= $referenceid ?> and your application is pending
                 activation while the registration will be carefully reviewed.</p>
 
             <p> If your review is successful, you will receive an email notice to schedule an appointment for the

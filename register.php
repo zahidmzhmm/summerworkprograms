@@ -22,7 +22,7 @@ function createcountrycombo($CSelectedValue, $CComboName, $JS, $cssClass = "")
 $medoo = new \Medoo\Medoo($database);
 $data = false;
 if ($_POST) {
-
+    $pwd = $_POST["pwd"];
     $act_codehash = $_POST["act_code"];
 //    $act_codehash = md5($_POST["act_code"]);
     $member = \app\Sql::Select_single("select * from tbl_member where actcode='$act_codehash'");
@@ -54,7 +54,7 @@ if ($_POST) {
 			<p>  Welcome to Summer Work Programs.</p>
 		<p>Username and password to access the site is:<br/><br/>
 		<strong>Username:</strong> $data->email <br>
-		<strong>Password:</strong> $password <br>
+		<strong>Password:</strong> $pwd <br>
 
 		 </p>
 		 <p>__________ <br />
@@ -64,8 +64,6 @@ if ($_POST) {
 		 Lagos State, Nigeria 100001<br>
 		 info@summerworkprograms.com<br>
 		 www.summerworkprograms.com.</p>";
-
-        //$msg = preg_replace( "\\", '', $msg );
         $mail1->mail->MsgHTML($msg);
 
         $mail1->mail->AddAddress($data->email, $data->fname . " " . $data->lname);
@@ -1376,13 +1374,13 @@ $form_wizard = 1;
                                 previously?</label>
                             <div class="col-md-4">
                                 <input type="radio" name="members_participated"
-                                       value="1" <?= $data->members_participated == 1 ? "checked" : "" ?>> Yes
-                                <input type="radio" name="members_participated"
-                                       value="0" <?= $data->members_participated == 0 ? "checked" : "" ?>> No
+                                       value="Yes" <?= $data->members_participated == 'Yes' ? "checked" : "" ?>> Yes
+                                <input type="radio" name="members_participated" <?= empty($data->members_participated) ? "checked" : "" ?>
+                                       value="No" <?= $data->members_participated == 'No' ? "checked" : "" ?>> No
                             </div>
                         </div>
                         <div id="members_participated_yes"
-                             class="<?= $data->members_participated == "1" ? "" : "hidden" ?>">
+                             class="<?= $data->members_participated == "Yes" ? "" : "hidden" ?>">
                             <div class="form-group">
                                 <label for="members_participated_student" class="control-label col-md-5">
                                     Name of Student:
@@ -1942,7 +1940,7 @@ $form_wizard = 1;
         });
         $("input[name='members_participated']").change(function () {
 
-            if ($(this).val() == "1") {
+            if ($(this).val() == "Yes") {
                 $("#members_participated_yes").removeClass("hidden")
                     .find("label")
                     .addClass("required");

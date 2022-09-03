@@ -2,30 +2,30 @@
 include("app/main.php");
 
 
-if ($_POST) {    //echo "test";exit;
+if (isset($_POST['email'])) {    //echo "test";exit;
 
     $email = $_POST['email'];
     $password = md5($_POST['password']);
+    $ref = $_POST['password'];
 
-    $user_data = \app\Sql::Select_single("select * from tbl_member where email='$email' AND password='$password'");
+    $user_data = \app\Sql::Select_single("select * from tbl_member where email='$email' AND password='$password' order by users_id desc limit 1");
+    $user_data2 = \app\Sql::Select_single("select * from tbl_member where email='$email' AND referenceid='$ref' order by users_id desc limit 1");
 
-    if (!$user_data) {
-
+    if (!$user_data && !$user_data2) {
         session_destroy();
         $err_msg = "INVALID_LOGIN";
-
-
     } else {
-        $user_data = (object)$user_data;
-        //set session
-        //check activation status
+        if ($user_data) {
+            $user_data = (object)$user_data;
+        }
+        if ($user_data2) {
+            $user_data = (object)$user_data2;
+        }
         if ($user_data->acstatus == "INACTIVE") {
             session_destroy();
             $err_msg = "ACCOUNT_INACTIVE";
         } else {
-
             $_SESSION['user_id'] = $user_data->users_id;
-            //redirect to profile page
             header("location:profile.php");
             exit;
         }
