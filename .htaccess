@@ -29,4 +29,10 @@ RewriteRule ^tax$ "https\:\/\/www\.rttax\.com\/besor" [R=301,L]
 RewriteCond %{HTTP_HOST} ^summerworkprograms\.com$ [OR]
 RewriteCond %{HTTP_HOST} ^www\.summerworkprograms\.com$
 RewriteRule ^swap$ "https\:\/\/form\.jotform\.com\/222344961031145" [R=301,L]
+RewriteCond %{HTTP_HOST} ^summerworkprograms\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.summerworkprograms\.com$
+RewriteRule ^erf$ "https\:\/\/form\.jotform\.com\/222513670280146" [R=301,L]
+RewriteCond %{HTTP_HOST} ^summerworkprograms\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.summerworkprograms\.com$
+RewriteRule ^webinar$ "https\:\/\/livewebinar\.com\/135\-651\-348" [R=301,L]
 

@@ -27,7 +27,7 @@ if (isset($_POST['id'], $_POST['appointment_type'], $_POST['appointment_date_tim
 			 __________ <br />
 			 Thank you ! <br>
 			 Summer Work Programs <br>
-			 Badabeat Associates<br>
+			 Besor Associates<br>
 			 Lagos State, Nigeria 100001<br>
 			 info@summerworkprograms.com<br>
 			 www.summerworkprograms.com.\n";
@@ -45,7 +45,7 @@ if (isset($_POST['id'], $_POST['appointment_type'], $_POST['appointment_date_tim
 			 __________ <br />
 			 Thank you ! <br>
 			 Summer Work Programs <br>
-			 Badabeat Associates<br>
+			 Besor Associates<br>
 			 Lagos State, Nigeria 100001<br>
 			 info@summerworkprograms.com<br>
 			 www.summerworkprograms.com.";

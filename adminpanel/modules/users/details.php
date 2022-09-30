@@ -130,7 +130,9 @@ $fields_to_display = [
         "usa_contact_phone" => "USA Contact Phone",
         "usa_contact_relation" => "Relation to Contact",
         "occupation_usa" => "Occupation in the USA",
-        "duration_stay_usa" => "Duration of Stay in the USA"
+        "duration_stay_usa" => "Duration of Stay in the USA",
+        "usa_contact_status" => "Status of USA Contact",
+        "status" => "Status"
     ]
 ];
 

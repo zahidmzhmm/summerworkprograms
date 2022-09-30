@@ -1,7 +1,6 @@
 <?php
 error_reporting(1);
 include dirname(__DIR__, 1) . '/app/main.php';
-
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     header("location:home.php?modules=users&action=users&pg=1");
 }
